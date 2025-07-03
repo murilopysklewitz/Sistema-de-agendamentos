@@ -1,0 +1,29 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+  model Agendamento {
+    id                  Int @id @default(autoincrement())
+    nomeDoDono          String
+    nomeDoPet           String
+    telefone            String 
+    ServicoDesejado     Servico[]
+    horarioRequisitado  DateTime
+    createdAt           DateTime @default(now())
+  }
+
+  model Servico {
+    id              Int @id @default(autoincrement())
+    nome            String
+    Preco           Float
+    descricao       String?
+    Agendamento     Agendamento[]
+    destaque        Boolean
+}
