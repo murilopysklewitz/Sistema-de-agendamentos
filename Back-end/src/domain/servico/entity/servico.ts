@@ -2,7 +2,7 @@ export type ServicoProps = {
     id:string;
     name:string;
     price:number;
-    description:string;
+    description:string | null;
     highlight: boolean;
 }
 export class Servico {
@@ -15,7 +15,7 @@ export class Servico {
             id:crypto.randomUUID().toString(),
             name,
             price,
-            description: "",
+            description: null,
             highlight: false,
         });
     }

@@ -10,7 +10,7 @@ datasource db {
 }
 
   model Agendamento {
-    id                  Int @id @default(autoincrement())
+    id                  String @id 
     nomeDoDono          String
     nomeDoPet           String
     telefone            String 
@@ -20,9 +20,9 @@ datasource db {
   }
 
   model Servico {
-    id              Int @id @default(autoincrement())
+    id              String @id @default(uuid())
     nome            String
-    Preco           Float
+    preco           Float
     descricao       String?
     Agendamento     Agendamento[]
     destaque        Boolean

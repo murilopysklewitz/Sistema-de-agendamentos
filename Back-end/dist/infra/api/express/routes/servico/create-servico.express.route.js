@@ -1,0 +1,40 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CreateServicoRoute = void 0;
+const routes_1 = require("../routes");
+class CreateServicoRoute {
+    path;
+    method;
+    createServicoService;
+    constructor(path, method, createServicoService) {
+        this.path = path;
+        this.method = method;
+        this.createServicoService = createServicoService;
+    }
+    static create(createServicoService) {
+        return new CreateServicoRoute("/products", routes_1.HttpMethod.POST, createServicoService);
+    }
+    getHandler() {
+        return async (request, response) => {
+            const { name, price } = request.body;
+            const input = {
+                name,
+                price
+            };
+            const output = await this.createServicoService.execute(input);
+            const responseBody = this.present(output);
+            response.status(201).json(responseBody).send();
+        };
+    }
+    getPath() {
+        return this.method;
+    }
+    getMethod() {
+        return this.method;
+    }
+    present(input) {
+        const response = { id: input.id };
+        return response;
+    }
+}
+exports.CreateServicoRoute = CreateServicoRoute;

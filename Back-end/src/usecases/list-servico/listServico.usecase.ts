@@ -9,7 +9,7 @@ export type ListServicoOutputDto = {
         id:string;
         name:string;
         price:number;
-        description:string;
+        description:string | null;
         highlight:boolean
     }[]
 }

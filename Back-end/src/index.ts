@@ -1,8 +1,22 @@
-import express from "express"
-const app = express()
-const port = 3000
+import { ApiExpress } from "./infra/api/express/routes/api.express";
+import { CreateServicoRoute } from "./infra/api/express/routes/servico/create-servico.express.route";
+import { ListServicosRoute } from "./infra/api/express/routes/servico/list-product.express.route";
 
-app.use(express.json())
-app.use
+import { ServicoRepositoryPrisma } from "./infra/repositories/servico/servico.repository.prisma";
+import { CreateServicoUseCase } from "./usecases/create-servico/createServico.usecase";
+import { ListServicoUsecase } from "./usecases/list-servico/listServico.usecase";
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+function main() {
+     const aRepository = ServicoRepositoryPrisma.
+
+     const createServicoUseCase = CreateServicoUseCase.create(aRepository);
+     const listServicosUseCase = ListServicoUsecase.create(aRepository);
+
+     const createRoute = CreateServicoRoute.create(createServicoUseCase);
+     const listRoute = ListServicosRoute.create(listServicosUseCase);
+
+     const port = 8080;
+
+     const api = ApiExpress.create([createRoute, listRoute]);
+     api.start(port)
+}
