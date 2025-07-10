@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+
 export type HttpMethod = "get" | "post";
 
 export const HttpMethod = {

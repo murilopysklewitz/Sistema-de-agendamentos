@@ -5,7 +5,10 @@ import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway"
 export class ServicoRepositoryPrisma implements ServicoGateway {
 
     private constructor(private readonly prismaClient: PrismaClient) {
-        this.prismaClient = prismaClient
+
+    }
+    public static create(prismaClient:PrismaClient) {
+        return new ServicoRepositoryPrisma(prismaClient)
     }
 
     public async save(servico:Servico): Promise<void> {
