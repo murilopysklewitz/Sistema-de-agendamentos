@@ -29,20 +29,6 @@ export class ApiExpress implements Api {
     public start(port:number) {
         this.app.listen(port, () => {
             console.log(`Server running on port ${port}`);
-            this.listRoutes();
         })
-    }
-
-    private listRoutes() {
-        const routes = this.app._router.stack
-        .filter((route:any) => route.route)
-        .map((route: any) => {
-            return {
-                path: route.route.path,
-                method:route.route.stack[0].method,
-            }
-        });
-
-        console.log(routes)
     }
 }

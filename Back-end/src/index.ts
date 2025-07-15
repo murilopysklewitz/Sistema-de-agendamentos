@@ -20,3 +20,4 @@ function main() {
      const api = ApiExpress.create([createRoute, listRoute]);
      api.start(port)
 }
+main()

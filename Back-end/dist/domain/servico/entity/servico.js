@@ -11,7 +11,7 @@ class Servico {
             id: crypto.randomUUID().toString(),
             name,
             price,
-            description: "",
+            description: null,
             highlight: false,
         });
     }

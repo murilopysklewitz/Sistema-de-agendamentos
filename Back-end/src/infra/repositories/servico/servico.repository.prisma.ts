@@ -39,4 +39,10 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
         })
         return servicoList
     }
+
+    public async delete(id:string): Promise<void> {
+        await this.prismaClient.servico.delete({
+            where: {id:id},
+        })
+    }
 }

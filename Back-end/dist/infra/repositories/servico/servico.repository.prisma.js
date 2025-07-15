@@ -6,15 +6,16 @@ class ServicoRepositoryPrisma {
     prismaClient;
     constructor(prismaClient) {
         this.prismaClient = prismaClient;
+    }
+    static create(prismaClient) {
         return new ServicoRepositoryPrisma(prismaClient);
     }
     async save(servico) {
         const data = {
-            id: servico.id,
-            name: servico.name,
-            price: servico.price,
-            description: servico.description,
-            highlight: servico.highlight,
+            nome: servico.name,
+            preco: servico.price,
+            descricao: servico.description ?? "",
+            destaque: servico.highlight,
         };
         await this.prismaClient.servico.create({
             data,
@@ -26,7 +27,7 @@ class ServicoRepositoryPrisma {
             const servico = servico_1.Servico.with({
                 id: p.id,
                 name: p.nome,
-                price: p.Preco,
+                price: p.preco,
                 description: p.descricao,
                 highlight: p.destaque
             });
