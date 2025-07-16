@@ -14,4 +14,9 @@ export class DeleteServicoUsecase implements Usecase<DeleteServicoInputDto, Dele
     public static create(servicoGateway:ServicoGateway) {
         return new DeleteServicoUsecase(servicoGateway)
     }
+
+    public async execute(input:DeleteServicoInputDto): Promise<DeleteServicoOutputDto> {
+        await this.servicoGateway.delete(input.id);
+        return;
+    }
 }
