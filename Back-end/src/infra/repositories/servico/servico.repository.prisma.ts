@@ -19,9 +19,11 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
             destaque: servico.highlight,
         }
 
-        await this.prismaClient.servico.create({
-            data,
-        })
+        await this.prismaClient.servico.upsert({
+            where: { id: servico.id }, 
+            update: data,              
+            create: data,          
+        });
         
     }
     public async list(): Promise<Servico[]> {
@@ -40,7 +42,36 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
         return servicoList
     }
 
-    public async delete(id:string): Promise<void> {
+    public async findById(id: string): Promise<Servico | null> {
+        const servico = await this.prismaClient.servico.findUnique({
+            where: {id:id},
+        });
+        if(!servico) {
+            return null
+        }
+        return Servico.with({
+            id: servico.id,
+            name: servico.nome,
+            price: servico.preco,
+            description: servico.descricao,
+            highlight: servico.destaque
+        })
+    }
+
+    public async update(servico: Servico): Promise<void> {
+            const data = {
+                name:servico.name,
+                price:servico.price,
+                description:servico.description ?? "",
+                highlight:servico.highlight
+            }
+
+             await this.prismaClient.servico.update({
+                where: { id: servico.id},
+                data: data });
+    }
+
+    public async delete(id: string): Promise<void> {
         await this.prismaClient.servico.delete({
             where: {id:id},
         })
