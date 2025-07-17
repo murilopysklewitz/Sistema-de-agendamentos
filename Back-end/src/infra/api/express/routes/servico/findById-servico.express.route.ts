@@ -5,10 +5,11 @@ import { Request, Response } from "express";
 export type findByIdResponseDto = {
     servico: {
     id: string;
-    name: string;
-    price: number;
-    description:string | null;
-    highlight: boolean;
+    nome: string;
+    preco: number;
+    descricao:string | null;
+    destaque: boolean;
+    horasDeServico: number
     }
 }
 

@@ -5,10 +5,11 @@ import { Request, Response } from "express";
 export type ListServicoResponseDto = {
     servicos: {
         id: string;
-        name: string;
-        price: number;
-        description:string | null;
-        highlight: boolean;
+        nome: string;
+        preco: number;
+        descricao: string | null;
+        destaque: boolean;
+        horasDeServico: number
     }[];
 };
 export class ListServicosRoute implements Route {
@@ -49,10 +50,11 @@ export class ListServicosRoute implements Route {
         const response: ListServicoResponseDto = {
             servicos: input.servicos.map((servico) => ({
                 id: servico.id,
-                name: servico.name,
-                price: servico.price,
-                description:servico.description,
-                highlight: servico.highlight,
+                nome: servico.nome,
+                preco: servico.preco,
+                descricao:servico.descricao,
+                destaque: servico.destaque,
+                horasDeServico: servico.horasDeServico
             }))
         }
         return response

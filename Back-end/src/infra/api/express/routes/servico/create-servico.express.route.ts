@@ -23,11 +23,14 @@ export class CreateServicoRoute implements Route {
     }
     public getHandler() {
         return async (request:Request, response:Response) => {
-            const {name, price} = request.body;
+            const {nome, preco, descricao, destaque, horasDeServico} = request.body;
             
             const input: CreateServicoInputDto = {
-                name,
-                price
+                nome,
+                preco,
+                descricao,
+                destaque,
+                horasDeServico
             }
 
             const output: CreateServicoResponseDto = await this.createServicoService.execute(input);

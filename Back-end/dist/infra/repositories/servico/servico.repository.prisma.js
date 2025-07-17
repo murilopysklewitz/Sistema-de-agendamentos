@@ -12,13 +12,16 @@ class ServicoRepositoryPrisma {
     }
     async save(servico) {
         const data = {
-            nome: servico.name,
-            preco: servico.price,
-            descricao: servico.description ?? "",
-            destaque: servico.highlight,
+            nome: servico.nome,
+            preco: servico.preco,
+            descricao: servico.descricao ?? "",
+            destaque: servico.destaque,
+            horasDeServico: servico.horasDeServico,
         };
-        await this.prismaClient.servico.create({
-            data,
+        await this.prismaClient.servico.upsert({
+            where: { id: servico.id },
+            update: data,
+            create: data,
         });
     }
     async list() {
@@ -26,14 +29,49 @@ class ServicoRepositoryPrisma {
         const servicoList = servicos.map((p) => {
             const servico = servico_1.Servico.with({
                 id: p.id,
-                name: p.nome,
-                price: p.preco,
-                description: p.descricao,
-                highlight: p.destaque
+                nome: p.nome,
+                preco: p.preco,
+                descricao: p.descricao,
+                destaque: p.destaque,
+                horasDeServico: p.horasDeServico
             });
             return servico;
         });
         return servicoList;
+    }
+    async findById(id) {
+        const servico = await this.prismaClient.servico.findUnique({
+            where: { id: id },
+        });
+        if (!servico) {
+            return null;
+        }
+        return servico_1.Servico.with({
+            id: servico.id,
+            nome: servico.nome,
+            preco: servico.preco,
+            descricao: servico.descricao,
+            destaque: servico.destaque,
+            horasDeServico: servico.horasDeServico
+        });
+    }
+    async update(servico) {
+        const data = {
+            nome: servico.nome,
+            preco: servico.preco,
+            descricao: servico.descricao ?? "",
+            destaque: servico.destaque,
+            horasDeServico: servico.horasDeServico
+        };
+        await this.prismaClient.servico.update({
+            where: { id: servico.id },
+            data: data
+        });
+    }
+    async delete(id) {
+        await this.prismaClient.servico.delete({
+            where: { id: id },
+        });
     }
 }
 exports.ServicoRepositoryPrisma = ServicoRepositoryPrisma;

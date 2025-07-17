@@ -13,10 +13,11 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
 
     public async save(servico:Servico): Promise<void> {
         const data = {
-            nome: servico.name,
-            preco: servico.price,
-            descricao: servico.description ?? "",
-            destaque: servico.highlight,
+            nome: servico.nome,
+            preco: servico.preco,
+            descricao: servico.descricao ?? "",
+            destaque: servico.destaque,
+            horasDeServico: servico.horasDeServico,
         }
 
         await this.prismaClient.servico.upsert({
@@ -32,10 +33,11 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
         const servicoList = servicos.map((p) => {
             const servico = Servico.with({
                 id:p.id,
-                name:p.nome,
-                price:p.preco,
-                description:p.descricao,
-                highlight:p.destaque
+                nome:p.nome,
+                preco:p.preco,
+                descricao:p.descricao,
+                destaque:p.destaque,
+                horasDeServico: p.horasDeServico
             })
             return servico
         })
@@ -51,19 +53,21 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
         }
         return Servico.with({
             id: servico.id,
-            name: servico.nome,
-            price: servico.preco,
-            description: servico.descricao,
-            highlight: servico.destaque
+            nome: servico.nome,
+            preco: servico.preco,
+            descricao: servico.descricao,
+            destaque: servico.destaque,
+            horasDeServico: servico.horasDeServico
         })
     }
 
     public async update(servico: Servico): Promise<void> {
             const data = {
-                name:servico.name,
-                price:servico.price,
-                description:servico.description ?? "",
-                highlight:servico.highlight
+                nome:servico.nome,
+                preco:servico.preco,
+                descricao:servico.descricao ?? "",
+                destaque:servico.destaque,
+                horasDeServico: servico.horasDeServico
             }
 
              await this.prismaClient.servico.update({

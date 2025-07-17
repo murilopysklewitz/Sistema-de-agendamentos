@@ -6,43 +6,47 @@ class Servico {
     constructor(props) {
         this.props = props;
     }
-    static create(name, price) {
+    static create(nome, preco, descricao, destaque, horasDeServico) {
         return new Servico({
             id: crypto.randomUUID().toString(),
-            name,
-            price,
-            description: null,
-            highlight: false,
+            nome: "",
+            preco: 0,
+            descricao: null,
+            destaque: false,
+            horasDeServico: 0
         });
     }
     static with(props) {
         return new Servico(props);
     }
-    updateDetails(description, highlight) {
-        if (description !== undefined) {
-            this.props.description = description;
+    updateDetails(descricao, destaque) {
+        if (descricao !== undefined) {
+            this.props.descricao = descricao;
         }
-        if (highlight !== undefined) {
-            this.props.highlight = highlight;
+        if (destaque !== undefined) {
+            this.props.destaque = destaque;
         }
     }
-    updatePrice(newPrice) {
-        this.props.price = newPrice;
+    updatePreco(newPreco) {
+        this.props.preco = newPreco;
     }
     get id() {
         return this.props.id;
     }
-    get name() {
-        return this.props.name;
+    get nome() {
+        return this.props.nome;
     }
-    get price() {
-        return this.props.price;
+    get preco() {
+        return this.props.preco;
     }
-    get description() {
-        return this.props.description;
+    get descricao() {
+        return this.props.descricao;
     }
-    get highlight() {
-        return this.props.highlight;
+    get destaque() {
+        return this.props.destaque;
+    }
+    get horasDeServico() {
+        return this.props.horasDeServico;
     }
 }
 exports.Servico = Servico;

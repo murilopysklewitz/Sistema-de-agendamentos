@@ -10,8 +10,8 @@ class CreateServicoUseCase {
     static create(servicoGateway) {
         return new CreateServicoUseCase(servicoGateway);
     }
-    async execute({ name, price }) {
-        const aServico = servico_1.Servico.create(name, price);
+    async execute({ nome, preco, descricao, destaque, horasDeServico }) {
+        const aServico = servico_1.Servico.create(nome, preco, descricao, destaque, horasDeServico);
         await this.servicoGateway.save(aServico);
         const output = this.presentOutput(aServico);
         return output;

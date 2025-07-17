@@ -9,10 +9,11 @@ export type FindByIdServicoInputDto = {
 export type FindByIdServicoOutputDto = {
     servico: {
         id:string;
-        name:string;
-        price:number;
-        description:string | null;
-        highlight:boolean
+        nome:string;
+        preco:number;
+        descricao:string | null;
+        destaque:boolean;
+        horasDeServico: number;
     }
 }
 
@@ -33,10 +34,11 @@ export class FindByIdServicoUsecase implements Usecase<FindByIdServicoInputDto, 
         const output:FindByIdServicoOutputDto = {
             servico: {
                 id:aServico.id,
-                name: aServico.name,
-                price: aServico.price,
-                description: aServico.description,
-                highlight:aServico.highlight
+                nome: aServico.nome,
+                preco: aServico.preco,
+                descricao: aServico.descricao,
+                destaque:aServico.destaque,
+                horasDeServico: aServico.horasDeServico
             }
         };
         return output;

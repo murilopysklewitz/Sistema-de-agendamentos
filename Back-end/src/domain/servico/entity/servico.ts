@@ -1,22 +1,24 @@
 export type ServicoProps = {
     id:string;
-    name:string;
-    price:number;
-    description:string | null;
-    highlight: boolean;
+    nome:string;
+    preco:number;
+    descricao:string | null;
+    destaque: boolean;
+    horasDeServico: number
 }
 export class Servico {
     private constructor(private props: ServicoProps) {
 
     }
     
-    public static create (name:string, price:number) {
+    public static create (nome:string, preco:number, descricao:string, destaque:boolean, horasDeServico:number) {
         return new Servico ({
             id:crypto.randomUUID().toString(),
-            name,
-            price,
-            description: null,
-            highlight: false,
+            nome: "",
+            preco: 0,
+            descricao: null,
+            destaque: false,
+            horasDeServico: 0
         });
     }
 
@@ -24,36 +26,39 @@ export class Servico {
         return new Servico(props);
     }
 
-    public updateDetails(description?:string, highlight?:boolean) {
-        if(description !== undefined){
-            this.props.description = description;
+    public updateDetails(descricao?:string, destaque?:boolean) {
+        if(descricao !== undefined){
+            this.props.descricao = descricao;
         }
-        if(highlight !== undefined) {
-            this.props.highlight = highlight;
+        if(destaque !== undefined) {
+            this.props.destaque = destaque;
         }
         
     }
 
-    public updatePrice(newPrice:number) {
-        this.props.price = newPrice
+    public updatePreco(newPreco:number) {
+        this.props.preco = newPreco
     }
 
     public get id() {
         return this.props.id;
     }
-    public get name() {
-        return this.props.name;
+    public get nome() {
+        return this.props.nome;
     }
 
-    public get price() {
-        return this.props.price;
+    public get preco() {
+        return this.props.preco;
     }
 
-    public get description() {
-        return this.props.description;
+    public get descricao() {
+        return this.props.descricao;
     }
-    public get highlight () {
-        return this.props.highlight;
+    public get destaque () {
+        return this.props.destaque;
+    }
+    public get horasDeServico() {
+        return this.props.horasDeServico
     }
 
 

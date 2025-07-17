@@ -4,8 +4,11 @@ import { Servico } from "../../domain/servico/entity/servico";
 
 
 export type CreateServicoInputDto = {
-    name:string;
-    price:number;
+    nome:string;
+    preco:number;
+    descricao: string;
+    destaque: boolean;
+    horasDeServico: number;
 }
 export type CreateServicoOutputDto = {
     id:string;
@@ -21,8 +24,8 @@ export class CreateServicoUseCase implements Usecase<CreateServicoInputDto, Crea
         return new CreateServicoUseCase(servicoGateway);
     }
 
-    public async execute({name, price}: CreateServicoInputDto): Promise<CreateServicoOutputDto> {
-        const aServico = Servico.create(name, price);
+    public async execute({nome, preco, descricao, destaque, horasDeServico}: CreateServicoInputDto): Promise<CreateServicoOutputDto> {
+        const aServico = Servico.create(nome, preco, descricao, destaque, horasDeServico);
 
         await this.servicoGateway.save(aServico);
 

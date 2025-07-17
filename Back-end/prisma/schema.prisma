@@ -8,22 +8,11 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-  model Agendamento {
-    id                  String @id 
-    nomeDoDono          String
-    nomeDoPet           String
-    telefone            String 
-    ServicoDesejado     Servico[]
-    horarioRequisitado  DateTime
-    createdAt           DateTime @default(now())
-  }
-
   model Servico {
     id              String @id @default(uuid())
     nome            String
     preco           Float
     descricao       String?
-    Agendamento     Agendamento[]
     destaque        Boolean
+    horasDeServico  Int
 }

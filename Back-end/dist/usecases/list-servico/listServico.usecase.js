@@ -19,10 +19,11 @@ class ListServicoUsecase {
             servicos: servicos.map((p) => {
                 return {
                     id: p.id,
-                    name: p.name,
-                    price: p.price,
-                    description: p.description,
-                    highlight: p.highlight
+                    nome: p.nome,
+                    preco: p.preco,
+                    descricao: p.descricao,
+                    destaque: p.destaque,
+                    horasDeServico: p.horasDeServico
                 };
             })
         };

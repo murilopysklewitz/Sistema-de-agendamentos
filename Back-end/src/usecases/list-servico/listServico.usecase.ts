@@ -7,10 +7,11 @@ export type ListServicoInputDto = void;
 export type ListServicoOutputDto = {
     servicos: {
         id:string;
-        name:string;
-        price:number;
-        description:string | null;
-        highlight:boolean
+        nome:string;
+        preco:number;
+        descricao:string | null;
+        destaque:boolean;
+        horasDeServico:number
     }[]
 }
 
@@ -35,10 +36,11 @@ export class ListServicoUsecase implements Usecase<ListServicoInputDto, ListServ
             servicos: servicos.map((p) => {
                 return {
                     id:p.id,
-                    name:p.name,
-                    price:p.price,
-                    description:p.description,
-                    highlight:p.highlight
+                    nome:p.nome,
+                    preco:p.preco,
+                    descricao:p.descricao,
+                    destaque:p.destaque,
+                    horasDeServico: p.horasDeServico
                 }
             })
         }
