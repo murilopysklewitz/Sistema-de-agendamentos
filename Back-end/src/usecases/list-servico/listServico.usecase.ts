@@ -11,7 +11,7 @@ export type ListServicoOutputDto = {
         preco:number;
         descricao:string | null;
         destaque:boolean;
-        horasDeServico:number
+        horasDeServico:number | null;
     }[]
 }
 

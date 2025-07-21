@@ -1,7 +1,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -14,7 +13,7 @@ datasource db {
     preco           Float
     descricao       String?
     destaque        Boolean
-    horasDeServico  Int
+    horasDeServico  Int?
     carrinhoItens   ItemCarrinho[]
 }
 

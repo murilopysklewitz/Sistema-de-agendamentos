@@ -16,10 +16,13 @@ class CreateServicoRoute {
     }
     getHandler() {
         return async (request, response) => {
-            const { name, price } = request.body;
+            const { nome, preco, descricao, destaque, horasDeServico } = request.body;
             const input = {
-                name,
-                price
+                nome,
+                preco,
+                descricao,
+                destaque,
+                horasDeServico
             };
             const output = await this.createServicoService.execute(input);
             const responseBody = this.present(output);

@@ -12,7 +12,7 @@ class DeleteServicoRoute {
         this.deleteServicoService = deleteServicoService;
     }
     static create(deleteServicoService) {
-        return new DeleteServicoRoute("/servicos:id", routes_1.HttpMethod.DELETE, deleteServicoService);
+        return new DeleteServicoRoute("/servicos/:id", routes_1.HttpMethod.DELETE, deleteServicoService);
     }
     getHandler() {
         return async (request, response) => {

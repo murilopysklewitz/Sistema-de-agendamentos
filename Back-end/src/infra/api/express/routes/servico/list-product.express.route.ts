@@ -9,7 +9,7 @@ export type ListServicoResponseDto = {
         preco: number;
         descricao: string | null;
         destaque: boolean;
-        horasDeServico: number
+        horasDeServico: number | null;
     }[];
 };
 export class ListServicosRoute implements Route {

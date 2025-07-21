@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../../../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { Servico } from "../../../domain/servico/entity/servico";
 import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway";
 
@@ -17,7 +17,7 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
             preco: servico.preco,
             descricao: servico.descricao ?? "",
             destaque: servico.destaque,
-            horasDeServico: servico.horasDeServico,
+            horasDeServico: servico.horasDeServico ?? 1,
         }
 
         await this.prismaClient.servico.upsert({

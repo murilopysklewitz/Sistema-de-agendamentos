@@ -1,4 +1,3 @@
-import { Servico } from "src/domain/servico/entity/servico";
 import { Usecase } from "../usecase";
 import { ServicoGateway } from "src/domain/servico/gateway/servico.gateway";
 
@@ -13,7 +12,7 @@ export type FindByIdServicoOutputDto = {
         preco:number;
         descricao:string | null;
         destaque:boolean;
-        horasDeServico: number;
+        horasDeServico: number | null;
     }
 }
 

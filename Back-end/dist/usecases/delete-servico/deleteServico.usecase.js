@@ -1,4 +1,5 @@
 "use strict";
+// src/usecases/delete-servico/deleteServico.usecase.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteServicoUsecase = void 0;
 class DeleteServicoUsecase {
@@ -10,6 +11,13 @@ class DeleteServicoUsecase {
         return new DeleteServicoUsecase(servicoGateway);
     }
     async execute(input) {
+        if (!input.id) {
+            throw new Error("ID do serviço é obrigatório para deleção.");
+        }
+        const servicoExistente = await this.servicoGateway.findById(input.id);
+        if (!servicoExistente) {
+            throw new Error(`Serviço com ID ${input.id} não encontrado para deleção.`);
+        }
         await this.servicoGateway.delete(input.id);
         return;
     }

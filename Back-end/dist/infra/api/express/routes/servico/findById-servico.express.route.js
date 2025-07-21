@@ -12,7 +12,7 @@ class FindByIdServicoRoute {
         this.findByIdServicoService = findByIdServicoService;
     }
     static create(findByIdServicoService) {
-        return new FindByIdServicoRoute("/servico:id", routes_1.HttpMethod.GET, findByIdServicoService);
+        return new FindByIdServicoRoute("/servico/:id", routes_1.HttpMethod.GET, findByIdServicoService);
     }
     getHandler() {
         return async (request, response) => {

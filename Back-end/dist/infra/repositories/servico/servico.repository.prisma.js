@@ -16,7 +16,7 @@ class ServicoRepositoryPrisma {
             preco: servico.preco,
             descricao: servico.descricao ?? "",
             destaque: servico.destaque,
-            horasDeServico: servico.horasDeServico,
+            horasDeServico: servico.horasDeServico ?? 1,
         };
         await this.prismaClient.servico.upsert({
             where: { id: servico.id },

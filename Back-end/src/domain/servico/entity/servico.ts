@@ -4,7 +4,7 @@ export type ServicoProps = {
     preco:number;
     descricao:string | null;
     destaque: boolean;
-    horasDeServico: number
+    horasDeServico: number | null
 }
 export class Servico {
     private constructor(private props: ServicoProps) {
@@ -14,11 +14,11 @@ export class Servico {
     public static create (nome:string, preco:number, descricao:string, destaque:boolean, horasDeServico:number) {
         return new Servico ({
             id:crypto.randomUUID().toString(),
-            nome: "",
-            preco: 0,
-            descricao: null,
-            destaque: false,
-            horasDeServico: 0
+            nome,
+            preco,
+            descricao,
+            destaque,
+            horasDeServico
         });
     }
 

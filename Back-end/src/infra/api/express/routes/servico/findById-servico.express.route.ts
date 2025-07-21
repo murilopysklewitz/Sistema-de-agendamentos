@@ -1,5 +1,6 @@
-import { FindByIdServicoInputDto, FindByIdServicoOutputDto, FindByIdServicoUsecase } from "src/usecases/findById/findByIdServico.usecase";
-import { HttpMethod, Route } from "../routes";
+
+import { FindByIdServicoInputDto, FindByIdServicoUsecase } from "src/usecases/findById/findByIdServico.usecase";
+import { HttpMethod, Route, } from "../routes";
 import { Request, Response } from "express";
 
 export type findByIdResponseDto = {
@@ -21,7 +22,7 @@ export class FindByIdServicoRoute implements Route {
 
     }
     public static create(findByIdServicoService: FindByIdServicoUsecase) {
-        return new FindByIdServicoRoute("/servico:id",
+        return new FindByIdServicoRoute("/servicos/:id",
                                         HttpMethod.GET,
                                         findByIdServicoService,
         )
@@ -29,13 +30,21 @@ export class FindByIdServicoRoute implements Route {
 
     public getHandler() {
         return async (request: Request, response: Response) => {
-            const { id } = request.params;
-
-            const input: FindByIdServicoInputDto = { id: id as string};
-
-            const output: FindByIdServicoOutputDto = await this.findByIdServicoService.execute(input);
-
-            response.status(200).json(output).send(); 
+            try {
+                const { id } = request.params;
+                const input: FindByIdServicoInputDto = { id };
+                
+                const result = await this.findByIdServicoService.execute(input);
+    
+                if (!result) {
+                 response.status(404).json({ message: "Serviço não encontrado" });
+                }
+    
+                response.status(200).json(result);
+            } catch (error) {
+                console.error("Erro na rota findById:", error);
+                response.status(500).json({ message: "Erro interno do servidor" });
+            }
         }
     }
 

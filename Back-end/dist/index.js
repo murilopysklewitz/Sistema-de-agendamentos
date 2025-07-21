@@ -12,17 +12,18 @@ const deleteServico_usecase_1 = require("./usecases/delete-servico/deleteServico
 const findByIdServico_usecase_1 = require("./usecases/findById/findByIdServico.usecase");
 const listServico_usecase_1 = require("./usecases/list-servico/listServico.usecase");
 function main() {
-    const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
+    const prisma = (0, prisma_1.getPrismaClient)();
+    const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma);
+    const findByIdServicoUsecase = findByIdServico_usecase_1.FindByIdServicoUsecase.create(aRepository);
     const createServicoUseCase = createServico_usecase_1.CreateServicoUseCase.create(aRepository);
     const listServicosUseCase = listServico_usecase_1.ListServicoUsecase.create(aRepository);
-    const findByIdServicoUsecase = findByIdServico_usecase_1.FindByIdServicoUsecase.create(aRepository);
     const deleteServicoUseCase = deleteServico_usecase_1.DeleteServicoUsecase.create(aRepository);
+    const findByIdRoute = findById_servico_express_route_1.FindByIdServicoRoute.create(findByIdServicoUsecase);
     const createRoute = create_servico_express_route_1.CreateServicoRoute.create(createServicoUseCase);
     const listRoute = list_product_express_route_1.ListServicosRoute.create(listServicosUseCase);
     const deleteRoute = delete_servico_express_route_1.DeleteServicoRoute.create(deleteServicoUseCase);
-    const findByIdRoute = findById_servico_express_route_1.FindByIdServicoRoute.create(findByIdServicoUsecase);
     const port = 8080;
-    const api = api_express_1.ApiExpress.create([createRoute, listRoute, deleteRoute, findByIdRoute]);
+    const api = api_express_1.ApiExpress.create([createRoute, findByIdRoute, listRoute, deleteRoute]);
     api.start(port);
 }
 main();

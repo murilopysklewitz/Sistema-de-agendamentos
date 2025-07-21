@@ -9,11 +9,11 @@ class Servico {
     static create(nome, preco, descricao, destaque, horasDeServico) {
         return new Servico({
             id: crypto.randomUUID().toString(),
-            nome: "",
-            preco: 0,
-            descricao: null,
-            destaque: false,
-            horasDeServico: 0
+            nome,
+            preco,
+            descricao,
+            destaque,
+            horasDeServico
         });
     }
     static with(props) {

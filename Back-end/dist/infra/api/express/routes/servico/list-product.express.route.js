@@ -31,10 +31,11 @@ class ListServicosRoute {
         const response = {
             servicos: input.servicos.map((servico) => ({
                 id: servico.id,
-                name: servico.name,
-                price: servico.price,
-                description: servico.description,
-                highlight: servico.highlight,
+                nome: servico.nome,
+                preco: servico.preco,
+                descricao: servico.descricao,
+                destaque: servico.destaque,
+                horasDeServico: servico.horasDeServico
             }))
         };
         return response;
