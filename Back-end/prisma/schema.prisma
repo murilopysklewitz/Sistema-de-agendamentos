@@ -15,4 +15,21 @@ datasource db {
     descricao       String?
     destaque        Boolean
     horasDeServico  Int
+    carrinhoItens   ItemCarrinho[]
 }
+
+  model Carrinho {
+    id            String @id @default(uuid())
+    itens         ItemCarrinho[]
+}
+
+  model ItemCarrinho {
+      id          String   @id @default(uuid())
+  quantidade      Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  servicoId       String
+  servico         Servico  @relation(fields: [servicoId], references: [id])
+  carrinhoId      String
+  carrinho        Carrinho @relation(fields: [carrinhoId], references: [id])
+  }
