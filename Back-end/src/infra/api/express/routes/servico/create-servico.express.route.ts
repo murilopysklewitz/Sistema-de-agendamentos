@@ -1,5 +1,5 @@
 
-import { CreateServicoInputDto, CreateServicoUseCase } from "../../../../../usecases/create-servico/createServico.usecase";
+import { CreateServicoInputDto, CreateServicoUseCase } from "../../../../../usecases/servico.usecases/create-servico/createServico.usecase";
 import { HttpMethod, Route } from "../routes";
 import { Response, Request } from "express";
 

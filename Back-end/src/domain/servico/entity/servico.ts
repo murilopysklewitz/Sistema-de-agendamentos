@@ -11,7 +11,12 @@ export class Servico {
 
     }
     
-    public static create (nome:string, preco:number, descricao:string, destaque:boolean, horasDeServico:number) {
+    public static create (  nome:string, 
+                            preco:number, 
+                            descricao:string, 
+                            destaque:boolean, 
+                            horasDeServico:number) {
+
         return new Servico ({
             id:crypto.randomUUID().toString(),
             nome,
@@ -26,18 +31,30 @@ export class Servico {
         return new Servico(props);
     }
 
-    public updateDetails(descricao?:string, destaque?:boolean) {
-        if(descricao !== undefined){
-            this.props.descricao = descricao;
-        }
-        if(destaque !== undefined) {
-            this.props.destaque = destaque;
-        }
-        
-    }
+    public update(   novoNome?: string, 
+                            novoPreco?: number, 
+                            novaDescricao?: string | null, 
+                            novoDestaque?: boolean, 
+                            novaHorasDeServico?: number |  null
+                ): void {
 
-    public updatePreco(newPreco:number) {
-        this.props.preco = newPreco
+        if (novoNome !== undefined && novoNome.trim() !== "") {this.props.nome = novoNome}
+
+        if (novoPreco !== undefined && novoPreco > 0) {this.props.preco = novoPreco}
+
+        if (novaHorasDeServico !== undefined ) {
+            if (novaHorasDeServico == null) {
+                this.props.horasDeServico = null;
+            }else if (novaHorasDeServico > 0) {
+                this.props.horasDeServico = novaHorasDeServico;
+            }else {
+                throw new Error("Horas de servico não podem ser negativos")
+            }
+        }
+
+        if(novaDescricao !== undefined) {this.props.descricao = novaDescricao}
+
+        if(novoDestaque !== undefined) {this.props.destaque = novoDestaque}
     }
 
     public get id() {

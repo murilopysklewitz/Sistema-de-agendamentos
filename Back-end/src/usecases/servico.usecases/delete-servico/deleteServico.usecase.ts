@@ -1,7 +1,7 @@
 // src/usecases/delete-servico/deleteServico.usecase.ts
 
-import { Usecase } from "../usecase";
-import { ServicoGateway } from "../../domain/servico/gateway/servico.gateway";
+import { Usecase } from "../../usecase";
+import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway";
 
 export type DeleteServicoInputDto = {
     id: string;
