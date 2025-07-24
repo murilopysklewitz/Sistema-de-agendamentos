@@ -22,7 +22,7 @@ export class Carrinho {
         return new Carrinho(props)
     }
 
-    public adicionarServico(servico:Servico, quantidade:number) {
+    public adicionarServicoNoCarrinho(servico:Servico, quantidade:number) {
         
         const itemExistente = this.itens.find(itemNoCarrinho => itemNoCarrinho.servico.id === servico.id)
         if (quantidade <= 0) {
@@ -36,7 +36,7 @@ export class Carrinho {
         }
     }
 
-    public deletarServico(servicoId:string) {
+    public deletarServicoDoCarrinho(servicoId:string) {
         const quantidadeItensAntes = this.props.itens.length
         const novoArrayItens = this.itens.filter(itemNoCarrinho => itemNoCarrinho.servico.id !== servicoId)
 
@@ -46,6 +46,7 @@ export class Carrinho {
             throw new Error(`Servico com id ${servicoId} não foi encontrado no carrinho`)
         }
     }
+
 
     public get id():string {
         return this.props.id

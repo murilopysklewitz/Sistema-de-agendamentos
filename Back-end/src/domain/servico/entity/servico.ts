@@ -31,11 +31,11 @@ export class Servico {
         return new Servico(props);
     }
 
-    public update(   novoNome?: string, 
-                            novoPreco?: number, 
-                            novaDescricao?: string | null, 
-                            novoDestaque?: boolean, 
-                            novaHorasDeServico?: number |  null
+    public update(  novoNome?: string, 
+                    novoPreco?: number, 
+                    novaDescricao?: string | null, 
+                    novoDestaque?: boolean, 
+                    novaHorasDeServico?: number |  null
                 ): void {
 
         if (novoNome !== undefined && novoNome.trim() !== "") {this.props.nome = novoNome}
