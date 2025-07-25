@@ -9,9 +9,7 @@ export class ItemCarrinho {
     private constructor(private readonly props:itemCarrinhoProps) {}
 
     public static create(servico: Servico, quantidade: number): ItemCarrinho {
-        return new ItemCarrinho({
-            servico, quantidade
-        })
+        return new ItemCarrinho({servico, quantidade})
     }
     public static with(props:itemCarrinhoProps){
         return new ItemCarrinho(props)

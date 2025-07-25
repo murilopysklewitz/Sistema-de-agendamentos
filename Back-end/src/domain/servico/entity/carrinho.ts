@@ -55,4 +55,12 @@ export class Carrinho {
     public get itens():ItemCarrinho[] {
         return [...this.props.itens]
     }
+    
+    public get totalItens(): number {
+        return this.props.itens.reduce((total, item) => total + item.quantidade, 0)
+    }
+
+    public get valorTotal(): number {
+        return this.props.itens.reduce((total, item) => total + item.quantidade, 0)
+    }
 }
