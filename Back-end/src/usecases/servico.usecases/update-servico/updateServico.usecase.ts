@@ -9,7 +9,7 @@ export type updateServicoInputDto = {
         preco?:number;
         descricao:string | null;
         destaque?:boolean;
-        horasDeServico:number | null;
+        duracaoEmMinutos:number | null;
     
 }
 export type updateServicoOutputDto = void
@@ -20,13 +20,13 @@ export class UpdateServicoUsecase implements Usecase<updateServicoInputDto, upda
     public static create(servicoGateway: ServicoGateway) {
         return new UpdateServicoUsecase(servicoGateway)
     }
-    public async execute({id, nome, preco, descricao, destaque, horasDeServico}: updateServicoInputDto): Promise<updateServicoOutputDto> {
+    public async execute({id, nome, preco, descricao, destaque, duracaoEmMinutos}: updateServicoInputDto): Promise<updateServicoOutputDto> {
         try{
             const servicoExistente = await this.servicoGateway.findById(id)
             if (!servicoExistente) {
                 throw new Error("deve passar o ID");
             }
-            servicoExistente.update(nome, preco, descricao, destaque, horasDeServico)
+            servicoExistente.update(nome, preco, descricao, destaque, duracaoEmMinutos)
             await this.servicoGateway.update(servicoExistente)
         }catch(error:any) {
             console.error("Erro no UpdateServico:", error.message)

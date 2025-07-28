@@ -13,7 +13,7 @@ datasource db {
     preco           Float
     descricao       String?
     destaque        Boolean
-    horasDeServico  Int?
+    duracaoEmMinutos  Int?
 
 }
 

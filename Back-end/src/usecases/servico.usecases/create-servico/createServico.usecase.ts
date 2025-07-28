@@ -8,7 +8,7 @@ export type CreateServicoInputDto = {
     preco:number;
     descricao: string;
     destaque: boolean;
-    horasDeServico: number;
+    duracaoEmMinutos: number;
 }
 export type CreateServicoOutputDto = {
     id:string;
@@ -24,8 +24,8 @@ export class CreateServicoUseCase implements Usecase<CreateServicoInputDto, Crea
         return new CreateServicoUseCase(servicoGateway);
     }
 
-    public async execute({nome, preco, descricao, destaque, horasDeServico}: CreateServicoInputDto): Promise<CreateServicoOutputDto> {
-        const aServico = Servico.create(nome, preco, descricao, destaque, horasDeServico);
+    public async execute({nome, preco, descricao, destaque, duracaoEmMinutos}: CreateServicoInputDto): Promise<CreateServicoOutputDto> {
+        const aServico = Servico.create(nome, preco, descricao, destaque, duracaoEmMinutos);
 
         await this.servicoGateway.save(aServico);
 

@@ -4,7 +4,7 @@ export type ServicoProps = {
     preco:number;
     descricao:string | null;
     destaque: boolean;
-    horasDeServico: number | null
+    duracaoEmMinutos: number | null
 }
 export class Servico {
     private constructor(private props: ServicoProps) {
@@ -15,7 +15,7 @@ export class Servico {
                             preco:number, 
                             descricao:string, 
                             destaque:boolean, 
-                            horasDeServico:number) {
+                            duracaoEmMinutos:number) {
 
         return new Servico ({
             id:crypto.randomUUID().toString(),
@@ -23,7 +23,7 @@ export class Servico {
             preco,
             descricao,
             destaque,
-            horasDeServico
+            duracaoEmMinutos
         });
     }
 
@@ -35,18 +35,18 @@ export class Servico {
                     novoPreco?: number, 
                     novaDescricao?: string | null, 
                     novoDestaque?: boolean, 
-                    novaHorasDeServico?: number |  null
+                        duracaoEmMinutos?: number |  null
                 ): void {
 
         if (novoNome !== undefined && novoNome.trim() !== "") {this.props.nome = novoNome}
 
         if (novoPreco !== undefined && novoPreco > 0) {this.props.preco = novoPreco}
 
-        if (novaHorasDeServico !== undefined ) {
-            if (novaHorasDeServico == null) {
-                this.props.horasDeServico = null;
-            }else if (novaHorasDeServico > 0) {
-                this.props.horasDeServico = novaHorasDeServico;
+        if (    duracaoEmMinutos !== undefined ) {
+            if (    duracaoEmMinutos == null) {
+                this.props.duracaoEmMinutos = null;
+            }else if (  duracaoEmMinutos > 0) {
+                this.props.duracaoEmMinutos =    duracaoEmMinutos;
             }else {
                 throw new Error("Horas de servico não podem ser negativos")
             }
@@ -74,8 +74,8 @@ export class Servico {
     public get destaque () {
         return this.props.destaque;
     }
-    public get horasDeServico() {
-        return this.props.horasDeServico
+    public  get duracaoEmMinutos() {
+        return this.props.duracaoEmMinutos
     }
 
 

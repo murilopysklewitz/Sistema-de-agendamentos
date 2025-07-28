@@ -12,7 +12,7 @@ export type FindByIdServicoOutputDto = {
         preco:number;
         descricao:string | null;
         destaque:boolean;
-        horasDeServico: number | null;
+        duracaoEmMinutos: number | null;
     }
 }
 
@@ -37,7 +37,7 @@ export class FindByIdServicoUsecase implements Usecase<FindByIdServicoInputDto, 
                 preco: aServico.preco,
                 descricao: aServico.descricao,
                 destaque:aServico.destaque,
-                horasDeServico: aServico.horasDeServico
+                duracaoEmMinutos: aServico.duracaoEmMinutos
             }
         };
         return output;
