@@ -11,11 +11,12 @@ export class Servico {
 
     }
     
-    public static create (  nome:string, 
-                            preco:number, 
-                            descricao:string, 
-                            destaque:boolean, 
-                            duracaoEmMinutos:number) {
+    public static create (
+        nome:string, 
+        preco:number, 
+        descricao:string, 
+        destaque:boolean, 
+        duracaoEmMinutos:number) {
 
         return new Servico ({
             id:crypto.randomUUID().toString(),
