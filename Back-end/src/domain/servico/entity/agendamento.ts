@@ -7,12 +7,13 @@ export type AgendamentoProps = {
     data: Date;
     horaInicio: Date;
     horaFim: Date;
-    status: "FINALIZADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO" ;
+    status: "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO" ;
     createdAt: Date;
     updatedAt: Date;
 }
 
     export class Agendamento{
+
         private constructor(private readonly props: AgendamentoProps) {
             if (!props.id) throw new Error("Agendamento deve ter um ID.");
             if (!props.servico) throw new Error("Agendamento deve ter um serviço.");
@@ -30,9 +31,7 @@ export type AgendamentoProps = {
             servico: Servico,
             data: Date,
             horaInicio: Date,
-  
         ): Agendamento {
-
             const horaFim = new Date (horaInicio.getTime() + servico.duracaoEmMinutos * 60 * 1000)
             return new Agendamento({
                 id: crypto.randomUUID().toString(),
@@ -57,7 +56,7 @@ export type AgendamentoProps = {
         public get data(): Date { return this.props.data; }
         public get horaInicio(): Date { return this.props.horaInicio; }
         public get horaFim(): Date { return this.props.horaFim; }
-        public get status(): "FINALIZADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO" { return this.props.status; }
+        public get status(): "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO" { return this.props.status; }
 
         public estaEmConflitoCom(outroAgendamento: Agendamento) {
             const mesmoDia = this.data.toDateString() === outroAgendamento.data.toDateString();
@@ -74,7 +73,14 @@ export type AgendamentoProps = {
             if (this.props.status === "CONCLUIDO" ) {
                 throw new Error("Não se pode cancelar um agendamento já concluido");
             }
-            this.props.status = 'CONCLUIDO';
-            this.props.updatedAt = new Date;
+            this.props.status = 'CANCELADO';
+            this.props.updatedAt = new Date();
+        }
+        public confirmar():void {
+            if (this.props.status !== 'AGENDADO') {
+                throw new Error("Não é possível confirmar um agendamento que não esteja agendado")
+            }
+            this.props.status = 'CONFIRMADO';
+            this.props.updatedAt = new Date();
         }
     }
