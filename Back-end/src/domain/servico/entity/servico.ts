@@ -4,10 +4,22 @@ export type ServicoProps = {
     preco:number;
     descricao:string | null;
     destaque: boolean;
-    duracaoEmMinutos: number | null
+    duracaoEmMinutos: number
 }
 export class Servico {
     private constructor(private props: ServicoProps) {
+        if (!props.id) {
+            throw new Error("ID do serviço é obrigatório.");
+        }
+        if (!props.nome || props.nome.trim() === "") {
+            throw new Error("Nome do serviço é obrigatório.");
+        }
+        if (props.preco <= 0) {
+            throw new Error("Preço do serviço deve ser positivo.");
+        }
+        if (props.duracaoEmMinutos <= 0) { 
+            throw new Error("Duração do serviço deve ser um número positivo.");
+        }
 
     }
     
@@ -16,7 +28,17 @@ export class Servico {
         preco:number, 
         descricao:string, 
         destaque:boolean, 
-        duracaoEmMinutos:number) {
+        duracaoEmMinutos:number
+    ): Servico {
+        if (!nome || nome.trim() === "") {
+            throw new Error("Nome do serviço não pode ser vazio.");
+        }
+        if (preco <= 0) {
+            throw new Error("Preço do serviço deve ser positivo.");
+        }
+        if (duracaoEmMinutos <= 0) { 
+            throw new Error("Duração do serviço deve ser um número positivo.");
+        }
 
         return new Servico ({
             id:crypto.randomUUID().toString(),
@@ -36,7 +58,7 @@ export class Servico {
                     novoPreco?: number, 
                     novaDescricao?: string | null, 
                     novoDestaque?: boolean, 
-                        duracaoEmMinutos?: number |  null
+                    duracaoEmMinutos?: number |  null
                 ): void {
 
         if (novoNome !== undefined && novoNome.trim() !== "") {this.props.nome = novoNome}
@@ -45,9 +67,11 @@ export class Servico {
 
         if (    duracaoEmMinutos !== undefined ) {
             if (    duracaoEmMinutos == null) {
-                this.props.duracaoEmMinutos = null;
+                this.props.duracaoEmMinutos = 30;
+
             }else if (  duracaoEmMinutos > 0) {
-                this.props.duracaoEmMinutos =    duracaoEmMinutos;
+                this.props.duracaoEmMinutos =  duracaoEmMinutos;
+
             }else {
                 throw new Error("Horas de servico não podem ser negativos")
             }
