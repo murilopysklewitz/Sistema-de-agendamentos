@@ -59,7 +59,22 @@ export type AgendamentoProps = {
         public get horaFim(): Date { return this.props.horaFim; }
         public get status(): "FINALIZADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO" { return this.props.status; }
 
-        public update() {
-            
+        public estaEmConflitoCom(outroAgendamento: Agendamento) {
+            const mesmoDia = this.data.toDateString() === outroAgendamento.data.toDateString();
+
+            if(!mesmoDia) {
+                return false;
+            }
+            const sobreposicao = this.horaInicio < outroAgendamento.horaFim &&
+                                 this.horaFim > outroAgendamento.horaInicio
+            return sobreposicao
+        }
+        
+        public cancelar(): void {
+            if (this.props.status === "CONCLUIDO" ) {
+                throw new Error("Não se pode cancelar um agendamento já concluido");
+            }
+            this.props.status = 'CONCLUIDO';
+            this.props.updatedAt = new Date;
         }
     }
