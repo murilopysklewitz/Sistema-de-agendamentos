@@ -1,8 +1,8 @@
 import { Servico } from "./servico"
 
 export type AgendamentoProps = {
-    id: String;
-    clienteId: String;
+    id: string;
+    clienteId: string;
     servico: Servico;
     data: Date;
     horaInicio: Date;
@@ -27,7 +27,7 @@ export type AgendamentoProps = {
         }
 
         public static create(  
-            clienteId: String,
+            clienteId: string,
             servico: Servico,
             data: Date,
             horaInicio: Date,
@@ -50,9 +50,9 @@ export type AgendamentoProps = {
             return new Agendamento(props)
         }
 
-        public get id(): String { return this.props.id; }
+        public get id(): string { return this.props.id; }
         public get servico(): Servico { return this.props.servico; }
-        public get clienteId(): String { return this.props.clienteId; }
+        public get clienteId(): string { return this.props.clienteId; }
         public get data(): Date { return this.props.data; }
         public get horaInicio(): Date { return this.props.horaInicio; }
         public get horaFim(): Date { return this.props.horaFim; }

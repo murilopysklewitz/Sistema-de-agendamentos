@@ -12,8 +12,27 @@ export class AgendamentoRepository implements AgendamentoGateway {
         return new AgendamentoRepository(prismaClient);
     }
 
-    public save(agendamento: Agendamento): Promise<void> {
-        
+    public async save(agendamento: Agendamento): Promise<void> {
+        await this.prismaClient.agendamento.upsert({
+            where: { id: agendamento.id },
+            update: {
+                status: agendamento.status,
+                horaInicio: agendamento.horaInicio,
+                horaFim: agendamento.horaFim,
+                data: agendamento.data
+            },
+            create: {
+                id: agendamento.id,
+            
+                clienteId: agendamento.clienteId,
+                servicoId: agendamento.servico.id,
+
+                data: agendamento.data,
+                horaInicio: agendamento.horaInicio,
+                horaFim: agendamento.horaFim,
+                status: agendamento.status,
+            },
+        });
     }
 
 }
