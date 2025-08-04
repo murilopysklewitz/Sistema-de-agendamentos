@@ -7,18 +7,45 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+  model Cliente {
+    id              String @id @default(uuid())
+
+    nome            String
+
+    agendamentos Agendamento[]
+  }
+
+
   model Servico {
     id              String @id @default(uuid())
+
     nome            String
     preco           Float
     descricao       String?
     destaque        Boolean
     duracaoEmMinutos  Int
 
+    agendamento     Agendamento[]
+
 }
-  model agendamento {
+
+  model Agendamento {
     id              String @id @default(uuid())
+
+    cliente         Cliente @relation(fields: [clienteId], references: [id])
     clienteId       String
-    servico         Servico
+
+    servico         Servico @relation(fields: [servicoId], references: [id])
+    servicoId       String
+
+    data            DateTime
+    horaInicio      DateTime
+    horaFim         DateTime
+
+    status          String
+
+    createdAt       DateTime
+    updatedAt       DateTime
   }
 
