@@ -13,7 +13,12 @@ datasource db {
     preco           Float
     descricao       String?
     destaque        Boolean
-    duracaoEmMinutos  Int?
+    duracaoEmMinutos  Int
 
 }
+  model agendamento {
+    id              String @id @default(uuid())
+    clienteId       String
+    servico         Servico
+  }
 
