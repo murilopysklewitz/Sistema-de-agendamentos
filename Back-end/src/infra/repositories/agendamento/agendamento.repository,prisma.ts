@@ -35,4 +35,26 @@ export class AgendamentoRepository implements AgendamentoGateway {
         });
     }
 
+    public async list(): Promise<Agendamento[]> {
+        const agendamentos = await this.prismaClient.agendamento.findMany();
+        const agendamentoList = agendamentos.map((p) => {
+            const agendamento = Agendamento.with({
+                id: p.id,
+                servicoId: p.servicoId,
+                clienteId: p.clienteId,
+
+                data: p.data,
+                horaInicio: p.horaInicio,
+                horaFim: p.horaFim,
+
+                status: p.status,
+
+
+
+            })
+            return agendamento
+        })
+        return agendamentoList
+    }
+
 }

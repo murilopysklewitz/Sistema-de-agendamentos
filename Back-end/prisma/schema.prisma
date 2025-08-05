@@ -13,6 +13,8 @@ datasource db {
 
     nome            String
 
+    email           String
+
     agendamentos Agendamento[]
   }
 
