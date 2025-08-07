@@ -26,7 +26,7 @@ export class AgendamentoRepository implements AgendamentoGateway {
             
                 clienteId: agendamento.clienteId,
                 servicoId: agendamento.servico.id,
-
+                
                 data: agendamento.data,
                 horaInicio: agendamento.horaInicio,
                 horaFim: agendamento.horaFim,
