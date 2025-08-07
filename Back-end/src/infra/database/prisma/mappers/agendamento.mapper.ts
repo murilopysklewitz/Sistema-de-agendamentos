@@ -12,7 +12,7 @@ export class AgendamentoMapperPrisma implements AgendamentoMapper {
     public toDomain(agendamentoPrisma: Prisma.AgendamentoGetPayload<{ include: { cliente: true; servico: true; }; }>): Agendamento {
         const servicoDomain = this.mapPrismaServicoToDomain(agendamentoPrisma.servico)
         const clienteDomain = this.mapPrismaClienteToDomain(agendamentoPrisma.cliente) 
-        
+
         return Agendamento.with({
             id: agendamentoPrisma.id,
             servico: servicoDomain,
@@ -23,7 +23,7 @@ export class AgendamentoMapperPrisma implements AgendamentoMapper {
             status: agendamentoPrisma.status,
             createdAt: agendamentoPrisma.createdAt,
             updatedAt: agendamentoPrisma.updatedAt,
-        });
+        });;
     }
 
     private mapPrismaServicoToDomain(prismaServico: PrismaServico): Servico {
