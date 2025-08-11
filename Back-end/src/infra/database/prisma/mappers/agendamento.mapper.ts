@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { Agendamento } from "src/domain/servico/entity/agendamento";
+import { Agendamento, AgendamentoStatus } from "src/domain/servico/entity/agendamento";
 import { AgendamentoMapper } from "./agendamento.mapper.interface";
 import { Servico } from "src/domain/servico/entity/servico";
 import { Cliente } from "src/domain/servico/entity/cliente";
@@ -20,11 +20,29 @@ export class AgendamentoMapperPrisma implements AgendamentoMapper {
             data: agendamentoPrisma.data,
             horaInicio: agendamentoPrisma.horaInicio,
             horaFim: agendamentoPrisma.horaFim,
-            status: agendamentoPrisma.status,
+            status: agendamentoPrisma.status as AgendamentoStatus,
             createdAt: agendamentoPrisma.createdAt,
             updatedAt: agendamentoPrisma.updatedAt,
         });;
     }
+
+    public toPrisma(agendamento: Agendamento): Prisma.AgendamentoCreateInput {
+        return {
+            id: agendamento.id,
+            data: agendamento.data,
+            horaInicio: agendamento.horaInicio,
+            horaFim: agendamento.horaFim,
+            status: agendamento.status,
+
+            servico: {
+                connect: { id: agendamento.servico.id },
+            },
+            cliente: {
+                connect: { id: agendamento.clienteId },
+            },
+        };
+    }
+
 
     private mapPrismaServicoToDomain(prismaServico: PrismaServico): Servico {
         return Servico.with ({

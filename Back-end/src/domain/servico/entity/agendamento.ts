@@ -7,14 +7,25 @@ export type AgendamentoProps = {
     data: Date;
     horaInicio: Date;
     horaFim: Date;
-    status: "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO" ;
+    status: AgendamentoStatus ;
     createdAt: Date;
     updatedAt: Date;
 }
 
+export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO";
+
     export class Agendamento{
 
+        private static readonly validAgendamentoStatus: AgendamentoStatus[] = ['CONFIRMADO', 'CONCLUIDO', 'AGENDADO', 'CANCELADO']
+
+        public static isValidStatus(status:string): status is AgendamentoStatus {
+            return this.validAgendamentoStatus.includes(status as AgendamentoStatus)
+        }
+
         private constructor(private readonly props: AgendamentoProps) {
+            if (!Agendamento.isValidStatus(props.status)) {
+                throw new Error(`Status de agendamento inválido: ${props.status}`)
+            }
             if (!props.id) throw new Error("Agendamento deve ter um ID.");
             if (!props.servico) throw new Error("Agendamento deve ter um serviço.");
             if (!props.clienteId) throw new Error("Agendamento deve ter um cliente.");
@@ -56,7 +67,7 @@ export type AgendamentoProps = {
         public get data(): Date { return this.props.data; }
         public get horaInicio(): Date { return this.props.horaInicio; }
         public get horaFim(): Date { return this.props.horaFim; }
-        public get status(): "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO" { return this.props.status; }
+        public get status(): AgendamentoStatus { return this.props.status; }
 
         public estaEmConflitoCom(outroAgendamento: Agendamento) {
             const mesmoDia = this.data.toDateString() === outroAgendamento.data.toDateString();
