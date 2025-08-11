@@ -5,5 +5,5 @@ export interface AgendamentoGateway {
     list(): Promise<Agendamento[]>
     findById(id: string): Promise<Agendamento | null>
     delete(id: string): Promise<void>
-    acharConflitoAgendamento(servicoId: string, horaInicio: Date, horaFim: Date): Promise<Agendamento[]>
+    findByInterval(data: Date, horaInicio: Date, horaFim: Date): Promise<Agendamento[]>
 }
