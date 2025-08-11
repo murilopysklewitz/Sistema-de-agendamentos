@@ -1,13 +1,13 @@
 import { Prisma } from "@prisma/client";
 import { Agendamento, AgendamentoStatus } from "src/domain/servico/entity/agendamento";
-import { AgendamentoMapper } from "./agendamento.mapper.interface";
+import { IAgendamentoMapper } from "./agendamento.mapper.interface";
 import { Servico } from "src/domain/servico/entity/servico";
 import { Cliente } from "src/domain/servico/entity/cliente";
 
 type PrismaServico = Prisma.ServicoGetPayload<{}>;
 type PrismaCliente = Prisma.ClienteGetPayload<{}>;
 
-export class AgendamentoMapperPrisma implements AgendamentoMapper {
+export class AgendamentoMapperPrisma implements IAgendamentoMapper {
 
     public toDomain(agendamentoPrisma: Prisma.AgendamentoGetPayload<{ include: { cliente: true; servico: true; }; }>): Agendamento {
         const servicoDomain = this.mapPrismaServicoToDomain(agendamentoPrisma.servico)
