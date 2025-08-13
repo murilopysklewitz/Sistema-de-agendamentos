@@ -56,4 +56,21 @@ export class AgendamentoRepository implements AgendamentoGateway {
         return agendamentosPrisma.map(agendamentoPrisma => this.mapper.toDomain(agendamentoPrisma))
     }
 
+    public async findByInterval(data: Date, horaInicio: Date, horafim: Date): Promise<Agendamento[]>{
+        const agendamentosPrisma = await this.prismaClient.agendamento.findMany({
+            where: {
+                data: {
+                    equals: data
+                },
+                AND: {
+                    OR: [
+                        {
+                            horaInicio: {lt:horafim},
+                            horaFim: {gt:horaInicio},
+                        }
+                    ]
+                }
+            }
+        })
+    }
 }
