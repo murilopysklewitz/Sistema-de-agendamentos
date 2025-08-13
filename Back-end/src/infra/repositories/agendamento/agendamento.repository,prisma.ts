@@ -65,12 +65,28 @@ export class AgendamentoRepository implements AgendamentoGateway {
                 AND: {
                     OR: [
                         {
+                            // lt = less than
                             horaInicio: {lt:horafim},
+                            //gt = greater than
                             horaFim: {gt:horaInicio},
+                        },
+                        {
+                            //gte = greater than or equals
+                            horaInicio: {gte: horaInicio, lt: horafim},
+                        },
+                        {
+                            //lte = less than or equals
+                            horaInicio: {lte: horaInicio},
+                            horaFim: {gte: horafim}
                         }
                     ]
                 }
+            },
+            include: {
+                cliente: true,
+                servico: true
             }
         })
+        return agendamentosPrisma.map(agendamentoPrisma => this.mapper.toDomain(agendamentoPrisma))
     }
 }
