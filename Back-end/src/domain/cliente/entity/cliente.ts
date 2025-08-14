@@ -1,4 +1,4 @@
-import { Agendamento } from "./agendamento";
+import { Agendamento } from "../../agendamento/entity/agendamento";
 
 interface ClienteProps {
     id: string;
