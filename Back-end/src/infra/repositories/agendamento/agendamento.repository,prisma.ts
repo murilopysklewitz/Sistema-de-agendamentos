@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { Agendamento } from "src/domain/servico/entity/agendamento";
-import { AgendamentoGateway } from "src/domain/servico/gateway/agendamento.gateway";
+import { Agendamento } from "src/domain/agendamento/entity/agendamento";
+import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
 import { AgendamentoMapperPrisma } from "src/infra/database/prisma/mappers/agendamento.mapper";
 
 

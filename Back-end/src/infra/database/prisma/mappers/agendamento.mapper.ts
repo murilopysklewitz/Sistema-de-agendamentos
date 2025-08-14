@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
-import { Agendamento, AgendamentoStatus } from "src/domain/servico/entity/agendamento";
+import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
 import { IAgendamentoMapper } from "./agendamento.mapper.interface";
 import { Servico } from "src/domain/servico/entity/servico";
-import { Cliente } from "src/domain/servico/entity/cliente";
+import { Cliente } from "src/domain/cliente/entity/cliente";
 
 type PrismaServico = Prisma.ServicoGetPayload<{}>;
 type PrismaCliente = Prisma.ClienteGetPayload<{}>;
