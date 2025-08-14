@@ -2,6 +2,7 @@ import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/ag
 import { Servico } from "src/domain/servico/entity/servico";
 import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
 import { Usecase } from "src/usecases/usecase";
+import { AgendamentoValidator } from "src/domain/agendamento/service/agendamento-validator.interface";
 
 export interface CreateAgendamentoInputDto {
     clienteId: string,
@@ -20,29 +21,31 @@ export interface CreateAgendamentoOutputDto {
 }
 
 export class CreateAgendamentoUsecase implements Usecase<CreateAgendamentoInputDto, CreateAgendamentoOutputDto> {
-    private constructor(private readonly agendamentoGateway: AgendamentoGateway) {
+    private constructor(private readonly agendamentoGateway: AgendamentoGateway, private readonly agendamentoValidator: AgendamentoValidator ) {
 
     }
-    private static create(agendamentoGateway: AgendamentoGateway) {
-        return new CreateAgendamentoUsecase(agendamentoGateway)
+    private static create(agendamentoGateway: AgendamentoGateway, agendamentoValidator: AgendamentoValidator) {
+        return new CreateAgendamentoUsecase(agendamentoGateway, agendamentoValidator)
     }
 
     public async execute({clienteId, servico, data, horaInicio}: CreateAgendamentoInputDto): Promise<CreateAgendamentoOutputDto> {
         const aAgendamento = Agendamento.create(clienteId, servico, data, horaInicio)
         try{
-            await this.agendamentoGateway.save(aAgendamento)
-
-            const output = this.presentOutput(aAgendamento)
-
-            return output
+            await this.agendamentoValidator.validateNoConflict(aAgendamento)
 
         }catch(error: any){
             throw new Error("Não foi possivel criar um agendamento", error)
         }
+        
+        await this.agendamentoGateway.save(aAgendamento)
+
+        const output = this.presentOutput(aAgendamento)
+
+        return output
     }
 
     private presentOutput(agendamento: Agendamento): CreateAgendamentoOutputDto {
-        try{
+
         const output:CreateAgendamentoOutputDto = {
             id: agendamento.id,
             clienteId: agendamento.clienteId,
@@ -52,10 +55,7 @@ export class CreateAgendamentoUsecase implements Usecase<CreateAgendamentoInputD
             horaFim: agendamento.horaFim,
             status: agendamento.status
             
-        } 
+        }
         return output
-    }catch(error: any) {
-        throw new Error("Erro ou gerar output", error)
-    }
     }
 }
