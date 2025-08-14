@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { ServicoRepositoryPrisma } from './infra/repositories/servico/servico.repository.prisma';
-import { prisma } from './package/prisma/prisma';
+import { prisma } from './infra/database/prisma/prisma';
 import { FindByIdServicoUsecase } from './usecases/servico.usecases/findById-servico/findByIdServico.usecase';
 import { CreateServicoUseCase } from './usecases/servico.usecases/create-servico/createServico.usecase';
 import { ListServicoUsecase } from './usecases/servico.usecases/list-servico/listServico.usecase';
