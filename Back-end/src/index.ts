@@ -31,7 +31,7 @@ function main() {
      const deleteRoute = DeleteServicoRoute.create(deleteServicoUseCase);
 
 
-     const port = 8080;
+     const port = 3000;
 
      const api = ApiExpress.create([createRoute, updateRoute, findByIdRoute, deleteRoute, listRoute, ]);
      api.start(port)

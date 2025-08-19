@@ -98,4 +98,4 @@ npm start
 ```
 
 A aplicação estará disponível em:
-👉 http://localhost:8080
+👉 http://localhost:3000
