@@ -9,7 +9,7 @@ export type ListServicoResponseDto = {
         preco: number;
         descricao: string | null;
         destaque: boolean;
-        horasDeServico: number | null;
+        duracaoEmMinutos: number | null;
     }[];
 };
 export class ListServicosRoute implements Route {
@@ -54,7 +54,7 @@ export class ListServicosRoute implements Route {
                 preco: servico.preco,
                 descricao:servico.descricao,
                 destaque: servico.destaque,
-                horasDeServico: servico.horasDeServico
+                duracaoEmMinutos: servico.duracaoEmMinutos
             }))
         }
         return response

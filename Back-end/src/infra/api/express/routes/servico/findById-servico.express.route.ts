@@ -10,7 +10,7 @@ export type findByIdResponseDto = {
     preco: number;
     descricao:string | null;
     destaque: boolean;
-    horasDeServico: number
+    duracaoEmMinutos: number
     }
 }
 

@@ -21,7 +21,7 @@ export class UpdateServicoRoute implements Route {
     public getHandler() {
         return async (request: Request, response: Response) => {
             const { id } = request.params
-            const { nome, preco, descricao, destaque, horasDeServico } = request.body;
+            const { nome, preco, descricao, destaque, duracaoEmMinutos } = request.body;
 
             if (!id) {
                 throw new Error("ID de serviço é obrigatório")
@@ -33,7 +33,7 @@ export class UpdateServicoRoute implements Route {
                 preco,
                 descricao,
                 destaque,
-                horasDeServico,
+                duracaoEmMinutos,
             }
             try {
             const output: updateServicoResponseDto = await this.updateServicoService.execute(input)
