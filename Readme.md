@@ -17,7 +17,7 @@ A dependência flui sempre para dentro, o que significa que as camadas internas 
 ### `src/domain`  
 O núcleo da aplicação. Contém as regras de negócio mais importantes.  
 
-- **entity**: Classes de entidade (como `Agendamento` e `Servico`) que encapsulam dados e regras de negócio essenciais.  
+- **entity**: Classes de entidade (como `Agendamento`, `Servico` e `cliente`) que encapsulam dados e regras de negócio essenciais.  
 - **gateway**: Interfaces que definem os "contratos" para comunicação com recursos externos, como bancos de dados.  
   - A camada de domínio só se comunica através dessas interfaces.  
 - **service**: Serviços de domínio que contêm lógicas de negócio complexas que envolvem mais de uma entidade (como o `AgendamentoValidatorService`).  
@@ -32,12 +32,7 @@ A camada de **aplicação**. Contém os casos de uso que orquestram o fluxo de n
 A camada de **infraestrutura**. Contém as implementações concretas dos gateways.  
 
 - **database**: Onde reside a lógica para se conectar e interagir com o banco de dados.  
-  - O `PrismaAgendamentoRepository` é um **adaptador** que implementa o `AgendamentoGateway` usando o ORM Prisma.  
-
-### `src/shared`  
-Camada para classes e utilitários que podem ser usados em toda a aplicação.  
-
-- **http**: Onde o `ErrorHandler` reside. Ele manipula erros de forma centralizada e os traduz em respostas HTTP consistentes para a camada de apresentação.  
+  - O `PrismaAgendamentoRepository` é um **adaptador** que implementa o `AgendamentoGateway` usando o ORM Prisma.   
 
 ---
 
