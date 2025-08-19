@@ -68,9 +68,6 @@ A comunicação segue um fluxo de **dentro para fora**, mas com as dependências
    - O **Usecase** formata a entidade salva em um DTO de saída.  
    - O Controller envia uma resposta HTTP de sucesso.  
 
-7. **Tratamento de Erro:**  
-   - Se qualquer erro de domínio (como `AgendamentoConflictError`) for lançado, ele é capturado pela camada de apresentação (Controller).  
-   - O `ErrorHandler` retorna uma resposta de erro padronizada.  
 
 ---
 
@@ -82,6 +79,7 @@ Para rodar este projeto, siga os passos abaixo:
 ```bash
 git clone [URL_DO_REPOSITORIO]
 cd [pasta_do_projeto]
+```
 
 ### 2. Instale as dependencias:
 ```bash
@@ -93,13 +91,16 @@ npm install
 # Exemplo para Postgresql
 DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase"
 ```
+
 ### 4. Execute as migrações do Prisma
 ```bash
 npx prisma migrate dev
 ```
+
 ### 5. Inicie a aplicação
 ```bash
 npm start
 ```
+
 A aplicação estará disponível em:
 👉 http://localhost:3000
