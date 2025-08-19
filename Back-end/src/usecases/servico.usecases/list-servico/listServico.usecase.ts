@@ -23,8 +23,7 @@ export class ListServicoUsecase implements Usecase<ListServicoInputDto, ListServ
         return new ListServicoUsecase(servicoGateway);
     }
 
-    public async execute(input:void): Promise<ListServicoOutputDto> {
-
+    public async execute(): Promise<ListServicoOutputDto> {
         try{
         const aServico = await this.servicoGateway.list();
         const output = this.presentOutput(aServico);
