@@ -1,71 +1,105 @@
-** Sistema de Gerenciamento de Agendamentos
-Este projeto é uma demonstração de uma API para gerenciamento de agendamentos, utilizando princípios de arquitetura de software como a Arquitetura Limpa (Clean Architecture) e Domain-Driven Design (DDD). O foco está na separação de responsabilidades, testabilidade e na manutenção de um domínio de negócio puro e agnóstico a tecnologias.
+# Sistema de Gerenciamento de Agendamentos  
 
-Visão Geral da Arquitetura
-A aplicação é dividida em camadas lógicas para garantir um alto nível de desacoplamento. A dependência flui sempre para dentro, o que significa que as camadas internas (como o Domínio) não têm conhecimento das camadas externas (como a Infraestrutura).
+Este projeto é uma demonstração de uma API para gerenciamento de agendamentos, utilizando princípios de arquitetura de software como a **Arquitetura Limpa (Clean Architecture)** e **Domain-Driven Design (DDD)**.  
+O foco está na **separação de responsabilidades**, **testabilidade** e na manutenção de um **domínio de negócio puro e agnóstico a tecnologias**.  
 
-Estrutura de Camadas
-src/domain: O núcleo da aplicação. Contém as regras de negócio mais importantes.
+---
 
-entity: Classes de entidade (como Agendamento e Servico) que encapsulam dados e regras de negócio essenciais.
+## Visão Geral da Arquitetura  
 
-gateway: Interfaces que definem os "contratos" para comunicação com recursos externos, como bancos de dados. A camada de domínio só se comunica através dessas interfaces.
+A aplicação é dividida em camadas lógicas para garantir um alto nível de desacoplamento.  
+A dependência flui sempre para dentro, o que significa que as camadas internas (como o **Domínio**) não têm conhecimento das camadas externas (como a **Infraestrutura**).  
 
-service: Serviços de domínio que contêm lógicas de negócio complexas que envolvem mais de uma entidade (como o AgendamentoValidatorService).
+---
 
-src/usecases: A camada de "aplicação". Contém os casos de uso que orquestram o fluxo de negócio.
+## Estrutura de Camadas  
 
-Cada caso de uso (ex: CreateAgendamentoUsecase, ListAgendamentoUsecase) é uma classe que implementa uma operação específica. Eles dependem das interfaces de gateway e dos serviços de domínio.
+### `src/domain`  
+O núcleo da aplicação. Contém as regras de negócio mais importantes.  
 
-src/infra: A camada de infraestrutura. Contém as implementações concretas dos gateways.
+- **entity**: Classes de entidade (como `Agendamento` e `Servico`) que encapsulam dados e regras de negócio essenciais.  
+- **gateway**: Interfaces que definem os "contratos" para comunicação com recursos externos, como bancos de dados.  
+  - A camada de domínio só se comunica através dessas interfaces.  
+- **service**: Serviços de domínio que contêm lógicas de negócio complexas que envolvem mais de uma entidade (como o `AgendamentoValidatorService`).  
 
-database: Onde reside a lógica para se conectar e interagir com o banco de dados. O PrismaAgendamentoRepository é um "adaptador" que implementa o AgendamentoGateway usando o ORM Prisma.
+### `src/usecases`  
+A camada de **aplicação**. Contém os casos de uso que orquestram o fluxo de negócio.  
 
-src/shared: Camada para classes e utilitários que podem ser usados em toda a aplicação.
+- Cada caso de uso (ex: `CreateAgendamentoUsecase`, `ListAgendamentoUsecase`) é uma classe que implementa uma operação específica.  
+- Eles dependem das interfaces de **gateway** e dos **serviços de domínio**.  
 
-http: Onde o ErrorHandler reside. Ele manipula erros de forma centralizada e os traduz em respostas HTTP consistentes para a camada de apresentação.
+### `src/infra`  
+A camada de **infraestrutura**. Contém as implementações concretas dos gateways.  
 
-Fluxo de Comunicação
-A comunicação segue um fluxo de dentro para fora, mas com as dependências apontando para o centro.
+- **database**: Onde reside a lógica para se conectar e interagir com o banco de dados.  
+  - O `PrismaAgendamentoRepository` é um **adaptador** que implementa o `AgendamentoGateway` usando o ORM Prisma.  
 
-Requisição (API/Controller): Uma requisição HTTP chega na camada mais externa. O Controller recebe os dados e os formata em um DTO de entrada.
+### `src/shared`  
+Camada para classes e utilitários que podem ser usados em toda a aplicação.  
 
-Execução do Caso de Uso: O Controller chama o método execute do Usecase correspondente, passando o DTO.
+- **http**: Onde o `ErrorHandler` reside. Ele manipula erros de forma centralizada e os traduz em respostas HTTP consistentes para a camada de apresentação.  
 
-Lógica do Caso de Uso: O Usecase usa a entidade para criar um novo Agendamento. Em seguida, ele chama o AgendamentoValidator (que é uma interface).
+---
 
-Validação de Domínio: A implementação concreta do validador (AgendamentoValidatorService) é injetada. O validador usa o AgendamentoGateway para buscar agendamentos conflitantes no banco de dados.
+## Fluxo de Comunicação  
 
-Persistência (Gateway): O Usecase chama o método save do AgendamentoGateway. A implementação (PrismaAgendamentoRepository) traduz essa chamada em uma operação do ORM Prisma.
+A comunicação segue um fluxo de **dentro para fora**, mas com as dependências apontando para o **centro**.  
 
-Resposta: O Usecase formata a entidade salva em um DTO de saída e a retorna para o Controller, que por sua vez, envia uma resposta HTTP de sucesso.
+1. **Requisição (API/Controller):**  
+   - Uma requisição HTTP chega na camada mais externa.  
+   - O **Controller** recebe os dados e os formata em um DTO de entrada.  
 
-Tratamento de Erro: Se qualquer erro de domínio (como AgendamentoConflictError) for lançado, ele é capturado pela camada de apresentação (Controller), que usa o ErrorHandler para retornar uma resposta de erro padronizada.
+2. **Execução do Caso de Uso:**  
+   - O **Controller** chama o método `execute` do **Usecase** correspondente, passando o DTO.  
 
-Configuração e Execução
-Para rodar este projeto, siga os passos abaixo:
+3. **Lógica do Caso de Uso:**  
+   - O **Usecase** usa a entidade para criar um novo `Agendamento`.  
+   - Em seguida, chama o `AgendamentoValidator` (interface).  
 
-Clone o repositório:
+4. **Validação de Domínio:**  
+   - A implementação concreta do validador (`AgendamentoValidatorService`) é injetada.  
+   - O validador usa o `AgendamentoGateway` para buscar agendamentos conflitantes no banco de dados.  
 
+5. **Persistência (Gateway):**  
+   - O **Usecase** chama o método `save` do `AgendamentoGateway`.  
+   - A implementação (`PrismaAgendamentoRepository`) traduz essa chamada em uma operação do ORM Prisma.  
+
+6. **Resposta:**  
+   - O **Usecase** formata a entidade salva em um DTO de saída.  
+   - O Controller envia uma resposta HTTP de sucesso.  
+
+7. **Tratamento de Erro:**  
+   - Se qualquer erro de domínio (como `AgendamentoConflictError`) for lançado, ele é capturado pela camada de apresentação (Controller).  
+   - O `ErrorHandler` retorna uma resposta de erro padronizada.  
+
+---
+
+## Configuração e Execução  
+
+Para rodar este projeto, siga os passos abaixo:  
+
+### 1. Clone o repositório:  
+```bash
 git clone [URL_DO_REPOSITORIO]
 cd [pasta_do_projeto]
 
-Instale as dependências:
-
+### 2. Instale as dependencias:
+```bash
 npm install
+```
 
-Configure o banco de dados:
-Este projeto usa o Prisma. Certifique-se de que o seu banco de dados está configurado no arquivo .env.
-
-# Exemplo para PostgreSQL
+### 3. Configure o banco de dados
+```env
+# Exemplo para Postgresql
 DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase"
-
-Execute as migrações do Prisma:
-
+```
+### 4. Execute as migrações do Prisma
+```bash
 npx prisma migrate dev
-
-Inicie a aplicação:
-
+```
+### 5. Inicie a aplicação
+```bash
 npm start
-
-A aplicação estará disponível em http://localhost:3000 (ou na porta configurada).
+```
+A aplicação estará disponível em:
+👉 http://localhost:3000
