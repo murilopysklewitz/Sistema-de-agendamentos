@@ -1,6 +1,6 @@
 import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
 import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
-import { Servico } from "src/domain/servico/entity/servico";
+import { Servico, ServicoProps } from "src/domain/servico/entity/servico";
 import { Usecase } from "src/usecases/usecase";
 
 export type FindByIdAgendamentoInputDTO = {
@@ -10,7 +10,7 @@ export type FindByIdAgendamentoInputDTO = {
 export type FindByIdAgendamentoOutputDTO = {
     id: string;
     clienteId: string;
-    servico: Servico;
+    servico: ServicoProps;
     data: Date;
     horaInicio: Date;
     horaFim: Date;
@@ -32,7 +32,8 @@ export class FindByIdAgendamento implements Usecase<FindByIdAgendamentoInputDTO,
 
             return agendamento;
         }catch(error: any) {
-            throw new Error("Erro ao procurar ID",)
+            console.error("Erro técnico ao buscar agendamento por ID:", error);
+            throw new Error("Ocorreu um erro inesperado ao buscar o agendamento.");
         }
     }
 

@@ -1,6 +1,6 @@
 import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/agendamento"
 import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
-import { Servico } from "src/domain/servico/entity/servico";
+import { Servico, ServicoProps } from "src/domain/servico/entity/servico";
 import { ServicoGateway } from "src/domain/servico/gateway/servico.gateway";
 import { Usecase } from "src/usecases/usecase";
 
@@ -10,7 +10,7 @@ export type ListAgendamentoOutputDto = {
     agendamentos: {
     id: string;
     clienteId: string;
-    servico: Servico;
+    servico: ServicoProps;
     data: Date;
     horaInicio: Date;
     horaFim: Date;
