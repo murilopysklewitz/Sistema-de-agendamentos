@@ -12,14 +12,23 @@ class FindByIdServicoRoute {
         this.findByIdServicoService = findByIdServicoService;
     }
     static create(findByIdServicoService) {
-        return new FindByIdServicoRoute("/servico/:id", routes_1.HttpMethod.GET, findByIdServicoService);
+        return new FindByIdServicoRoute("/servicos/:id", routes_1.HttpMethod.GET, findByIdServicoService);
     }
     getHandler() {
         return async (request, response) => {
-            const { id } = request.params;
-            const input = { id: id };
-            const output = await this.findByIdServicoService.execute(input);
-            response.status(200).json(output).send();
+            try {
+                const { id } = request.params;
+                const input = { id };
+                const result = await this.findByIdServicoService.execute(input);
+                if (!result) {
+                    response.status(404).json({ message: "Serviço não encontrado" });
+                }
+                response.status(200).json(result);
+            }
+            catch (error) {
+                console.error("Erro na rota findById:", error);
+                response.status(500).json({ message: "Erro interno do servidor" });
+            }
         };
     }
     getMethod() {

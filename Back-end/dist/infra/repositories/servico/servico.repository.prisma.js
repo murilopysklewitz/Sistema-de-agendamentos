@@ -16,7 +16,7 @@ class ServicoRepositoryPrisma {
             preco: servico.preco,
             descricao: servico.descricao ?? "",
             destaque: servico.destaque,
-            horasDeServico: servico.horasDeServico ?? 1,
+            duracaoEmMinutos: servico.duracaoEmMinutos ?? 1,
         };
         await this.prismaClient.servico.upsert({
             where: { id: servico.id },
@@ -33,7 +33,7 @@ class ServicoRepositoryPrisma {
                 preco: p.preco,
                 descricao: p.descricao,
                 destaque: p.destaque,
-                horasDeServico: p.horasDeServico
+                duracaoEmMinutos: p.duracaoEmMinutos
             });
             return servico;
         });
@@ -52,7 +52,7 @@ class ServicoRepositoryPrisma {
             preco: servico.preco,
             descricao: servico.descricao,
             destaque: servico.destaque,
-            horasDeServico: servico.horasDeServico
+            duracaoEmMinutos: servico.duracaoEmMinutos
         });
     }
     async update(servico) {
@@ -61,7 +61,7 @@ class ServicoRepositoryPrisma {
             preco: servico.preco,
             descricao: servico.descricao ?? "",
             destaque: servico.destaque,
-            horasDeServico: servico.horasDeServico
+            duracaoEmMinutos: servico.duracaoEmMinutos
         };
         await this.prismaClient.servico.update({
             where: { id: servico.id },

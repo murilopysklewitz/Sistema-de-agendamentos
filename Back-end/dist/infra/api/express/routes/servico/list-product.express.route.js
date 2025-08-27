@@ -35,7 +35,7 @@ class ListServicosRoute {
                 preco: servico.preco,
                 descricao: servico.descricao,
                 destaque: servico.destaque,
-                horasDeServico: servico.horasDeServico
+                duracaoEmMinutos: servico.duracaoEmMinutos
             }))
         };
         return response;

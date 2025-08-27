@@ -30,6 +30,9 @@ export class FindByIdAgendamento implements Usecase<FindByIdAgendamentoInputDTO,
         try{
             const agendamento = await this.agendamentoGateway.findById(id)
 
+            if(!agendamento){
+                return null;
+            }
             return agendamento;
         }catch(error: any) {
             console.error("Erro técnico ao buscar agendamento por ID:", error);

@@ -5,30 +5,65 @@ class Servico {
     props;
     constructor(props) {
         this.props = props;
+        if (!props.id) {
+            throw new Error("ID do serviço é obrigatório.");
+        }
+        if (!props.nome || props.nome.trim() === "") {
+            throw new Error("Nome do serviço é obrigatório.");
+        }
+        if (props.preco <= 0) {
+            throw new Error("Preço do serviço deve ser positivo.");
+        }
+        if (props.duracaoEmMinutos <= 0) {
+            throw new Error("Duração do serviço deve ser um número positivo.");
+        }
     }
-    static create(nome, preco, descricao, destaque, horasDeServico) {
+    static create(nome, preco, descricao, destaque, duracaoEmMinutos) {
+        if (!nome || nome.trim() === "") {
+            throw new Error("Nome do serviço não pode ser vazio.");
+        }
+        if (preco <= 0) {
+            throw new Error("Preço do serviço deve ser positivo.");
+        }
+        if (duracaoEmMinutos <= 0) {
+            throw new Error("Duração do serviço deve ser um número positivo.");
+        }
         return new Servico({
             id: crypto.randomUUID().toString(),
             nome,
             preco,
             descricao,
             destaque,
-            horasDeServico
+            duracaoEmMinutos
         });
     }
     static with(props) {
         return new Servico(props);
     }
-    updateDetails(descricao, destaque) {
-        if (descricao !== undefined) {
-            this.props.descricao = descricao;
+    update(novoNome, novoPreco, novaDescricao, novoDestaque, duracaoEmMinutos) {
+        if (novoNome !== undefined && novoNome.trim() !== "") {
+            this.props.nome = novoNome;
         }
-        if (destaque !== undefined) {
-            this.props.destaque = destaque;
+        if (novoPreco !== undefined && novoPreco > 0) {
+            this.props.preco = novoPreco;
         }
-    }
-    updatePreco(newPreco) {
-        this.props.preco = newPreco;
+        if (duracaoEmMinutos !== undefined) {
+            if (duracaoEmMinutos == null) {
+                this.props.duracaoEmMinutos = 30;
+            }
+            else if (duracaoEmMinutos > 0) {
+                this.props.duracaoEmMinutos = duracaoEmMinutos;
+            }
+            else {
+                throw new Error("Horas de servico não podem ser negativos");
+            }
+        }
+        if (novaDescricao !== undefined) {
+            this.props.descricao = novaDescricao;
+        }
+        if (novoDestaque !== undefined) {
+            this.props.destaque = novoDestaque;
+        }
     }
     get id() {
         return this.props.id;
@@ -45,8 +80,8 @@ class Servico {
     get destaque() {
         return this.props.destaque;
     }
-    get horasDeServico() {
-        return this.props.horasDeServico;
+    get duracaoEmMinutos() {
+        return this.props.duracaoEmMinutos;
     }
 }
 exports.Servico = Servico;
