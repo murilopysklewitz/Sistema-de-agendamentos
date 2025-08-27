@@ -1,7 +1,6 @@
 import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/agendamento"
 import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
-import { Servico, ServicoProps } from "src/domain/servico/entity/servico";
-import { ServicoGateway } from "src/domain/servico/gateway/servico.gateway";
+import { ServicoProps } from "src/domain/servico/entity/servico";
 import { Usecase } from "src/usecases/usecase";
 
 export type ListAgendamentoInputDto = void;
