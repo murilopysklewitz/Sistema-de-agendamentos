@@ -18,7 +18,7 @@ export type FindByIdAgendamentoOutputDTO = {
         
 }
 
-export class FindByIdAgendamento implements Usecase<FindByIdAgendamentoInputDTO, FindByIdAgendamentoOutputDTO> {
+export class FindByIdAgendamento implements Usecase<FindByIdAgendamentoInputDTO, FindByIdAgendamentoOutputDTO|null> {
     private constructor(private readonly agendamentoGateway: AgendamentoGateway) {
 
     }
@@ -26,11 +26,12 @@ export class FindByIdAgendamento implements Usecase<FindByIdAgendamentoInputDTO,
         return new FindByIdAgendamento(agendamentoGateway)
     }
 
-    public async execute({id}: FindByIdAgendamentoInputDTO): Promise<FindByIdAgendamentoOutputDTO>  {
+    public async execute({id}: FindByIdAgendamentoInputDTO): Promise<FindByIdAgendamentoOutputDTO | null>  {
         try{
             const agendamento = await this.agendamentoGateway.findById(id)
 
             if(!agendamento){
+                console.log("Nao foi possível localizar esse agendamento.")
                 return null;
             }
             return agendamento;
