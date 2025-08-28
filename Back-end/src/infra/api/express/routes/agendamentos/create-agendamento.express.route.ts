@@ -26,13 +26,17 @@ export class CreateAgendamentoRoute implements Route {
 
     public  getHandler() {
         return async (request: Request, response: Response) => {
-            const { clienteId, servico, data, horaInicio,} = request.body;
+            const { clienteId, servicoId, data, horaInicio,} = request.body;
 
             const input: CreateAgendamentoInputDto = {
-                clienteId, servico, data, horaInicio
+                clienteId,
+                servicoId,
+                data: new Date(data),
+                horaInicio: new Date(horaInicio)
             }
             const output: CreateAgendamentoResponseDto = await this.createAgendamentoService.execute(input);
             const responseBody = this.present(output);
+             response.status(201).json(responseBody)
         }
     }
                public getPath():string {
