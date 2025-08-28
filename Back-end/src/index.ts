@@ -17,13 +17,15 @@ import { UpdateServicoRoute } from './infra/api/express/routes/servico/update-se
 
 function main() {
      const aRepository = ServicoRepositoryPrisma.create(prisma);
-
+     
+     // CRUD de usecase para serviços
      const findByIdServicoUsecase = FindByIdServicoUsecase.create(aRepository)
      const updateServicoUsecase = UpdateServicoUsecase.create(aRepository)
      const createServicoUseCase = CreateServicoUseCase.create(aRepository);
      const listServicosUseCase = ListServicoUsecase.create(aRepository);
      const deleteServicoUseCase = DeleteServicoUsecase.create(aRepository);
 
+     // CRUD de rotas para serviços
      const findByIdRoute = FindByIdServicoRoute.create(findByIdServicoUsecase);
      const updateRoute = UpdateServicoRoute.create(updateServicoUsecase)
      const createRoute = CreateServicoRoute.create(createServicoUseCase);
@@ -33,7 +35,10 @@ function main() {
 
      const port = 3000;
 
-     const api = ApiExpress.create([createRoute, updateRoute, findByIdRoute, deleteRoute, listRoute, ]);
+     const api = ApiExpress.create([
+          createRoute, updateRoute, findByIdRoute, deleteRoute, listRoute,
+          
+      ]);
      api.start(port)
 }
 main()
