@@ -11,7 +11,7 @@ export class UpdateServicoRoute implements Route {
     ){}
 
     public static create(updateServicoService: UpdateServicoUsecase) {
-        return new UpdateServicoRoute("/servicos/:id",
+        return new UpdateServicoRoute("/api/servicos/:id",
                                         HttpMethod.PUT,
                                         updateServicoService
                                         

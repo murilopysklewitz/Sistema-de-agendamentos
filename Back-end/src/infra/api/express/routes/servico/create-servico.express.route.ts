@@ -16,7 +16,7 @@ export class CreateServicoRoute implements Route {
     }
 
     public static create(createServicoService:CreateServicoUseCase) {
-        return new CreateServicoRoute( "/servicos",
+        return new CreateServicoRoute( "/api/servicos",
             HttpMethod.POST,
             createServicoService
         );

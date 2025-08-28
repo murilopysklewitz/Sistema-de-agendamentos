@@ -22,7 +22,7 @@ export class ListServicosRoute implements Route {
 
     public static create(listServicoService: ListServicoUsecase) {
         return new ListServicosRoute (
-            "/servicos",
+            "/api/servicos",
             HttpMethod.GET,
             listServicoService,
         )

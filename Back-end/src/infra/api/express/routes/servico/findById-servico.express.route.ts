@@ -24,7 +24,7 @@ export class FindByIdServicoRoute implements Route {
     }
     public static create(findByIdServicoService: FindByIdServicoUsecase) {
         return new FindByIdServicoRoute(
-            "/servicos/:id",
+            "/api/servicos/:id",
             HttpMethod.GET,
             findByIdServicoService,
         )
