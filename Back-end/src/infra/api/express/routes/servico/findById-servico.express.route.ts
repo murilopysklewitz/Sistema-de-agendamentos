@@ -15,16 +15,18 @@ export type findByIdResponseDto = {
 }
 
 export class FindByIdServicoRoute implements Route {
-    private constructor(private readonly path: string,
-                        private readonly httpMethod: HttpMethod,
-                        private readonly findByIdServicoService: FindByIdServicoUsecase
+    private constructor(
+        private readonly path: string,
+        private readonly httpMethod: HttpMethod,
+        private readonly findByIdServicoService: FindByIdServicoUsecase
     ){
 
     }
     public static create(findByIdServicoService: FindByIdServicoUsecase) {
-        return new FindByIdServicoRoute("/servicos/:id",
-                                        HttpMethod.GET,
-                                        findByIdServicoService,
+        return new FindByIdServicoRoute(
+            "/servicos/:id",
+            HttpMethod.GET,
+            findByIdServicoService,
         )
     }
 

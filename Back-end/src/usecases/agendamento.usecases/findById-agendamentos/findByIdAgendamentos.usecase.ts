@@ -18,12 +18,12 @@ export type FindByIdAgendamentoOutputDTO = {
         
 }
 
-export class FindByIdAgendamento implements Usecase<FindByIdAgendamentoInputDTO, FindByIdAgendamentoOutputDTO|null> {
+export class FindByIdAgendamentoUsecase implements Usecase<FindByIdAgendamentoInputDTO, FindByIdAgendamentoOutputDTO|null> {
     private constructor(private readonly agendamentoGateway: AgendamentoGateway) {
 
     }
     public static create(agendamentoGateway: AgendamentoGateway) {
-        return new FindByIdAgendamento(agendamentoGateway)
+        return new FindByIdAgendamentoUsecase(agendamentoGateway)
     }
 
     public async execute({id}: FindByIdAgendamentoInputDTO): Promise<FindByIdAgendamentoOutputDTO | null>  {
