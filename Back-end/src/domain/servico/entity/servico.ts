@@ -26,7 +26,7 @@ export class Servico {
     public static create (
         nome:string, 
         preco:number, 
-        descricao:string, 
+        descricao:string | null, 
         destaque:boolean, 
         duracaoEmMinutos:number
     ): Servico {
@@ -82,6 +82,9 @@ export class Servico {
         if(novoDestaque !== undefined) {this.props.destaque = novoDestaque}
     }
 
+    public get prop(): ServicoProps {
+        return this.props
+    }
     public get id() {
         return this.props.id;
     }
