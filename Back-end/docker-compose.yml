@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - "8080:8080"
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
@@ -32,3 +32,4 @@ networks:
 
 volumes:
   db_data:
+
