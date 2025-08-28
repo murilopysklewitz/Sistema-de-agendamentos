@@ -12,6 +12,10 @@ class FindByIdAgendamento {
     async execute({ id }) {
         try {
             const agendamento = await this.agendamentoGateway.findById(id);
+            if (!agendamento) {
+                console.log("Nao foi possível localizar esse agendamento.");
+                return null;
+            }
             return agendamento;
         }
         catch (error) {
