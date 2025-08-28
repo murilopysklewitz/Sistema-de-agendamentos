@@ -30,7 +30,7 @@ export class AgendamentoRepository implements AgendamentoGateway {
         return this.mapper.toDomain(saved)
     }
 
-    public async findById(id: string): Promise<Agendamento | null> {
+    public async findById(id: string): Promise<Agendamento> {
         const agendamentoPrisma = await this.prismaClient.agendamento.findUnique({
             where: { id },
             include: {
@@ -39,7 +39,7 @@ export class AgendamentoRepository implements AgendamentoGateway {
             }
         })
         if(!agendamentoPrisma) {
-            return null;
+            throw new Error("Agendamento não achado no banco de dados")
         }
         return this.mapper.toDomain(agendamentoPrisma)
     }
