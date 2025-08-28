@@ -21,7 +21,7 @@ export class CreateAgendamentoRoute implements Route {
     ){}
 
     public static create(createAgendamentoService: CreateAgendamentoUsecase) {
-        return new CreateAgendamentoRoute('/api/agendamento', HttpMethod.POST, createAgendamentoService)
+        return new CreateAgendamentoRoute('/api/agendamentos', HttpMethod.POST, createAgendamentoService)
     }
 
     public  getHandler() {

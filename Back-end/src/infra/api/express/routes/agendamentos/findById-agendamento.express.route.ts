@@ -24,7 +24,7 @@ export class FindByIdAgendamentoRoute implements Route {
     ){}
 
     public static create(findByIdAgendamentoService: FindByIdAgendamentoUsecase){
-        return new FindByIdAgendamentoRoute("/api/agendamento/:id", HttpMethod.GET ,findByIdAgendamentoService);
+        return new FindByIdAgendamentoRoute("/api/agendamentos/:id", HttpMethod.GET ,findByIdAgendamentoService);
     }
 
     public getHandler() {
