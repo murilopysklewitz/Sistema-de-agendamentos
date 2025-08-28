@@ -21,7 +21,9 @@ export interface CreateAgendamentoOutputDto {
 }
 
 export class CreateAgendamentoUsecase implements Usecase<CreateAgendamentoInputDto, CreateAgendamentoOutputDto> {
-    private constructor(private readonly agendamentoGateway: AgendamentoGateway, private readonly agendamentoValidator: AgendamentoValidator ) {
+    private constructor(
+        private readonly agendamentoGateway: AgendamentoGateway, 
+        private readonly agendamentoValidator: AgendamentoValidator ) {
 
     }
     private static create(agendamentoGateway: AgendamentoGateway, agendamentoValidator: AgendamentoValidator) {
