@@ -12,7 +12,7 @@ class UpdateServicoRoute {
         this.updateServicoService = updateServicoService;
     }
     static create(updateServicoService) {
-        return new UpdateServicoRoute("/servicos/:id", routes_1.HttpMethod.PUT, updateServicoService);
+        return new UpdateServicoRoute("/api/servicos/:id", routes_1.HttpMethod.PUT, updateServicoService);
     }
     getHandler() {
         return async (request, response) => {

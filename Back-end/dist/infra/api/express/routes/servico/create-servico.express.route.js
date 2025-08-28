@@ -12,7 +12,7 @@ class CreateServicoRoute {
         this.createServicoService = createServicoService;
     }
     static create(createServicoService) {
-        return new CreateServicoRoute("/servicos", routes_1.HttpMethod.POST, createServicoService);
+        return new CreateServicoRoute("/api/servicos", routes_1.HttpMethod.POST, createServicoService);
     }
     getHandler() {
         return async (request, response) => {

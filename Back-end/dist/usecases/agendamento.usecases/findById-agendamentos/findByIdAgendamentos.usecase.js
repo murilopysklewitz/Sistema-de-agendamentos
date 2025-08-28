@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FindByIdAgendamento = void 0;
-class FindByIdAgendamento {
+exports.FindByIdAgendamentoUsecase = void 0;
+class FindByIdAgendamentoUsecase {
     agendamentoGateway;
     constructor(agendamentoGateway) {
         this.agendamentoGateway = agendamentoGateway;
     }
     static create(agendamentoGateway) {
-        return new FindByIdAgendamento(agendamentoGateway);
+        return new FindByIdAgendamentoUsecase(agendamentoGateway);
     }
     async execute({ id }) {
         try {
@@ -24,4 +24,4 @@ class FindByIdAgendamento {
         }
     }
 }
-exports.FindByIdAgendamento = FindByIdAgendamento;
+exports.FindByIdAgendamentoUsecase = FindByIdAgendamentoUsecase;

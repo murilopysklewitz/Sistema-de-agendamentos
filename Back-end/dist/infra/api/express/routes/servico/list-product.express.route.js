@@ -12,7 +12,7 @@ class ListServicosRoute {
         this.listServicoService = listServicoService;
     }
     static create(listServicoService) {
-        return new ListServicosRoute("/servicos", routes_1.HttpMethod.GET, listServicoService);
+        return new ListServicosRoute("/api/servicos", routes_1.HttpMethod.GET, listServicoService);
     }
     getHandler() {
         return async (request, response) => {

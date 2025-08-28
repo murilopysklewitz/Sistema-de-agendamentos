@@ -12,7 +12,7 @@ class CreateAgendamentoRoute {
         this.createAgendamentoService = createAgendamentoService;
     }
     static create(createAgendamentoService) {
-        return new CreateAgendamentoRoute('/api/agendamento', routes_1.HttpMethod.POST, createAgendamentoService);
+        return new CreateAgendamentoRoute('/api/agendamentos', routes_1.HttpMethod.POST, createAgendamentoService);
     }
     getHandler() {
         return async (request, response) => {
