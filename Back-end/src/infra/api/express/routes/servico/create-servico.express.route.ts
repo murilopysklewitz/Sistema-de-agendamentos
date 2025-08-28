@@ -8,15 +8,17 @@ export type CreateServicoResponseDto = {
 }
 export class CreateServicoRoute implements Route {
 
-    private constructor (private readonly path:string,
-                        private readonly method:HttpMethod,
-                        private readonly createServicoService: CreateServicoUseCase 
+    private constructor (
+        private readonly path:string,
+        private readonly method:HttpMethod,
+        private readonly createServicoService: CreateServicoUseCase 
     ) {
 
     }
 
     public static create(createServicoService:CreateServicoUseCase) {
-        return new CreateServicoRoute( "/api/servicos",
+        return new CreateServicoRoute( 
+            "/api/servicos",
             HttpMethod.POST,
             createServicoService
         );

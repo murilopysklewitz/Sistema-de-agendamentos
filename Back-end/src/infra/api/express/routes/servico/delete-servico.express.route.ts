@@ -11,9 +11,10 @@ export class DeleteServicoRoute implements Route {
         private readonly deleteServicoService: DeleteServicoUsecase
     ){}
     public static create(deleteServicoService:DeleteServicoUsecase) {
-        return new DeleteServicoRoute(  "/api/servicos/:id",
-                                        HttpMethod.DELETE,
-                                        deleteServicoService )
+        return new DeleteServicoRoute(  
+            "/api/servicos/:id",
+            HttpMethod.DELETE,
+            deleteServicoService )
     }
     public getHandler() {
         return async (request:Request, response:Response) => {

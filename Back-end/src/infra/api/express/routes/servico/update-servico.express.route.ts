@@ -5,15 +5,17 @@ import { Request, Response } from "express";
 export type updateServicoResponseDto = void;
 
 export class UpdateServicoRoute implements Route {
-    private constructor(private readonly path: string,
-                        private readonly HttpMethod: HttpMethod,
-                        private readonly updateServicoService: UpdateServicoUsecase
+    private constructor(
+        private readonly path: string,
+        private readonly HttpMethod: HttpMethod,
+        private readonly updateServicoService: UpdateServicoUsecase
     ){}
 
     public static create(updateServicoService: UpdateServicoUsecase) {
-        return new UpdateServicoRoute("/api/servicos/:id",
-                                        HttpMethod.PUT,
-                                        updateServicoService
+        return new UpdateServicoRoute(
+            "/api/servicos/:id",
+            HttpMethod.PUT,
+            updateServicoService
                                         
         )
     }
@@ -39,7 +41,9 @@ export class UpdateServicoRoute implements Route {
             const output: updateServicoResponseDto = await this.updateServicoService.execute(input)
             response.status(200).json(input).send()
             }catch(error:any) {
+                
                 console.error("Erro em updateServicoRoute", error.message)
+
                 if (error.message.includes("obrigatório") || error.message.includes("negativo") || error.message.includes("vazio")) {
                      response.status(400).json({ message: error.message }).send(); 
                 } else {
