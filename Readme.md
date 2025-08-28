@@ -99,3 +99,18 @@ npm start
 
 A aplicação estará disponível em:
 👉 http://localhost:3000
+
+
+## Como utilizar essa API
+
+### CRUD de serviços
+### 1. Rota GET(listar usuários)
+A rota **/api/servicos** no método GET listará todos os serviços existentes.
+### 2. Rota GET(achar por ID)
+A rota **/api/servicos/{id(passe o id)}** no método GET informe o id na URL, listará o serviço com ID informado.
+### 3. Rota POST(criar um serviço)
+A rota **/api/servicos** no método POST deve ser passado no request {nome, preco, descricao, destaque, duracaoEmMinutos} ele criará um serviço e devolverá o id.
+### 4. Rota DELETE(deletar um serviço)
+A rota **/api/servicos/{id(passe o id)}** no método DELETE, informe o id do serviço a ser deletado, deletará o serviço com ID informado.
+### 5. Rota PUT(modificar um serviço)
+A rota **/api/servicos/{id(passe o id)}** no método PUT, informe o id do serviço a ser modificado, e no corpo da requisição deve enviar os parametros a serem modificados 
