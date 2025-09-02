@@ -50,4 +50,20 @@ describe('CreateServicoUsecase', () => {
             id: 'mock-uuid-123'
         })
     })
+
+
+
+    it('should throw an error for an invalid price', async () => {
+        const input: CreateServicoInputDto = {
+          nome: 'Serviço com Preço Inválido',
+          preco: -10, 
+          descricao: 'Descrição',
+          destaque: false,
+          duracaoEmMinutos: 30,
+        };
+
+        await expect(usecase.execute(input)).rejects.toThrow('Preço do serviço deve ser positivo.');
+        
+        expect(servicoGatewayMock.save).toHaveBeenCalledTimes(0);
+      });
 })
