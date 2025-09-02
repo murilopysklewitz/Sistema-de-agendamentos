@@ -10,4 +10,13 @@ describe('CreateAgendamentoUsecase', () => {
     let agendamentoGatewayMock: jest.Mocked<AgendamentoGateway>
     let agendamentoValidatorMock: jest.Mocked<AgendamentoValidator>
     let usecase: CreateAgendamentoUsecase
+
+    beforeEach (() => {
+        agendamentoGatewayMock = {
+            save: jest.fn(),
+            list:jest.fn(),
+            findById: jest.fn(),
+            findByInterval: jest.fn()
+        }
+    })
 })
