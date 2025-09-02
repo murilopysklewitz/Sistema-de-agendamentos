@@ -1,5 +1,5 @@
 export type ServicoProps = {
-    id:string;
+    id?:string;
     nome:string;
     preco:number;
     descricao:string | null;
@@ -9,8 +9,8 @@ export type ServicoProps = {
 export class Servico {
     private constructor(private props: ServicoProps) {
         if (!props.id) {
-            throw new Error("ID do serviço é obrigatório.");
-        }
+            this.props.id = crypto.randomUUID().toString();
+          }
         if (!props.nome || props.nome.trim() === "") {
             throw new Error("Nome do serviço é obrigatório.");
         }
