@@ -40,7 +40,7 @@ export class Servico {
         }
 
         return new Servico ({
-            id: crypto.randomUUID.toString(),
+            id: randomUUID().toString(),
             nome,
             preco,
             descricao,

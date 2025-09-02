@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { Servico } from "../../servico/entity/servico"
 
 export type AgendamentoProps = {
@@ -45,7 +46,7 @@ export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCL
         ): Agendamento {
             const horaFim = new Date (horaInicio.getTime() + servico.duracaoEmMinutos * 60 * 1000)
             return new Agendamento({
-                id: crypto.randomUUID().toString(),
+                id: randomUUID().toString(),
                 clienteId,
                 servico,
                 data,
