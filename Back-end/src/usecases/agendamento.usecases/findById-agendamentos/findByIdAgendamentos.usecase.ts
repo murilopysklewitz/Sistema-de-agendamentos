@@ -3,11 +3,11 @@ import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.g
 import {  ServicoProps } from "src/domain/servico/entity/servico";
 import { Usecase } from "src/usecases/usecase";
 
-export type FindByIdAgendamentoInputDTO = {
+export type FindByIdAgendamentoInputDto = {
     id: string;
 }
 
-export type FindByIdAgendamentoOutputDTO = {
+export type FindByIdAgendamentoOutputDto = {
     id: string;
     clienteId: string;
     servico: ServicoProps;
@@ -18,7 +18,7 @@ export type FindByIdAgendamentoOutputDTO = {
         
 }
 
-export class FindByIdAgendamentoUsecase implements Usecase<FindByIdAgendamentoInputDTO, FindByIdAgendamentoOutputDTO> {
+export class FindByIdAgendamentoUsecase implements Usecase<FindByIdAgendamentoInputDto, FindByIdAgendamentoOutputDto> {
     private constructor(private readonly agendamentoGateway: AgendamentoGateway) {
 
     }
@@ -26,7 +26,7 @@ export class FindByIdAgendamentoUsecase implements Usecase<FindByIdAgendamentoIn
         return new FindByIdAgendamentoUsecase(agendamentoGateway)
     }
 
-    public async execute({id}: FindByIdAgendamentoInputDTO): Promise<FindByIdAgendamentoOutputDTO>  {
+    public async execute({id}: FindByIdAgendamentoInputDto): Promise<FindByIdAgendamentoOutputDto>  {
         try{
             const agendamento = await this.agendamentoGateway.findById(id)
 
