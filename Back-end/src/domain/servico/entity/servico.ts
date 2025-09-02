@@ -1,5 +1,7 @@
+import { randomUUID } from "crypto";
+
 export type ServicoProps = {
-    id?:string;
+    id:string;
     nome:string;
     preco:number;
     descricao:string | null;
@@ -8,9 +10,6 @@ export type ServicoProps = {
 }
 export class Servico {
     private constructor(private props: ServicoProps) {
-        if (!props.id) {
-            this.props.id = crypto.randomUUID().toString();
-          }
         if (!props.nome || props.nome.trim() === "") {
             throw new Error("Nome do serviço é obrigatório.");
         }
@@ -41,7 +40,7 @@ export class Servico {
         }
 
         return new Servico ({
-            id:crypto.randomUUID().toString(),
+            id: crypto.randomUUID.toString(),
             nome,
             preco,
             descricao,
