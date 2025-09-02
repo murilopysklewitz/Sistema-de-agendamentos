@@ -66,4 +66,18 @@ describe('CreateServicoUsecase', () => {
         
         expect(servicoGatewayMock.save).toHaveBeenCalledTimes(0);
       });
+
+      it('should throw an error for an invalid duration', async () => {
+        const input: CreateServicoInputDto = {
+          nome: 'Serviço com Duração Inválida',
+          preco: 150,
+          descricao: 'Descrição',
+          destaque: true,
+          duracaoEmMinutos: 0, 
+        };
+    
+        await expect(usecase.execute(input)).rejects.toThrow('Duração do serviço deve ser um número positivo.');
+
+        expect(servicoGatewayMock.save).toHaveBeenCalledTimes(0);
+      });
 })
