@@ -16,6 +16,7 @@ describe('Servico', () => {
       expect(servico.prop.id).toBe('valid-id');
     });
 
+
     it('should throw an error if nome is empty', () => {
       expect(() => Servico.with({ ...baseProps, id: '123', nome: '' })).toThrow('Nome do serviço é obrigatório.');
     });
