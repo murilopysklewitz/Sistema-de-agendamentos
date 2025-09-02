@@ -4,10 +4,15 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node .",
     "build": "tsc --build",
     "dev": "tsx watch src/index.ts"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": ["**/*.spec.ts"]
   },
   "keywords": [],
   "author": "",
