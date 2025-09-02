@@ -11,7 +11,7 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
         return new ServicoRepositoryPrisma(prismaClient)
     }
 
-    public async save(servico:Servico): Promise<void> {
+    public async save(servico:Servico): Promise<string> {
         const data = {
             nome: servico.nome,
             preco: servico.preco,
@@ -25,6 +25,7 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
             update: data,              
             create: data,          
         });
+        return servico.id
         
     }
     public async list(): Promise<Servico[]> {
@@ -44,12 +45,13 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
         return servicoList
     }
 
-    public async findById(id: string): Promise<Servico | null> {
+    public async findById(id: string): Promise<Servico> {
+        try{
         const servico = await this.prismaClient.servico.findUnique({
             where: {id:id},
         });
         if(!servico) {
-            return null
+            throw new Error("não foi possivel achar servico com id: " + id)
         }
         return Servico.with({
             id: servico.id,
@@ -59,6 +61,9 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
             destaque: servico.destaque,
             duracaoEmMinutos: servico.duracaoEmMinutos
         })
+    }catch(error: any) {
+        console.error("Erro desconhecido no findById repository")
+    }
     }
 
     public async update(servico: Servico): Promise<void> {
