@@ -2,7 +2,7 @@ import { AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
 import { ServicoProps } from "src/domain/servico/entity/servico";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
-import { FindByIdAgendamentoInputDTO, FindByIdAgendamentoUsecase } from "src/usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase";
+import { FindByIdAgendamentoInputDto, FindByIdAgendamentoUsecase } from "src/usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase";
 
 export type FindByIdAgendamentoResponseDto = {
         id: string;
@@ -31,7 +31,7 @@ export class FindByIdAgendamentoRoute implements Route {
         return async (request: Request, response: Response) => {
             try {
                 const {id} = request.params;
-                const input: FindByIdAgendamentoInputDTO = {id};
+                const input: FindByIdAgendamentoInputDto = {id};
 
                 const result = await this.findByIdAgendamentoService.execute(input);
 
