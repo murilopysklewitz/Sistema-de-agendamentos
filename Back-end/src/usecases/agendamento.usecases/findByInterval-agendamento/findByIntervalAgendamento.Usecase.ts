@@ -21,13 +21,13 @@ export type FindByIntervalOutputDto = {
         }[]
 }
 
-export class FindByIntervalUsecase implements Usecase<FindByIntervalInputDto, FindByIntervalOutputDto> {
+export class FindByIntervalAgendamentoUsecase implements Usecase<FindByIntervalInputDto, FindByIntervalOutputDto> {
     private constructor(
         private readonly agendamentoGateway: AgendamentoGateway,
     ) {}
 
     public static create(agendamentoGateway: AgendamentoGateway)  {
-        return new FindByIntervalUsecase(agendamentoGateway)
+        return new FindByIntervalAgendamentoUsecase(agendamentoGateway)
     }
 
     public async execute({data, horaInicio, horaFim}: FindByIntervalInputDto): Promise<FindByIntervalOutputDto> {
