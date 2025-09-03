@@ -63,6 +63,7 @@ export class ServicoRepositoryPrisma implements ServicoGateway {
         })
     }catch(error: any) {
         console.error("Erro desconhecido no findById repository")
+        throw error;
     }
     }
 
