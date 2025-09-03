@@ -12,8 +12,6 @@ import { ApiExpress } from './infra/api/express/routes/api.express';
 import { UpdateServicoUsecase } from './usecases/servico.usecases/update-servico/updateServico.usecase';
 import { UpdateServicoRoute } from './infra/api/express/routes/servico/update-servico.express.route';
 
-     dotenv.config()
-
 
 
 function main() {
