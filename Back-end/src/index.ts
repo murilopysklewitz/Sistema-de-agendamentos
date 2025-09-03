@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { ServicoRepositoryPrisma } from './infra/repositories/servico/servico.repository.prisma';
 import { prisma } from './infra/database/prisma/prisma';
 import { FindByIdServicoUsecase } from './usecases/servico.usecases/findById-servico/findByIdServico.usecase';
@@ -13,6 +12,8 @@ import { ApiExpress } from './infra/api/express/routes/api.express';
 import { UpdateServicoUsecase } from './usecases/servico.usecases/update-servico/updateServico.usecase';
 import { UpdateServicoRoute } from './infra/api/express/routes/servico/update-servico.express.route';
 
+     dotenv.config()
+
 
 
 function main() {
@@ -26,19 +27,19 @@ function main() {
      const deleteServicoUseCase = DeleteServicoUsecase.create(aRepository);
 
      // CRUD de rotas para serviços
-     const findByIdRoute = FindByIdServicoRoute.create(findByIdServicoUsecase);
-     const updateRoute = UpdateServicoRoute.create(updateServicoUsecase)
-     const createRoute = CreateServicoRoute.create(createServicoUseCase);
-     const listRoute = ListServicosRoute.create(listServicosUseCase);
-     const deleteRoute = DeleteServicoRoute.create(deleteServicoUseCase);
+     const findByIdServicoRoute = FindByIdServicoRoute.create(findByIdServicoUsecase);
+     const updateServicoRoute = UpdateServicoRoute.create(updateServicoUsecase)
+     const createServicoRoute = CreateServicoRoute.create(createServicoUseCase);
+     const listServicoRoute = ListServicosRoute.create(listServicosUseCase);
+     const deleteServicoRoute = DeleteServicoRoute.create(deleteServicoUseCase);
 
 
-     const port = 3000;
+     const PORT = 3000;
 
      const api = ApiExpress.create([
-          createRoute, updateRoute, findByIdRoute, deleteRoute, listRoute,
+          createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
           
       ]);
-     api.start(port)
+     api.start(PORT)
 }
 main()
