@@ -1,6 +1,7 @@
 import { Api } from "../../api";
 import express, { Express } from "express";
 import { Route } from "./routes";
+import { setupSwagger } from "src/config/swagger";
 
 export class ApiExpress implements Api {
 
@@ -10,6 +11,7 @@ export class ApiExpress implements Api {
         this.app = express();
         this.app.use(express.json())
         this.addRoutes(routes);
+        setupSwagger(this.app)
     }
 
     public static create (route: Route[]) {
@@ -29,6 +31,7 @@ export class ApiExpress implements Api {
     public start(port:number) {
         this.app.listen(port, () => {
             console.log(`Server running on port ${port}`);
+            console.log(`📖 Swagger docs at http://localhost:${port}/api-docs`);
         })
     }
 }
