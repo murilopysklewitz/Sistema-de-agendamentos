@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: API - Sistema de Agendamento
+  version: 1.0.0
+  description: Documentação da API com Swagger (separada do código)
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Serviços
+    description: Operações relacionadas a serviços
+  - name: Agendamentos
+    description: Operações relacionadas a agendamentos
+
+paths:
+  /api/servicos:
+    get:
+      summary: Listar todos os serviços
+      tags:
+        - Serviços
+      responses:
+        "200":
+          description: Lista de serviços retornada com sucesso
+    post:
+      summary: Criar um novo serviço
+      tags:
+        - Serviços
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: Corte de cabelo
+                preco:
+                  type: number
+                  example: 49.90
+      responses:
+        "201":
+          description: Serviço criado com sucesso
+
+  /api/servicos/{id}:
+    get:
+      summary: Buscar serviço por ID
+      tags:
+        - Serviços
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Serviço encontrado
+        "404":
+          description: Serviço não encontrado
+    put:
+      summary: Atualizar um serviço
+      tags:
+        - Serviços
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                preco:
+                  type: number
+      responses:
+        "200":
+          description: Serviço atualizado
+    delete:
+      summary: Excluir um serviço
+      tags:
+        - Serviços
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Serviço excluído
