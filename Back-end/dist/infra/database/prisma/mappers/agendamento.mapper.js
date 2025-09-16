@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AgendamentoMapperPrisma = void 0;
-const agendamento_1 = require("src/domain/agendamento/entity/agendamento");
-const servico_1 = require("src/domain/servico/entity/servico");
-const cliente_1 = require("src/domain/cliente/entity/cliente");
+const agendamento_1 = require("../../../../domain/agendamento/entity/agendamento");
+const servico_1 = require("../../../../domain/servico/entity/servico");
+const cliente_1 = require("../../../../domain/cliente/entity/cliente");
 class AgendamentoMapperPrisma {
     toDomain(agendamentoPrisma) {
         const servicoDomain = this.mapPrismaServicoToDomain(agendamentoPrisma.servico);

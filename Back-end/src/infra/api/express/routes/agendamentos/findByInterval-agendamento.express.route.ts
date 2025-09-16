@@ -1,8 +1,8 @@
-import { ServicoProps } from "domain/servico/entity/servico";
+import { ServicoProps } from "../../../../../domain/servico/entity/servico";
 import { HttpMethod, Route } from "../routes"
 import { Request, Response } from "express";
-import { AgendamentoStatus } from "domain/agendamento/entity/agendamento";
-import { FindByIntervalAgendamentoUsecase } from "usecases/agendamento.usecases/findByInterval-agendamento/findByIntervalAgendamento.Usecase";
+import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
+import { FindByIntervalAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/findByInterval-agendamento/findByIntervalAgendamento.Usecase";
 
 export type FindByIntervalAgendamentoResponse = {
     agendamentos: {

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateAgendamentoUsecase = void 0;
-const agendamento_1 = require("src/domain/agendamento/entity/agendamento");
+const agendamento_1 = require("../../../domain/agendamento/entity/agendamento");
 class CreateAgendamentoUsecase {
     agendamentoGateway;
     agendamentoValidator;

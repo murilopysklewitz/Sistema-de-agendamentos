@@ -1,4 +1,5 @@
-import { ServicoGateway } from "src/domain/servico/gateway/servico.gateway"
+
+import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway";
 import { CreateServicoInputDto, CreateServicoUseCase } from "./createServico.usecase"
 
 jest.mock('crypto', () => ({

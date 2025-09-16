@@ -1,5 +1,6 @@
 
-import { FindByIdServicoInputDto, FindByIdServicoUsecase } from "src/usecases/servico.usecases/findById-servico/findByIdServico.usecase";
+
+import { FindByIdServicoInputDto, FindByIdServicoUsecase } from "../../../../../usecases/servico.usecases/findById-servico/findByIdServico.usecase";
 import { HttpMethod, Route, } from "../routes";
 import { Request, Response } from "express";
 

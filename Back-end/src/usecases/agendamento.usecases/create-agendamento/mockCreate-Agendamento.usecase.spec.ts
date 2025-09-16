@@ -1,6 +1,7 @@
-import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway"
-import { AgendamentoValidator } from "src/domain/agendamento/service/agendamento-validator.interface"
+
+import { AgendamentoGateway } from "../../../domain/agendamento/gateway/agendamento.gateway"
 import { CreateAgendamentoUsecase } from "./createAgendamento.usecase"
+import { AgendamentoValidator } from "../../../domain/agendamento/service/agendamento-validator.interface"
 
 jest.mock('uuid', () => ({
     v4: () => 'mock-uuid-123',

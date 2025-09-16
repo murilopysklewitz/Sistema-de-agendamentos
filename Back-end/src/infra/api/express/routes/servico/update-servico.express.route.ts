@@ -1,4 +1,5 @@
-import { updateServicoInputDto, UpdateServicoUsecase,  } from "src/usecases/servico.usecases/update-servico/updateServico.usecase";
+
+import { updateServicoInputDto, UpdateServicoUsecase } from "../../../../../usecases/servico.usecases/update-servico/updateServico.usecase";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 

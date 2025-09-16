@@ -1,5 +1,4 @@
 "use strict";
-// src/usecases/delete-servico/deleteServico.usecase.ts
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeleteServicoUsecase = void 0;
 class DeleteServicoUsecase {

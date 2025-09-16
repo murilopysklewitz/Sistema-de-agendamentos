@@ -30,11 +30,17 @@ export class ListServicosRoute implements Route {
 
     public getHandler() {
         return async (request:Request, response: Response) => {
-            const output = await this.listServicoService.execute();
+            try{
+                const output = await this.listServicoService.execute();
 
-            const responseBody = this.present(output);
+                const responseBody = this.present(output);
 
-            response.status(200).json(responseBody);
+                response.status(200).json(responseBody);
+        
+            }catch(error: any) {
+                console.error("Erro ao listar serviços:", error);
+                response.status(500).json({ message: "Erro interno ao listar serviços" });
+            }
         }
     }
 

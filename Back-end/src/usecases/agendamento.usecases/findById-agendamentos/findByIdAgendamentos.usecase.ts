@@ -1,7 +1,7 @@
-import { AgendamentoStatus } from "domain/agendamento/entity/agendamento";
-import { AgendamentoGateway } from "domain/agendamento/gateway/agendamento.gateway";
-import { ServicoProps } from "domain/servico/entity/servico";
-import { Usecase } from "usecases/usecase";
+import { AgendamentoStatus } from "../../../domain/agendamento/entity/agendamento";
+import { AgendamentoGateway } from "../../../domain/agendamento/gateway/agendamento.gateway";
+import { ServicoProps } from "../../../domain/servico/entity/servico";
+import { Usecase } from "../../../usecases/usecase";
 
 
 

@@ -32,7 +32,8 @@ export class ListServicoUsecase implements Usecase<ListServicoInputDto, ListServ
         const output = this.presentOutput(aServico);
         return output;
         }catch(error: any) {
-            throw new Error("Erro em listServicoUsecase")
+            throw new Error("Erro em listServicoUsecase", error)
+            throw error
         }
     }
 

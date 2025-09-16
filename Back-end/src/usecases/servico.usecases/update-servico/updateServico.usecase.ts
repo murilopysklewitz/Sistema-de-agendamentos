@@ -1,5 +1,5 @@
-import { ServicoGateway } from "domain/servico/gateway/servico.gateway";
-import { Usecase } from "usecases/usecase";
+import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway";
+import { Usecase } from "../../../usecases/usecase";
 
 
 export type updateServicoInputDto = {

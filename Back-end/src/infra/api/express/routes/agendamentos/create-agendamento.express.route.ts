@@ -1,9 +1,9 @@
 
-import { ServicoProps } from "domain/servico/entity/servico";
+import { ServicoProps } from "../../../../../domain/servico/entity/servico";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
-import { AgendamentoStatus } from "domain/agendamento/entity/agendamento";
-import { CreateAgendamentoInputDto, CreateAgendamentoUsecase } from "usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase";
+import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
+import { CreateAgendamentoInputDto, CreateAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase";
 
 export type CreateAgendamentoResponseDto = {
             id: string;

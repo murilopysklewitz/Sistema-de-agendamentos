@@ -1,7 +1,7 @@
-import { Agendamento, AgendamentoStatus } from "domain/agendamento/entity/agendamento";
-import { AgendamentoGateway } from "domain/agendamento/gateway/agendamento.gateway";
-import { ServicoProps } from "domain/servico/entity/servico";
-import { Usecase } from "usecases/usecase";
+import { Agendamento, AgendamentoStatus } from "../../../domain/agendamento/entity/agendamento";
+import { AgendamentoGateway } from "../../../domain/agendamento/gateway/agendamento.gateway";
+import { ServicoProps } from "../../../domain/servico/entity/servico";
+import { Usecase } from "../../../usecases/usecase";
 
 
 export type ListAgendamentoInputDto = void;
