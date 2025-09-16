@@ -1,7 +1,9 @@
-import { AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
-import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
-import {  ServicoProps } from "src/domain/servico/entity/servico";
-import { Usecase } from "src/usecases/usecase";
+import { AgendamentoStatus } from "domain/agendamento/entity/agendamento";
+import { AgendamentoGateway } from "domain/agendamento/gateway/agendamento.gateway";
+import { ServicoProps } from "domain/servico/entity/servico";
+import { Usecase } from "usecases/usecase";
+
+
 
 export type FindByIdAgendamentoInputDto = {
     id: string;

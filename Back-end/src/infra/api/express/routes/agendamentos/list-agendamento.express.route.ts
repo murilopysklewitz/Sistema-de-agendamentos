@@ -1,8 +1,9 @@
-import { AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
-import { ServicoProps } from "src/domain/servico/entity/servico";
+
+import { ServicoProps } from "domain/servico/entity/servico";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
-import { ListAgendamentoUsecase } from "src/usecases/agendamento.usecases/list-agendamento/listAgendamento.usecase";
+import { AgendamentoStatus } from "domain/agendamento/entity/agendamento";
+import { ListAgendamentoUsecase } from "usecases/agendamento.usecases/list-agendamento/listAgendamento.usecase";
 
 export type ListAgendamentoResponseDto = {
     agendamentos: {

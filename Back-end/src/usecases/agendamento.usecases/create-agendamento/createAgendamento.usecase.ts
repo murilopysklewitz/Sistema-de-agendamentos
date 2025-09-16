@@ -1,9 +1,10 @@
-import { Servico, ServicoProps } from "src/domain/servico/entity/servico";
-import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
-import { Usecase } from "src/usecases/usecase";
-import { AgendamentoValidator } from "src/domain/agendamento/service/agendamento-validator.interface";
-import { ServicoGateway } from "src/domain/servico/gateway/servico.gateway";
-import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
+import { Agendamento, AgendamentoStatus } from "domain/agendamento/entity/agendamento";
+import { AgendamentoGateway } from "domain/agendamento/gateway/agendamento.gateway";
+import { AgendamentoValidator } from "domain/agendamento/service/agendamento-validator.interface";
+import { Servico, ServicoProps } from "domain/servico/entity/servico";
+import { ServicoGateway } from "domain/servico/gateway/servico.gateway";
+import { Usecase } from "usecases/usecase";
+
 
 export interface CreateAgendamentoInputDto {
     clienteId: string,
@@ -18,7 +19,7 @@ export interface CreateAgendamentoOutputDto {
         data: Date;
         horaInicio: Date;
         horaFim: Date;
-        status: AgendamentoStatus ;
+        status: AgendamentoStatus;
 }
 
 export class CreateAgendamentoUsecase implements Usecase<CreateAgendamentoInputDto, CreateAgendamentoOutputDto> {

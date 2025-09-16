@@ -1,4 +1,5 @@
-import { DeleteServicoInputDto, DeleteServicoUsecase } from "src/usecases/servico.usecases/delete-servico/deleteServico.usecase";
+
+import { DeleteServicoInputDto, DeleteServicoUsecase } from "usecases/servico.usecases/delete-servico/deleteServico.usecase";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 

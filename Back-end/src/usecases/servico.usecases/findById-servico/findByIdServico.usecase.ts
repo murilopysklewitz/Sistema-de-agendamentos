@@ -1,5 +1,5 @@
+import { ServicoGateway } from "domain/servico/gateway/servico.gateway";
 import { Usecase } from "../../usecase";
-import { ServicoGateway } from "src/domain/servico/gateway/servico.gateway";
 
 export type FindByIdServicoInputDto = {
     id: string;

@@ -1,8 +1,9 @@
-import { AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
-import { ServicoProps } from "src/domain/servico/entity/servico";
+
+import { ServicoProps } from "domain/servico/entity/servico";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
-import { FindByIdAgendamentoInputDto, FindByIdAgendamentoUsecase } from "src/usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase";
+import { AgendamentoStatus } from "domain/agendamento/entity/agendamento";
+import { FindByIdAgendamentoInputDto, FindByIdAgendamentoUsecase } from "usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase";
 
 export type FindByIdAgendamentoResponseDto = {
         id: string;
