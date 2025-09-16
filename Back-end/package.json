@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest",
-    "dev": "tsx watch src/index.ts",
+    "start": "node -r tsconfig-paths/register dist/index.js",
     "build": "tsc --build",
-    "start": "node -r tsconfig-paths/register dist/index.js"
+    "dev": "tsx watch src/index.ts"
   },
   "jest": {
     "preset": "ts-jest",
@@ -16,7 +16,6 @@
       "**/*.spec.ts"
     ]
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",

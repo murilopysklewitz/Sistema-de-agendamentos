@@ -33,7 +33,7 @@ class AgendamentoRepository {
             }
         });
         if (!agendamentoPrisma) {
-            return null;
+            throw new Error("Agendamento não achado no banco de dados");
         }
         return this.mapper.toDomain(agendamentoPrisma);
     }

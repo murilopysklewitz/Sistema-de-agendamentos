@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
 const servico_repository_prisma_1 = require("./infra/repositories/servico/servico.repository.prisma");
 const prisma_1 = require("./infra/database/prisma/prisma");
 const findByIdServico_usecase_1 = require("./usecases/servico.usecases/findById-servico/findByIdServico.usecase");
@@ -14,20 +13,33 @@ const delete_servico_express_route_1 = require("./infra/api/express/routes/servi
 const api_express_1 = require("./infra/api/express/routes/api.express");
 const updateServico_usecase_1 = require("./usecases/servico.usecases/update-servico/updateServico.usecase");
 const update_servico_express_route_1 = require("./infra/api/express/routes/servico/update-servico.express.route");
+const createAgendamento_usecase_1 = require("./usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase");
+const agendamento_repository_prisma_1 = require("./infra/repositories/agendamento/agendamento.repository,prisma");
+const agendamento_mapper_1 = require("./infra/database/prisma/mappers/agendamento.mapper");
+const agendamento_validator_service_1 = require("./domain/agendamento/service/agendamento-validator.service");
 function main() {
     const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
+    const mapper = new agendamento_mapper_1.AgendamentoMapperPrisma();
+    const aRepositoryAgendamentos = agendamento_repository_prisma_1.AgendamentoRepository.create(prisma_1.prisma, mapper);
+    const vallidator = agendamento_validator_service_1.AgendamentoValidatorService.create(aRepositoryAgendamentos);
+    // CRUD de usecase para serviços
     const findByIdServicoUsecase = findByIdServico_usecase_1.FindByIdServicoUsecase.create(aRepository);
     const updateServicoUsecase = updateServico_usecase_1.UpdateServicoUsecase.create(aRepository);
     const createServicoUseCase = createServico_usecase_1.CreateServicoUseCase.create(aRepository);
     const listServicosUseCase = listServico_usecase_1.ListServicoUsecase.create(aRepository);
     const deleteServicoUseCase = deleteServico_usecase_1.DeleteServicoUsecase.create(aRepository);
-    const findByIdRoute = findById_servico_express_route_1.FindByIdServicoRoute.create(findByIdServicoUsecase);
-    const updateRoute = update_servico_express_route_1.UpdateServicoRoute.create(updateServicoUsecase);
-    const createRoute = create_servico_express_route_1.CreateServicoRoute.create(createServicoUseCase);
-    const listRoute = list_product_express_route_1.ListServicosRoute.create(listServicosUseCase);
-    const deleteRoute = delete_servico_express_route_1.DeleteServicoRoute.create(deleteServicoUseCase);
-    const port = 3000;
-    const api = api_express_1.ApiExpress.create([createRoute, updateRoute, findByIdRoute, deleteRoute, listRoute,]);
-    api.start(port);
+    //CRUD de usecase para agendamentos
+    const createAgendamentoUsecase = createAgendamento_usecase_1.CreateAgendamentoUsecase.create(aRepositoryAgendamentos, vallidator, aRepository);
+    // CRUD de rotas para serviços
+    const findByIdServicoRoute = findById_servico_express_route_1.FindByIdServicoRoute.create(findByIdServicoUsecase);
+    const updateServicoRoute = update_servico_express_route_1.UpdateServicoRoute.create(updateServicoUsecase);
+    const createServicoRoute = create_servico_express_route_1.CreateServicoRoute.create(createServicoUseCase);
+    const listServicoRoute = list_product_express_route_1.ListServicosRoute.create(listServicosUseCase);
+    const deleteServicoRoute = delete_servico_express_route_1.DeleteServicoRoute.create(deleteServicoUseCase);
+    const PORT = 3000;
+    const api = api_express_1.ApiExpress.create([
+        createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
+    ]);
+    api.start(PORT);
 }
 main();

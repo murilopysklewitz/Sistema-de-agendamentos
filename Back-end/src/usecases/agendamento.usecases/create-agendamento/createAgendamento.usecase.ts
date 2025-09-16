@@ -1,9 +1,9 @@
-import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
 import { Servico, ServicoProps } from "src/domain/servico/entity/servico";
 import { AgendamentoGateway } from "src/domain/agendamento/gateway/agendamento.gateway";
 import { Usecase } from "src/usecases/usecase";
 import { AgendamentoValidator } from "src/domain/agendamento/service/agendamento-validator.interface";
 import { ServicoGateway } from "src/domain/servico/gateway/servico.gateway";
+import { Agendamento, AgendamentoStatus } from "src/domain/agendamento/entity/agendamento";
 
 export interface CreateAgendamentoInputDto {
     clienteId: string,

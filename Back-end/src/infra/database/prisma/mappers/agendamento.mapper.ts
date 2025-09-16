@@ -23,7 +23,7 @@ export class AgendamentoMapperPrisma implements IAgendamentoMapper {
             status: agendamentoPrisma.status as AgendamentoStatus,
             createdAt: agendamentoPrisma.createdAt,
             updatedAt: agendamentoPrisma.updatedAt,
-        });;
+        });; 
     }
 
     public toPrisma(agendamento: Agendamento): Prisma.AgendamentoCreateInput {

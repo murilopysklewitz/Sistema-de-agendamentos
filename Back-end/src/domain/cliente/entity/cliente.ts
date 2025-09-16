@@ -1,6 +1,6 @@
 import { Agendamento } from "../../agendamento/entity/agendamento";
 
-interface ClienteProps {
+export type ClienteProps = {
     id: string;
     nome: string;
     email: string 

@@ -26,10 +26,13 @@ export class ListServicoUsecase implements Usecase<ListServicoInputDto, ListServ
     public async execute(): Promise<ListServicoOutputDto> {
         try{
         const aServico = await this.servicoGateway.list();
+        if(!aServico) {
+            throw new Error("Não foi possivel achar esse serviço")
+        }
         const output = this.presentOutput(aServico);
         return output;
         }catch(error: any) {
-            throw new Error("Erro em listServicoUsecase", error)
+            throw new Error("Erro em listServicoUsecase")
         }
     }
 

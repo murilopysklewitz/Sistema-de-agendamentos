@@ -32,9 +32,9 @@ export class ListServicosRoute implements Route {
         return async (request:Request, response: Response) => {
             const output = await this.listServicoService.execute();
 
-            const responseBody = await this.present(output);
+            const responseBody = this.present(output);
 
-            response.status(200).json(responseBody).send();
+            response.status(200).json(responseBody);
         }
     }
 

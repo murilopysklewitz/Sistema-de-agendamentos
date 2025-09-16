@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Agendamento = void 0;
+const crypto_1 = require("crypto");
 class Agendamento {
     props;
     static validAgendamentoStatus = ['CONFIRMADO', 'CONCLUIDO', 'AGENDADO', 'CANCELADO'];
@@ -31,7 +32,7 @@ class Agendamento {
     static create(clienteId, servico, data, horaInicio) {
         const horaFim = new Date(horaInicio.getTime() + servico.duracaoEmMinutos * 60 * 1000);
         return new Agendamento({
-            id: crypto.randomUUID().toString(),
+            id: (0, crypto_1.randomUUID)().toString(),
             clienteId,
             servico,
             data,

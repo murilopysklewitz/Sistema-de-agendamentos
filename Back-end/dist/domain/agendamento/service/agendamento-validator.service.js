@@ -6,6 +6,9 @@ class AgendamentoValidatorService {
     constructor(agendamentoGateway) {
         this.agendamentoGateway = agendamentoGateway;
     }
+    static create(agendamentoGateway) {
+        return new AgendamentoValidatorService(agendamentoGateway);
+    }
     async validateNoConflict(agendamento) {
         try {
             const agendamentosConflitantes = await this.agendamentoGateway.findByInterval(agendamento.data, agendamento.horaInicio, agendamento.horaFim);

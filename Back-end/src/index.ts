@@ -11,11 +11,19 @@ import { DeleteServicoRoute } from './infra/api/express/routes/servico/delete-se
 import { ApiExpress } from './infra/api/express/routes/api.express';
 import { UpdateServicoUsecase } from './usecases/servico.usecases/update-servico/updateServico.usecase';
 import { UpdateServicoRoute } from './infra/api/express/routes/servico/update-servico.express.route';
+import { CreateAgendamentoUsecase } from './usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase';
+import { AgendamentoRepository } from './infra/repositories/agendamento/agendamento.repository,prisma';
+import { AgendamentoMapperPrisma } from './infra/database/prisma/mappers/agendamento.mapper';
+import { AgendamentoValidatorService } from './domain/agendamento/service/agendamento-validator.service';
 
 
 
 function main() {
      const aRepository = ServicoRepositoryPrisma.create(prisma);
+     const mapper = new AgendamentoMapperPrisma()
+     const aRepositoryAgendamentos = AgendamentoRepository.create(prisma, mapper)
+     const vallidator = AgendamentoValidatorService.create(aRepositoryAgendamentos)
+
      
      // CRUD de usecase para serviços
      const findByIdServicoUsecase = FindByIdServicoUsecase.create(aRepository)
@@ -23,6 +31,9 @@ function main() {
      const createServicoUseCase = CreateServicoUseCase.create(aRepository);
      const listServicosUseCase = ListServicoUsecase.create(aRepository);
      const deleteServicoUseCase = DeleteServicoUsecase.create(aRepository);
+
+     //CRUD de usecase para agendamentos
+     const createAgendamentoUsecase = CreateAgendamentoUsecase.create(aRepositoryAgendamentos, vallidator, aRepository)
 
      // CRUD de rotas para serviços
      const findByIdServicoRoute = FindByIdServicoRoute.create(findByIdServicoUsecase);

@@ -1,13 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Servico = void 0;
+const crypto_1 = require("crypto");
 class Servico {
     props;
     constructor(props) {
         this.props = props;
-        if (!props.id) {
-            throw new Error("ID do serviço é obrigatório.");
-        }
         if (!props.nome || props.nome.trim() === "") {
             throw new Error("Nome do serviço é obrigatório.");
         }
@@ -29,7 +27,7 @@ class Servico {
             throw new Error("Duração do serviço deve ser um número positivo.");
         }
         return new Servico({
-            id: crypto.randomUUID().toString(),
+            id: (0, crypto_1.randomUUID)().toString(),
             nome,
             preco,
             descricao,
@@ -64,6 +62,9 @@ class Servico {
         if (novoDestaque !== undefined) {
             this.props.destaque = novoDestaque;
         }
+    }
+    get prop() {
+        return this.props;
     }
     get id() {
         return this.props.id;

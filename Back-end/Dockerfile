@@ -23,4 +23,4 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3000
 
-CMD ["node", "dist/index.js", "npm", "start"]
+CMD ["node", "-r", "tsconfig-paths/register", "dist/index.js"]

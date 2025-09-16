@@ -17,8 +17,8 @@ class ListServicosRoute {
     getHandler() {
         return async (request, response) => {
             const output = await this.listServicoService.execute();
-            const responseBody = await this.present(output);
-            response.status(200).json(responseBody).send();
+            const responseBody = this.present(output);
+            response.status(200).json(responseBody);
         };
     }
     getPath() {

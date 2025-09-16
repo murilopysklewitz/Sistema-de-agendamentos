@@ -6,6 +6,9 @@ export class AgendamentoValidatorService implements AgendamentoValidator{
     private constructor(private readonly agendamentoGateway: AgendamentoGateway) {
 
     }
+    public static create(agendamentoGateway: AgendamentoGateway) {
+        return new AgendamentoValidatorService(agendamentoGateway)
+    }
     public async validateNoConflict(agendamento: Agendamento): Promise<void> {
         try {
             const agendamentosConflitantes = await this.agendamentoGateway.findByInterval(

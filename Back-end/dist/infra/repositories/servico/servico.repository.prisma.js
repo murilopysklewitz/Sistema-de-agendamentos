@@ -23,6 +23,7 @@ class ServicoRepositoryPrisma {
             update: data,
             create: data,
         });
+        return servico.id;
     }
     async list() {
         const servicos = await this.prismaClient.servico.findMany();
@@ -40,20 +41,26 @@ class ServicoRepositoryPrisma {
         return servicoList;
     }
     async findById(id) {
-        const servico = await this.prismaClient.servico.findUnique({
-            where: { id: id },
-        });
-        if (!servico) {
-            return null;
+        try {
+            const servico = await this.prismaClient.servico.findUnique({
+                where: { id: id },
+            });
+            if (!servico) {
+                throw new Error("não foi possivel achar servico com id: " + id);
+            }
+            return servico_1.Servico.with({
+                id: servico.id,
+                nome: servico.nome,
+                preco: servico.preco,
+                descricao: servico.descricao,
+                destaque: servico.destaque,
+                duracaoEmMinutos: servico.duracaoEmMinutos
+            });
         }
-        return servico_1.Servico.with({
-            id: servico.id,
-            nome: servico.nome,
-            preco: servico.preco,
-            descricao: servico.descricao,
-            destaque: servico.destaque,
-            duracaoEmMinutos: servico.duracaoEmMinutos
-        });
+        catch (error) {
+            console.error("Erro desconhecido no findById repository");
+            throw error;
+        }
     }
     async update(servico) {
         const data = {
