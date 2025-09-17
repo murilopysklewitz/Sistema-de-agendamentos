@@ -14,7 +14,7 @@ export type FindByIntervalOutputDto = {
         agendamentos: {
         id: string;
         clienteId: string;
-        servico: ServicoProps;
+        servicoId: string;
         data: Date;
         horaInicio: Date;
         horaFim: Date;
@@ -34,6 +34,7 @@ export class FindByIntervalAgendamentoUsecase implements Usecase<FindByIntervalI
     public async execute({data, horaInicio, horaFim}: FindByIntervalInputDto): Promise<FindByIntervalOutputDto> {
         try{
             const findByInterval = await this.agendamentoGateway.findByInterval(data, horaInicio, horaFim)
+
             const output = this.presentOutput(findByInterval)
             return output
         }catch(error:any) {
@@ -47,8 +48,8 @@ export class FindByIntervalAgendamentoUsecase implements Usecase<FindByIntervalI
             agendamentos: agendamentos.map((p) =>{
                 return{
                     id: p.id,
-                    clienteId: p.clienteId,
-                    servico: p.servico,
+                    clienteId: p.cliente.id,
+                    servicoId: p.servico.id,
                     data: p.data,
                     horaInicio: p.horaInicio,
                     horaFim: p.horaFim,
