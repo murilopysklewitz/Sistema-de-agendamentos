@@ -8,7 +8,7 @@ import { CreateAgendamentoInputDto, CreateAgendamentoUsecase } from "../../../..
 export type CreateAgendamentoResponseDto = {
             id: string;
             clienteId: string;
-            servico: ServicoProps;
+            servicoId: string;
             data: Date;
             horaInicio: Date;
             horaFim: Date;
@@ -52,7 +52,7 @@ export class CreateAgendamentoRoute implements Route {
                 const response = {
                     id: input.id,
                     clienteId: input.clienteId,
-                    servico: input.servico,
+                    servicoId: input.servicoId,
                     status: input.status,
                     data: input.data,
                     horaInicio: input.horaInicio,
