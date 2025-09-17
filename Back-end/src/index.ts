@@ -15,6 +15,7 @@ import { CreateAgendamentoUsecase } from './usecases/agendamento.usecases/create
 import { AgendamentoRepository } from './infra/repositories/agendamento/agendamento.repository,prisma';
 import { AgendamentoMapperPrisma } from './infra/database/prisma/mappers/agendamento.mapper';
 import { AgendamentoValidatorService } from './domain/agendamento/service/agendamento-validator.service';
+import { CreateAgendamentoRoute } from './infra/api/express/routes/agendamentos/create-agendamento.express.route';
 
 
 
@@ -43,11 +44,15 @@ function main() {
      const deleteServicoRoute = DeleteServicoRoute.create(deleteServicoUseCase);
 
 
+     //CRUD de rotas para agendamentos
+     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase)
+
+
      const PORT = 3000;
 
      const api = ApiExpress.create([
           createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
-          
+          createAgendamentoRoute
       ]);
      api.start(PORT)
 }
