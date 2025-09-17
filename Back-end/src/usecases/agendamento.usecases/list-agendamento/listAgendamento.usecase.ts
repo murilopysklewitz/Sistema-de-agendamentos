@@ -10,7 +10,7 @@ export type ListAgendamentoOutputDto = {
     agendamentos: {
     id: string;
     clienteId: string;
-    servico: ServicoProps;
+    servicoId: string;
     data: Date;
     horaInicio: Date;
     horaFim: Date;
@@ -39,8 +39,8 @@ export class ListAgendamentoUsecase implements Usecase<ListAgendamentoInputDto, 
             agendamentos: agendamentos.map((p) => {
                 return{
                 id: p.id,
-                clienteId: p.clienteId,
-                servico: p.servico,
+                clienteId: p.cliente.id,
+                servicoId: p.servico.id,
                 data: p.data,
                 horaInicio: p.horaInicio,
                 horaFim: p.horaFim,
