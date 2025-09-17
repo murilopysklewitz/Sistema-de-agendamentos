@@ -51,8 +51,11 @@ function main() {
      const PORT = 3000;
 
      const api = ApiExpress.create([
+          //rotas de serviço
           createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
-          createAgendamentoRoute
+          //rotas de agendamentos
+          createAgendamentoRoute,
+          //rotas de cliente
       ]);
      api.start(PORT)
 }
