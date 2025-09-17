@@ -9,7 +9,7 @@ export type ListAgendamentoResponseDto = {
     agendamentos: {
         id: string;
         clienteId: string;
-        servico: ServicoProps;
+        servicoId: string;
         data: Date;
         horaInicio: Date;
         horaFim: Date;
