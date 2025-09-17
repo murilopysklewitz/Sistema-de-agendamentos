@@ -3,7 +3,8 @@ import { Agendamento } from "../../agendamento/entity/agendamento";
 export type ClienteProps = {
     id: string;
     nome: string;
-    email: string 
+    email: string;
+    numero: string;
 }
 
 export class Cliente {
@@ -17,20 +18,27 @@ export class Cliente {
         if(!props.email) {
             throw new Error("Um cliente deve ter um Email.")
         }
+        if(!props.numero) {
+            throw new Error ("Um cliente deve ter um numero")
+        }
     }
 
-    public static create(nome: string, email: string) {
+    public static create(nome: string, email: string, numero: string) {
         if(!nome || nome.trim() === "") {
             throw new Error("Nome inválido")
         }
         if(!email || email.trim() === "") {
             throw new Error("Email inválido")
         }
+        if(!numero || nome.trim() === "") {
+            throw new Error("Numero inválido")
+        }
 
         return new Cliente({
             id: crypto.randomUUID().toString(),
             nome,
-            email
+            email,
+            numero
         })
     }
 
@@ -52,6 +60,12 @@ export class Cliente {
         this.props.email = novoEmail;
     }
 
+    public updateNumber(novoNumero: string): void {
+        if(!novoNumero) {
+            throw new Error("Novo numero inválido")
+        }
+    }
+
     private isValidEmail(email: string): boolean {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -60,4 +74,5 @@ export class Cliente {
     public get id(): string { return this.props.id; }
     public get nome(): string { return this.props.nome; }
     public get email(): string { return this.props.email; }
+    public get numero(): string { return this.props.numero }
 }
