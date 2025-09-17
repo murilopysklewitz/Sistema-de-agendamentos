@@ -1,10 +1,12 @@
 
+import { ClienteGateway } from "../../../domain/cliente/gateway/cliente.gateway";
 import { Agendamento, AgendamentoStatus } from "../../../domain/agendamento/entity/agendamento";
 import { AgendamentoGateway } from "../../../domain/agendamento/gateway/agendamento.gateway";
 import { AgendamentoValidator } from "../../../domain/agendamento/service/agendamento-validator.interface";
 import { Servico, ServicoProps } from "../../../domain/servico/entity/servico";
 import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway";
-import { Usecase } from "../../usecase";
+import { Usecase } from "../../../usecases/usecase";
+import { Cliente } from "../../../domain/cliente/entity/cliente";
 
 
 export interface CreateAgendamentoInputDto {
@@ -16,7 +18,7 @@ export interface CreateAgendamentoInputDto {
 export interface CreateAgendamentoOutputDto {
         id: string;
         clienteId: string;
-        servico: ServicoProps;
+        servicoId: string;
         data: Date;
         horaInicio: Date;
         horaFim: Date;
@@ -27,19 +29,26 @@ export class CreateAgendamentoUsecase implements Usecase<CreateAgendamentoInputD
     private constructor(
         private readonly agendamentoGateway: AgendamentoGateway, 
         private readonly agendamentoValidator: AgendamentoValidator,
-        private readonly servicoGateway: ServicoGateway ) {
+        private readonly servicoGateway: ServicoGateway,
+        private readonly clienteGateway: ClienteGateway ) {
 
     }
-    public static create(agendamentoGateway: AgendamentoGateway, agendamentoValidator: AgendamentoValidator, servicoGateway: ServicoGateway) {
-        return new CreateAgendamentoUsecase(agendamentoGateway, agendamentoValidator, servicoGateway)
+    public static create(agendamentoGateway: AgendamentoGateway, agendamentoValidator: AgendamentoValidator, servicoGateway: ServicoGateway, ClienteGateway: ClienteGateway) {
+        return new CreateAgendamentoUsecase(agendamentoGateway, agendamentoValidator, servicoGateway, ClienteGateway)
     }
 
     public async execute({clienteId, servicoId, data, horaInicio}: CreateAgendamentoInputDto): Promise<CreateAgendamentoOutputDto> {
+
+        const cliente = await this.clienteGateway.findById(clienteId)
+        if(!cliente) {
+            throw new Error("Cliente com id não encontrado")
+        }
+
         const servicoSelecionado = await this.servicoGateway.findById(servicoId)
         if(!servicoSelecionado){
             throw new Error("Serviço com id não encontrado")
         }
-        const aAgendamento = Agendamento.create(clienteId, servicoSelecionado, data, horaInicio)
+        const aAgendamento = Agendamento.create(cliente, servicoSelecionado, data, horaInicio)
         try{
             await this.agendamentoValidator.validateNoConflict(aAgendamento)
 
@@ -49,17 +58,17 @@ export class CreateAgendamentoUsecase implements Usecase<CreateAgendamentoInputD
         
         await this.agendamentoGateway.save(aAgendamento)
 
-        const output = this.presentOutput(aAgendamento, servicoSelecionado)
+        const output = this.presentOutput(aAgendamento)
 
         return output
     }
 
-    private presentOutput(agendamento: Agendamento, servico:Servico): CreateAgendamentoOutputDto {
+    private presentOutput(agendamento: Agendamento): CreateAgendamentoOutputDto {
 
         const output:CreateAgendamentoOutputDto = {
             id: agendamento.id,
-            clienteId: agendamento.clienteId,
-            servico: servico.prop,
+            clienteId: agendamento.cliente.id,
+            servicoId: agendamento.servico.id,
             data: agendamento.data,
             horaInicio: agendamento.horaInicio,
             horaFim: agendamento.horaFim,
