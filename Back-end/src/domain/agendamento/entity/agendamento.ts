@@ -1,9 +1,10 @@
 import { randomUUID } from "crypto";
 import { Servico } from "../../servico/entity/servico"
+import { Cliente } from "../../../domain/cliente/entity/cliente";
 
 export type AgendamentoProps = {
     id: string;
-    clienteId: string;
+    cliente: Cliente;
     servico: Servico;
     data: Date;
     horaInicio: Date;
@@ -29,7 +30,7 @@ export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCL
             }
             if (!props.id) throw new Error("Agendamento deve ter um ID.");
             if (!props.servico) throw new Error("Agendamento deve ter um serviço.");
-            if (!props.clienteId) throw new Error("Agendamento deve ter um cliente.");
+            if (!props.cliente) throw new Error("Agendamento deve ter um cliente.");
             if (!props.data) throw new Error("Agendamento deve ter uma data.");
             if (!props.horaInicio) throw new Error("Agendamento deve ter uma hora de início.");
             if (!props.horaFim) throw new Error("Agendamento deve ter uma hora de fim.");
@@ -39,7 +40,7 @@ export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCL
         }
 
         public static create(  
-            clienteId: string,
+            cliente: Cliente,
             servico: Servico,
             data: Date,
             horaInicio: Date,
@@ -47,7 +48,7 @@ export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCL
             const horaFim = new Date (horaInicio.getTime() + servico.duracaoEmMinutos * 60 * 1000)
             return new Agendamento({
                 id: randomUUID().toString(),
-                clienteId,
+                cliente,
                 servico,
                 data,
                 horaInicio,
@@ -64,7 +65,7 @@ export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCL
 
         public get id(): string { return this.props.id; }
         public get servico(): Servico { return this.props.servico; }
-        public get clienteId(): string { return this.props.clienteId; }
+        public get cliente(): Cliente { return this.props.cliente; }
         public get data(): Date { return this.props.data; }
         public get horaInicio(): Date { return this.props.horaInicio; }
         public get horaFim(): Date { return this.props.horaFim; }
