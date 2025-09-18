@@ -47,4 +47,46 @@ export class ClienteRepository implements ClienteGateway {
             throw new Error("Não foi possível listar os clientes", error)
         }
     }
+
+    public async findById(id: string): Promise<Cliente> {
+        const cliente = await this.prismaClient.cliente.findUnique({
+            where: {id: id}
+        })
+        if(!cliente) {
+            throw new Error("Cliente com id informado não encontrado")
+        }
+
+        const clienteAchado = Cliente.with({
+            id: cliente.id,
+            nome: cliente.nome,
+            email: cliente.email,
+            numero: cliente.numero
+        })
+        return clienteAchado
+    }
+
+    public async update(cliente: Cliente): Promise<void> {
+        try{
+            await this.prismaClient.cliente.update({
+                where: {id: cliente.id},
+                data: {
+                    nome: cliente.nome,
+                    email: cliente.email,
+                    numero: cliente.numero
+                }
+            })
+        }catch(error: any) {
+            throw new Error("Erro ao modificar o cliente", error)
+        }
+    }
+
+    public async delete(id: string): Promise<void> {
+        try{
+            await this.prismaClient.cliente.delete({
+                where: {id: id}
+            })
+        }catch(error:any) {
+            throw new Error("Erro ao deletar usuário")
+        }
+    }
 }
