@@ -28,4 +28,23 @@ export class ClienteRepository implements ClienteGateway {
             throw new Error("Não foi possivel salvar cliente no banco de dados");
         }
     }
+
+    public async list(): Promise<Cliente[]> {
+        try{
+            const clientes = await this.prismaClient.cliente.findMany();
+
+            const clienteList = clientes.map((p) => {
+                const cliente = Cliente.with({
+                    id: p.id,
+                    nome: p.nome,
+                    email: p.email,
+                    numero: p.numero
+                })
+                return cliente
+            }) 
+            return clienteList
+        }catch(error:any){
+            throw new Error("Não foi possível listar os clientes", error)
+        }
+    }
 }
