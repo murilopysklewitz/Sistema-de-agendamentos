@@ -17,9 +17,14 @@ const createAgendamento_usecase_1 = require("./usecases/agendamento.usecases/cre
 const agendamento_repository_prisma_1 = require("./infra/repositories/agendamento/agendamento.repository,prisma");
 const agendamento_mapper_1 = require("./infra/database/prisma/mappers/agendamento.mapper");
 const agendamento_validator_service_1 = require("./domain/agendamento/service/agendamento-validator.service");
+const create_agendamento_express_route_1 = require("./infra/api/express/routes/agendamentos/create-agendamento.express.route");
+const cliente_repository_prisma_1 = require("./infra/repositories/cliente/cliente.repository.prisma");
+const createCliente_usecase_1 = require("./usecases/cliente.usecases/createCliente.usecase");
+const create_cliente_express_route_1 = require("./infra/api/express/routes/clientes/create-cliente.express.route");
 function main() {
-    const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
     const mapper = new agendamento_mapper_1.AgendamentoMapperPrisma();
+    const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
+    const aRepositoryClientes = cliente_repository_prisma_1.ClienteRepository.create(prisma_1.prisma);
     const aRepositoryAgendamentos = agendamento_repository_prisma_1.AgendamentoRepository.create(prisma_1.prisma, mapper);
     const vallidator = agendamento_validator_service_1.AgendamentoValidatorService.create(aRepositoryAgendamentos);
     // CRUD de usecase para serviços
@@ -28,17 +33,28 @@ function main() {
     const createServicoUseCase = createServico_usecase_1.CreateServicoUseCase.create(aRepository);
     const listServicosUseCase = listServico_usecase_1.ListServicoUsecase.create(aRepository);
     const deleteServicoUseCase = deleteServico_usecase_1.DeleteServicoUsecase.create(aRepository);
+    // CRUD de usecases para clientes
+    const createClienteUsecase = createCliente_usecase_1.CreateClienteUsecase.create(aRepositoryClientes);
     //CRUD de usecase para agendamentos
-    const createAgendamentoUsecase = createAgendamento_usecase_1.CreateAgendamentoUsecase.create(aRepositoryAgendamentos, vallidator, aRepository);
+    const createAgendamentoUsecase = createAgendamento_usecase_1.CreateAgendamentoUsecase.create(aRepositoryAgendamentos, vallidator, aRepository, aRepositoryClientes);
     // CRUD de rotas para serviços
     const findByIdServicoRoute = findById_servico_express_route_1.FindByIdServicoRoute.create(findByIdServicoUsecase);
     const updateServicoRoute = update_servico_express_route_1.UpdateServicoRoute.create(updateServicoUsecase);
     const createServicoRoute = create_servico_express_route_1.CreateServicoRoute.create(createServicoUseCase);
     const listServicoRoute = list_product_express_route_1.ListServicosRoute.create(listServicosUseCase);
     const deleteServicoRoute = delete_servico_express_route_1.DeleteServicoRoute.create(deleteServicoUseCase);
+    //CRUD de rotas para agendamentos
+    const createAgendamentoRoute = create_agendamento_express_route_1.CreateAgendamentoRoute.create(createAgendamentoUsecase);
+    // CRUD de rotas de Clientes 
+    const createClienteRoute = create_cliente_express_route_1.CreateClienteRoute.create(createClienteUsecase);
     const PORT = 3000;
     const api = api_express_1.ApiExpress.create([
+        //rotas de serviço
         createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
+        //rotas de agendamentos
+        createAgendamentoRoute,
+        //rotas de cliente
+        createClienteRoute
     ]);
     api.start(PORT);
 }

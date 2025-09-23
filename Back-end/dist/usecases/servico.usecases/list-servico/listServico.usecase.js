@@ -19,7 +19,8 @@ class ListServicoUsecase {
             return output;
         }
         catch (error) {
-            throw new Error("Erro em listServicoUsecase");
+            throw new Error("Erro em listServicoUsecase", error);
+            throw error;
         }
     }
     presentOutput(servicos) {
