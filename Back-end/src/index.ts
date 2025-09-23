@@ -17,6 +17,8 @@ import { AgendamentoMapperPrisma } from './infra/database/prisma/mappers/agendam
 import { AgendamentoValidatorService } from './domain/agendamento/service/agendamento-validator.service';
 import { CreateAgendamentoRoute } from './infra/api/express/routes/agendamentos/create-agendamento.express.route';
 import { ClienteRepository } from './infra/repositories/cliente/cliente.repository.prisma';
+import { CreateClienteUsecase } from 'usecases/cliente.usecases/createCliente.usecase';
+import { CreateClienteRoute } from 'infra/api/express/routes/clientes/create-cliente.express.route';
 
 
 
@@ -36,6 +38,9 @@ function main() {
      const listServicosUseCase = ListServicoUsecase.create(aRepository);
      const deleteServicoUseCase = DeleteServicoUsecase.create(aRepository);
 
+     // CRUD de usecases para clientes
+     const createClienteUsecase = CreateClienteUsecase.create(aRepositoryClientes)
+
      //CRUD de usecase para agendamentos
      const createAgendamentoUsecase = CreateAgendamentoUsecase.create(aRepositoryAgendamentos, vallidator, aRepository, aRepositoryClientes)
 
@@ -50,6 +55,9 @@ function main() {
      //CRUD de rotas para agendamentos
      const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase)
 
+     // CRUD de rotas de Clientes 
+     const createClienteRoute = CreateClienteRoute.create(createClienteUsecase)
+
 
      const PORT = 3000;
 
@@ -59,6 +67,7 @@ function main() {
           //rotas de agendamentos
           createAgendamentoRoute,
           //rotas de cliente
+          createClienteRoute
       ]);
      api.start(PORT)
 }
