@@ -18,7 +18,8 @@ export class CreateClienteRoute implements Route {
         return new CreateClienteRoute(
             "/api/cliente",
              HttpMethod.POST,
-            createClienteService )
+            createClienteService 
+        )
     }
 
     public getHandler(){
