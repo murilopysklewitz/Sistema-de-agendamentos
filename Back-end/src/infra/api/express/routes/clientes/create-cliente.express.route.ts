@@ -16,7 +16,7 @@ export class CreateClienteRoute implements Route {
 
     public static create(createClienteService: CreateClienteUsecase) {
         return new CreateClienteRoute(
-            "/api/cliente",
+            "/api/clientes",
              HttpMethod.POST,
             createClienteService 
         )
@@ -32,7 +32,7 @@ export class CreateClienteRoute implements Route {
 
             const output = await this.createClienteService.execute(input)
             const responseBody= this.present(output)
-            response.status(204).json(responseBody)
+            response.status(201).json(responseBody)
         }
     }
 
