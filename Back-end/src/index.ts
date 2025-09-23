@@ -17,8 +17,8 @@ import { AgendamentoMapperPrisma } from './infra/database/prisma/mappers/agendam
 import { AgendamentoValidatorService } from './domain/agendamento/service/agendamento-validator.service';
 import { CreateAgendamentoRoute } from './infra/api/express/routes/agendamentos/create-agendamento.express.route';
 import { ClienteRepository } from './infra/repositories/cliente/cliente.repository.prisma';
-import { CreateClienteUsecase } from 'usecases/cliente.usecases/createCliente.usecase';
-import { CreateClienteRoute } from 'infra/api/express/routes/clientes/create-cliente.express.route';
+import { CreateClienteUsecase } from './usecases/cliente.usecases/createCliente.usecase';
+import { CreateClienteRoute } from './infra/api/express/routes/clientes/create-cliente.express.route';
 
 
 

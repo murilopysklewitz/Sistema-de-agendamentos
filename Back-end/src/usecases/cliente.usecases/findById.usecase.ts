@@ -1,4 +1,4 @@
-import { ClienteGateway } from "domain/cliente/gateway/cliente.gateway"
+import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway"
 import { Usecase } from "../../usecases/usecase"
 import { Cliente } from "../../domain/cliente/entity/cliente"
 

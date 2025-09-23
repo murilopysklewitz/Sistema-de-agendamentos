@@ -1,4 +1,4 @@
-import { CreateClienteInputDto, CreateClienteUsecase } from "usecases/cliente.usecases/createCliente.usecase";
+import { CreateClienteInputDto, CreateClienteUsecase } from "../../../../../usecases/cliente.usecases/createCliente.usecase";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 
