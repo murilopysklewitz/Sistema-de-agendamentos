@@ -1,18 +1,190 @@
 openapi: 3.0.0
 info:
-  title: API - Sistema de Agendamento
+  title: API - Meu Pet Feliz
   version: 1.0.0
-  description: Documentação da API com Swagger (separada do código)
+  description: API para gerenciamento de clientes, serviços e agendamentos
 servers:
   - url: http://localhost:3000
 
 tags:
+  - name: Clientes
+    description: Operações relacionadas a clientes
   - name: Serviços
     description: Operações relacionadas a serviços
   - name: Agendamentos
     description: Operações relacionadas a agendamentos
 
+components:
+  schemas:
+    Cliente:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        nome:
+          type: string
+          example: "Murilo Fuzikawa"
+        email:
+          type: string
+          example: "murilo@email.com"
+        numero:
+          type: string
+          example: "11999999999"
+    ClienteInput:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "Murilo Fuzikawa"
+        email:
+          type: string
+          example: "murilo@email.com"
+        numero:
+          type: string
+          example: "11999999999"
+      required:
+        - nome
+        - email
+        - numero
+
+    Servico:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        nome:
+          type: string
+          example: "Corte de cabelo"
+        preco:
+          type: number
+          example: 49.90
+        descricao:
+          type: string
+          example: "Corte completo"
+        destaque:
+          type: boolean
+          example: true
+        duracaoEmMinutos:
+          type: number
+          example: 30
+    ServicoInput:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "Corte de cabelo"
+        preco:
+          type: number
+          example: 49.90
+        descricao:
+          type: string
+          example: "Corte completo"
+        destaque:
+          type: boolean
+          example: true
+        duracaoEmMinutos:
+          type: number
+          example: 30
+      required:
+        - nome
+        - preco
+
+    Agendamento:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        clienteId:
+          type: string
+          example: "1"
+        servicoId:
+          type: string
+          example: "1"
+        data:
+          type: string
+          format: date-time
+          example: "2025-09-24T14:00:00Z"
+        status:
+          type: string
+          example: "agendado"
+    AgendamentoInput:
+      type: object
+      properties:
+        clienteId:
+          type: string
+          example: "1"
+        servicoId:
+          type: string
+          example: "1"
+        data:
+          type: string
+          format: date-time
+          example: "2025-09-24T14:00:00Z"
+      required:
+        - clienteId
+        - servicoId
+        - data
+
 paths:
+  # ====== CLIENTES ======
+  /api/clientes:
+    get:
+      summary: Listar todos os clientes
+      tags:
+        - Clientes
+      responses:
+        "200":
+          description: Lista de clientes retornada
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'
+
+    post:
+      summary: Criar um cliente
+      tags:
+        - Clientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteInput'
+      responses:
+        "201":
+          description: Cliente criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+
+  /api/clientes/{id}:
+    get:
+      summary: Buscar cliente por ID
+      tags:
+        - Clientes
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        "404":
+          description: Cliente não encontrado
+
+  # ====== SERVIÇOS ======
   /api/servicos:
     get:
       summary: Listar todos os serviços
@@ -20,9 +192,16 @@ paths:
         - Serviços
       responses:
         "200":
-          description: Lista de serviços retornada com sucesso
+          description: Lista de serviços
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Servico'
+
     post:
-      summary: Criar um novo serviço
+      summary: Criar um serviço
       tags:
         - Serviços
       requestBody:
@@ -30,17 +209,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                nome:
-                  type: string
-                  example: Corte de cabelo
-                preco:
-                  type: number
-                  example: 49.90
+              $ref: '#/components/schemas/ServicoInput'
       responses:
         "201":
-          description: Serviço criado com sucesso
+          description: Serviço criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servico'
 
   /api/servicos/{id}:
     get:
@@ -56,6 +232,10 @@ paths:
       responses:
         "200":
           description: Serviço encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servico'
         "404":
           description: Serviço não encontrado
     put:
@@ -73,15 +253,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                nome:
-                  type: string
-                preco:
-                  type: number
+              $ref: '#/components/schemas/ServicoInput'
       responses:
         "200":
           description: Serviço atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Servico'
     delete:
       summary: Excluir um serviço
       tags:
@@ -95,3 +274,94 @@ paths:
       responses:
         "204":
           description: Serviço excluído
+
+  # ====== AGENDAMENTOS ======
+  /api/agendamentos:
+    get:
+      summary: Listar todos os agendamentos
+      tags:
+        - Agendamentos
+      responses:
+        "200":
+          description: Lista de agendamentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agendamento'
+
+    post:
+      summary: Criar um agendamento
+      tags:
+        - Agendamentos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgendamentoInput'
+      responses:
+        "201":
+          description: Agendamento criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agendamento'
+
+  /api/agendamentos/{id}:
+    get:
+      summary: Buscar agendamento por ID
+      tags:
+        - Agendamentos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Agendamento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agendamento'
+        "404":
+          description: Agendamento não encontrado
+    put:
+      summary: Atualizar um agendamento
+      tags:
+        - Agendamentos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgendamentoInput'
+      responses:
+        "200":
+          description: Agendamento atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agendamento'
+    delete:
+      summary: Excluir um agendamento
+      tags:
+        - Agendamentos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Agendamento excluído
