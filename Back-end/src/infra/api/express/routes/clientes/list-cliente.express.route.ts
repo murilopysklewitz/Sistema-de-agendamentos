@@ -11,11 +11,11 @@ export type ListClienteResponseDTO = {
     }[]
 }
 
-export class LisstClienteRoute implements Route {
+export class ListClienteRoute implements Route {
     private constructor(private readonly path:string, private readonly method:HttpMethod, private readonly listClienteService: ListClienteUsecase){}
 
     public static create(listClienteService: ListClienteUsecase){
-        return new LisstClienteRoute("/api/clientes", HttpMethod.GET, listClienteService)
+        return new ListClienteRoute("/api/clientes", HttpMethod.GET, listClienteService)
     }
 
     public getHandler() {
