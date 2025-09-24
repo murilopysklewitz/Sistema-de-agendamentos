@@ -21,14 +21,12 @@ export class LisstClienteRoute implements Route {
     public getHandler() {
         return async (request: Request, response: Response) => {
             const output = await this.listClienteService.execute()
-
-            const responseBody = this.present(output)
-            response.status(200).json(responseBody)
+            response.status(200).json(this.present(output))
         }
     }
 
     public present(input: ListClienteResponseDTO): ListClienteResponseDTO {
-        const response: ListClienteResponseDTO = {
+        return {
             clientes: input.clientes.map((cliente) => ({
                 id: cliente.id,
                 nome: cliente.nome,
@@ -36,7 +34,6 @@ export class LisstClienteRoute implements Route {
                 numero: cliente.numero
             }))
         }
-        return response
     }
 
     public getPath(): string {
