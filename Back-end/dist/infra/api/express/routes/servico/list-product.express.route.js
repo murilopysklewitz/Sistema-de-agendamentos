@@ -16,9 +16,15 @@ class ListServicosRoute {
     }
     getHandler() {
         return async (request, response) => {
-            const output = await this.listServicoService.execute();
-            const responseBody = this.present(output);
-            response.status(200).json(responseBody);
+            try {
+                const output = await this.listServicoService.execute();
+                const responseBody = this.present(output);
+                response.status(200).json(responseBody);
+            }
+            catch (error) {
+                console.error("Erro ao listar serviços:", error);
+                response.status(500).json({ message: "Erro interno ao listar serviços" });
+            }
         };
     }
     getPath() {

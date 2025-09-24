@@ -17,6 +17,20 @@ import { AgendamentoMapperPrisma } from './infra/database/prisma/mappers/agendam
 import { AgendamentoValidatorService } from './domain/agendamento/service/agendamento-validator.service';
 import { CreateAgendamentoRoute } from './infra/api/express/routes/agendamentos/create-agendamento.express.route';
 import { ClienteRepository } from './infra/repositories/cliente/cliente.repository.prisma';
+import { CreateClienteUsecase } from './usecases/cliente.usecases/createCliente.usecase';
+import { CreateClienteRoute } from './infra/api/express/routes/clientes/create-cliente.express.route';
+import { FindByIdClienteUsecase } from './usecases/cliente.usecases/findById.usecase';
+import { ListClienteUsecase } from './usecases/cliente.usecases/listCliente.usecase';
+import { DeleteClienteUsecase } from './usecases/cliente.usecases/deleteCliente.usecase';
+import { FindByIdAgendamentoUsecase } from './usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase';
+import { ListAgendamentoUsecase } from './usecases/agendamento.usecases/list-agendamento/listAgendamento.usecase';
+import { FindByIntervalAgendamentoUsecase } from './usecases/agendamento.usecases/findByInterval-agendamento/findByIntervalAgendamento.Usecase';
+import { FindByIdAgendamentoRoute } from './infra/api/express/routes/agendamentos/findById-agendamento.express.route';
+import { ListAgendamentoRoute } from './infra/api/express/routes/agendamentos/list-agendamento.express.route';
+import { FindByIntervalAgendamentoRoute } from './infra/api/express/routes/agendamentos/findByInterval-agendamento.express.route';
+import { FindByIdClienteRoute } from './infra/api/express/routes/clientes/findById-cliente.express.route';
+import { ListClienteRoute } from './infra/api/express/routes/clientes/list-cliente.express.route';
+import { DeleteClienteRoute } from './infra/api/express/routes/clientes/delete-cliente.express.route';
 
 
 
@@ -36,8 +50,17 @@ function main() {
      const listServicosUseCase = ListServicoUsecase.create(aRepository);
      const deleteServicoUseCase = DeleteServicoUsecase.create(aRepository);
 
+     // CRUD de usecases para clientes
+     const createClienteUsecase = CreateClienteUsecase.create(aRepositoryClientes)
+     const findByIdClientesUsecase = FindByIdClienteUsecase.create(aRepositoryClientes)
+     const listClientesUsecase = ListClienteUsecase.create(aRepositoryClientes)
+     const deleteClientesUsecase = DeleteClienteUsecase.create(aRepositoryClientes)
+
      //CRUD de usecase para agendamentos
      const createAgendamentoUsecase = CreateAgendamentoUsecase.create(aRepositoryAgendamentos, vallidator, aRepository, aRepositoryClientes)
+     const findAgendamentoUsecase = FindByIdAgendamentoUsecase.create(aRepositoryAgendamentos)
+     const listAgendamentoUsecase = ListAgendamentoUsecase.create(aRepositoryAgendamentos)
+     const findByIntervalAgendamentoUsecase = FindByIntervalAgendamentoUsecase.create(aRepositoryAgendamentos)
 
      // CRUD de rotas para serviços
      const findByIdServicoRoute = FindByIdServicoRoute.create(findByIdServicoUsecase);
@@ -49,6 +72,15 @@ function main() {
 
      //CRUD de rotas para agendamentos
      const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase)
+     const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase)
+     const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase)
+     const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
+
+     // CRUD de rotas de Clientes 
+     const createClienteRoute = CreateClienteRoute.create(createClienteUsecase)
+     const findByIdClienteRoute = FindByIdClienteRoute.create(findByIdClientesUsecase)
+     const listClienteRoute = ListClienteRoute.create(listClientesUsecase)
+     const deleteClienteRoute = DeleteClienteRoute.create(deleteClientesUsecase)
 
 
      const PORT = 3000;
@@ -57,8 +89,9 @@ function main() {
           //rotas de serviço
           createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
           //rotas de agendamentos
-          createAgendamentoRoute,
+          createAgendamentoRoute, findByIdAgendamentosRoute, findByIntervalAgendamentoRoute, listAgendamentoRoute,
           //rotas de cliente
+          createClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
       ]);
      api.start(PORT)
 }

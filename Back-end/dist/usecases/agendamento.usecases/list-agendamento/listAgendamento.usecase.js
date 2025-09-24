@@ -19,8 +19,8 @@ class ListAgendamentoUsecase {
             agendamentos: agendamentos.map((p) => {
                 return {
                     id: p.id,
-                    clienteId: p.clienteId,
-                    servico: p.servico,
+                    clienteId: p.cliente.id,
+                    servicoId: p.servico.id,
                     data: p.data,
                     horaInicio: p.horaInicio,
                     horaFim: p.horaFim,

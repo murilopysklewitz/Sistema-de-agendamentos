@@ -11,7 +11,7 @@ class AgendamentoMapperPrisma {
         return agendamento_1.Agendamento.with({
             id: agendamentoPrisma.id,
             servico: servicoDomain,
-            clienteId: clienteDomain.id,
+            cliente: clienteDomain,
             data: agendamentoPrisma.data,
             horaInicio: agendamentoPrisma.horaInicio,
             horaFim: agendamentoPrisma.horaFim,
@@ -32,7 +32,7 @@ class AgendamentoMapperPrisma {
                 connect: { id: agendamento.servico.id },
             },
             cliente: {
-                connect: { id: agendamento.clienteId },
+                connect: { id: agendamento.cliente.id },
             },
         };
     }
@@ -50,7 +50,8 @@ class AgendamentoMapperPrisma {
         return cliente_1.Cliente.with({
             id: prismaCliente.id,
             nome: prismaCliente.nome,
-            email: prismaCliente.email
+            email: prismaCliente.email,
+            numero: prismaCliente.numero
         });
     }
 }

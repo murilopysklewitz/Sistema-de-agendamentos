@@ -14,18 +14,25 @@ class Cliente {
         if (!props.email) {
             throw new Error("Um cliente deve ter um Email.");
         }
+        if (!props.numero) {
+            throw new Error("Um cliente deve ter um numero");
+        }
     }
-    static create(nome, email) {
+    static create(nome, email, numero) {
         if (!nome || nome.trim() === "") {
             throw new Error("Nome inválido");
         }
         if (!email || email.trim() === "") {
             throw new Error("Email inválido");
         }
+        if (!numero || nome.trim() === "") {
+            throw new Error("Numero inválido");
+        }
         return new Cliente({
             id: crypto.randomUUID().toString(),
             nome,
-            email
+            email,
+            numero
         });
     }
     static with(props) {
@@ -43,6 +50,11 @@ class Cliente {
         }
         this.props.email = novoEmail;
     }
+    updateNumber(novoNumero) {
+        if (!novoNumero) {
+            throw new Error("Novo numero inválido");
+        }
+    }
     isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -50,5 +62,6 @@ class Cliente {
     get id() { return this.props.id; }
     get nome() { return this.props.nome; }
     get email() { return this.props.email; }
+    get numero() { return this.props.numero; }
 }
 exports.Cliente = Cliente;

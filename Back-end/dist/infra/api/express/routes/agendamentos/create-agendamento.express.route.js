@@ -38,7 +38,7 @@ class CreateAgendamentoRoute {
         const response = {
             id: input.id,
             clienteId: input.clienteId,
-            servico: input.servico,
+            servicoId: input.servicoId,
             status: input.status,
             data: input.data,
             horaInicio: input.horaInicio,

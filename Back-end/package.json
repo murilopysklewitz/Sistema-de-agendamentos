@@ -5,7 +5,7 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "jest",
-    "start": "node -r tsconfig-paths/register dist/index.js",
+    "start": "node dist/index.js",
     "build": "tsc --build",
     "dev": "ts-node src/index.ts"
   },

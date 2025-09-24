@@ -17,7 +17,7 @@ class Agendamento {
             throw new Error("Agendamento deve ter um ID.");
         if (!props.servico)
             throw new Error("Agendamento deve ter um serviço.");
-        if (!props.clienteId)
+        if (!props.cliente)
             throw new Error("Agendamento deve ter um cliente.");
         if (!props.data)
             throw new Error("Agendamento deve ter uma data.");
@@ -29,11 +29,11 @@ class Agendamento {
             throw new Error("Hora de início deve ser anterior à hora de fim.");
         }
     }
-    static create(clienteId, servico, data, horaInicio) {
+    static create(cliente, servico, data, horaInicio) {
         const horaFim = new Date(horaInicio.getTime() + servico.duracaoEmMinutos * 60 * 1000);
         return new Agendamento({
             id: (0, crypto_1.randomUUID)().toString(),
-            clienteId,
+            cliente,
             servico,
             data,
             horaInicio,
@@ -48,7 +48,7 @@ class Agendamento {
     }
     get id() { return this.props.id; }
     get servico() { return this.props.servico; }
-    get clienteId() { return this.props.clienteId; }
+    get cliente() { return this.props.cliente; }
     get data() { return this.props.data; }
     get horaInicio() { return this.props.horaInicio; }
     get horaFim() { return this.props.horaFim; }
