@@ -12,7 +12,7 @@ class CreateClienteRoute {
         this.createClienteService = createClienteService;
     }
     static create(createClienteService) {
-        return new CreateClienteRoute("/api/cliente", routes_1.HttpMethod.POST, createClienteService);
+        return new CreateClienteRoute("/api/clientes", routes_1.HttpMethod.POST, createClienteService);
     }
     getHandler() {
         return async (request, response) => {
@@ -22,7 +22,7 @@ class CreateClienteRoute {
             };
             const output = await this.createClienteService.execute(input);
             const responseBody = this.present(output);
-            response.status(204).json(responseBody);
+            response.status(201).json(responseBody);
         };
     }
     present(input) {

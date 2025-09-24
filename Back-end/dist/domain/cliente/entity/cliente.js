@@ -5,9 +5,6 @@ class Cliente {
     props;
     constructor(props) {
         this.props = props;
-        if (!props.id) {
-            throw new Error("Um cliente deve haver ID.");
-        }
         if (!props.nome) {
             throw new Error("Um cliente deve ter um nome.");
         }

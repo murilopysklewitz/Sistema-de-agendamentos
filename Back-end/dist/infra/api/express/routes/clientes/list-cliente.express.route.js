@@ -1,1 +1,40 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ListClienteRoute = void 0;
+const routes_1 = require("../routes");
+class ListClienteRoute {
+    path;
+    method;
+    listClienteService;
+    constructor(path, method, listClienteService) {
+        this.path = path;
+        this.method = method;
+        this.listClienteService = listClienteService;
+    }
+    static create(listClienteService) {
+        return new ListClienteRoute("/api/clientes", routes_1.HttpMethod.GET, listClienteService);
+    }
+    getHandler() {
+        return async (request, response) => {
+            const output = await this.listClienteService.execute();
+            response.status(200).json(this.present(output));
+        };
+    }
+    present(input) {
+        return {
+            clientes: input.clientes.map((cliente) => ({
+                id: cliente.id,
+                nome: cliente.nome,
+                email: cliente.email,
+                numero: cliente.numero
+            }))
+        };
+    }
+    getPath() {
+        return this.path;
+    }
+    getMethod() {
+        return this.method;
+    }
+}
+exports.ListClienteRoute = ListClienteRoute;
