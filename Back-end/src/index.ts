@@ -31,6 +31,8 @@ import { FindByIntervalAgendamentoRoute } from './infra/api/express/routes/agend
 import { FindByIdClienteRoute } from './infra/api/express/routes/clientes/findById-cliente.express.route';
 import { ListClienteRoute } from './infra/api/express/routes/clientes/list-cliente.express.route';
 import { DeleteClienteRoute } from './infra/api/express/routes/clientes/delete-cliente.express.route';
+import { FindByEmailClienteUsecase } from './usecases/cliente.usecases/findByEmail.usecase';
+import { FindByEmailClienteRoute } from './infra/api/express/routes/clientes/findByEmail.express.route';
 
 
 
@@ -52,6 +54,7 @@ function main() {
 
      // CRUD de usecases para clientes
      const createClienteUsecase = CreateClienteUsecase.create(aRepositoryClientes)
+     const findByEmailClienteUsecase = FindByEmailClienteUsecase.create(aRepositoryClientes)
      const findByIdClientesUsecase = FindByIdClienteUsecase.create(aRepositoryClientes)
      const listClientesUsecase = ListClienteUsecase.create(aRepositoryClientes)
      const deleteClientesUsecase = DeleteClienteUsecase.create(aRepositoryClientes)
@@ -78,6 +81,7 @@ function main() {
 
      // CRUD de rotas de Clientes 
      const createClienteRoute = CreateClienteRoute.create(createClienteUsecase)
+     const findByEmailClienteRoute = FindByEmailClienteRoute.create(findByEmailClienteUsecase)
      const findByIdClienteRoute = FindByIdClienteRoute.create(findByIdClientesUsecase)
      const listClienteRoute = ListClienteRoute.create(listClientesUsecase)
      const deleteClienteRoute = DeleteClienteRoute.create(deleteClientesUsecase)
@@ -91,7 +95,7 @@ function main() {
           //rotas de agendamentos
           createAgendamentoRoute, findByIdAgendamentosRoute, findByIntervalAgendamentoRoute, listAgendamentoRoute,
           //rotas de cliente
-          createClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
+          createClienteRoute, findByEmailClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
       ]);
      api.start(PORT)
 }
