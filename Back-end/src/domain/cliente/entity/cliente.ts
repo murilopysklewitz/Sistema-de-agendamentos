@@ -8,7 +8,7 @@ export type ClienteProps = {
 }
 
 export class Cliente {
-    private constructor(private readonly props: ClienteProps) {
+    private constructor(private readonly props: ClienteProps) { 
         if (!props.nome) {
             throw new Error("Um cliente deve ter um nome.")
         }
