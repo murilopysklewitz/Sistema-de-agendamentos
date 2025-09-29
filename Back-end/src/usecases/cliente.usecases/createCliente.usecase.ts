@@ -5,7 +5,8 @@ import { Usecase } from "../../usecases/usecase"
 export type CreateClienteInputDto = {
     nome: string,
     email: string,
-    numero: string
+    numero: string,
+    senha: string
 }
 
 export type CreateClienteOutputDto = {
@@ -19,8 +20,8 @@ export class CreateClienteUsecase implements Usecase<CreateClienteInputDto, Crea
         return new CreateClienteUsecase(clienteGateway)
     }
 
-    public async execute({nome, email, numero}: CreateClienteInputDto): Promise<CreateClienteOutputDto> {
-        const aCliente = Cliente.create(nome, email, numero)
+    public async execute({nome, email, numero, senha}: CreateClienteInputDto): Promise<CreateClienteOutputDto> {
+        const aCliente = Cliente.create(nome, email, numero, senha)
 
         await this.clienteGateway.save(aCliente)
         const output = this.presentOutput(aCliente)
