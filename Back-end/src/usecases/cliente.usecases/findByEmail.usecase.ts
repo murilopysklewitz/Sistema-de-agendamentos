@@ -15,11 +15,11 @@ export type findByEmailClienteOutputDto = {
     }
 }
 
-export class FindByEmailUsecase implements Usecase<findByEmailClienteInputDto, findByEmailClienteOutputDto>{
+export class FindByEmailClienteUsecase implements Usecase<findByEmailClienteInputDto, findByEmailClienteOutputDto>{
     private constructor(private readonly clienteGateway: ClienteGateway){}
 
     public static create(clienteGateway: ClienteGateway) {
-        return new FindByEmailUsecase(clienteGateway)
+        return new FindByEmailClienteUsecase(clienteGateway)
     }
 
     public async execute({email}: findByEmailClienteInputDto): Promise<findByEmailClienteOutputDto> {
