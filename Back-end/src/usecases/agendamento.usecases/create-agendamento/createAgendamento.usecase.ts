@@ -50,10 +50,10 @@ export class CreateAgendamentoUsecase implements Usecase<CreateAgendamentoInputD
         }
         const aAgendamento = Agendamento.create(cliente, servicoSelecionado, data, horaInicio)
         try{
-            await this.agendamentoValidator.validateNoConflict(aAgendamento)
+            await this.agendamentoValidator.validateAll(aAgendamento)
 
         }catch(error: any){
-            throw new Error("Não foi possivel criar um agendamento, conflito de horário", error)
+            throw new Error(`Não foi possivel criar um agendamento, conflito de horário ${error}`)
         }
         
         await this.agendamentoGateway.save(aAgendamento)
