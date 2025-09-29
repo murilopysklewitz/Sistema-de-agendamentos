@@ -3,10 +3,8 @@ import { ClienteGateway } from "../../../domain/cliente/gateway/cliente.gateway"
 import { Agendamento, AgendamentoStatus } from "../../../domain/agendamento/entity/agendamento";
 import { AgendamentoGateway } from "../../../domain/agendamento/gateway/agendamento.gateway";
 import { AgendamentoValidator } from "../../../domain/agendamento/service/agendamento-validator.interface";
-import { Servico, ServicoProps } from "../../../domain/servico/entity/servico";
 import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway";
 import { Usecase } from "../../../usecases/usecase";
-import { Cliente } from "../../../domain/cliente/entity/cliente";
 
 
 export interface CreateAgendamentoInputDto {
