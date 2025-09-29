@@ -13,6 +13,10 @@ export type AgendamentoProps = {
     createdAt: Date;
     updatedAt: Date;
 }
+export const businessHours = {
+    startHour: 9,
+    endHour: 18
+}
 
 export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCLUIDO";
 
@@ -25,6 +29,12 @@ export type AgendamentoStatus = "CONFIRMADO" | "AGENDADO" | "CANCELADO" | "CONCL
         }
 
         private constructor(private readonly props: AgendamentoProps) {
+            const startHour = props.horaInicio.getHours()
+            const endHour = props.horaFim.getHours()
+            
+            if(startHour < businessHours.startHour || endHour > businessHours.endHour){
+                throw new Error(`Agendamento fora do horário de funcionamento (${businessHours.startHour}h até ${businessHours.endHour}h)`)
+            }
             if (!Agendamento.isValidStatus(props.status)) {
                 throw new Error(`Status de agendamento inválido: ${props.status}`)
             }
