@@ -18,6 +18,8 @@ datasource db {
 
     numero          String
 
+    senha           String
+
     agendamentos Agendamento[]
   }
 
