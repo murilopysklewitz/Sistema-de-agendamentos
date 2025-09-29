@@ -5,6 +5,7 @@ export type ClienteProps = {
     nome: string;
     email: string;
     numero: string;
+    senha: string
 }
 
 export class Cliente {
@@ -18,9 +19,12 @@ export class Cliente {
         if(!props.numero) {
             throw new Error ("Um cliente deve ter um numero")
         }
+        if(!props.senha) {
+            throw new Error("Um cliente deve ter umas senha")
+        }
     }
 
-    public static create(nome: string, email: string, numero: string) {
+    public static create(nome: string, email: string, numero: string, senha: string) {
         if(!nome || nome.trim() === "") {
             throw new Error("Nome inválido")
         }
@@ -30,12 +34,16 @@ export class Cliente {
         if(!numero || nome.trim() === "") {
             throw new Error("Numero inválido")
         }
+        if(!senha || senha.trim() === ""){
+            throw new Error("Senha inválida")
+        }
 
         return new Cliente({
             id: crypto.randomUUID().toString(),
             nome,
             email,
-            numero
+            numero,
+            senha
         })
     }
 
@@ -59,8 +67,16 @@ export class Cliente {
 
     public updateNumber(novoNumero: string): void {
         if(!novoNumero) {
-            throw new Error("Novo numero inválido")
+            throw new Error("Novo numero inválido");
         }
+        this.props.numero = novoNumero;
+    }
+
+    public updateSenha(novaSenha: string): void {
+        if(!novaSenha){
+            throw new Error ("Nova senha inválida");
+        }
+        this.props.senha = novaSenha;
     }
 
     private isValidEmail(email: string): boolean {
@@ -71,5 +87,6 @@ export class Cliente {
     public get id(): string { return this.props.id; }
     public get nome(): string { return this.props.nome; }
     public get email(): string { return this.props.email; }
-    public get numero(): string { return this.props.numero }
+    public get numero(): string { return this.props.numero; }
+    public get senha(): string { return this.props.senha; }
 }
