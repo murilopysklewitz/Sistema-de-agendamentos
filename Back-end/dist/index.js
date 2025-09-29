@@ -33,6 +33,8 @@ const findByInterval_agendamento_express_route_1 = require("./infra/api/express/
 const findById_cliente_express_route_1 = require("./infra/api/express/routes/clientes/findById-cliente.express.route");
 const list_cliente_express_route_1 = require("./infra/api/express/routes/clientes/list-cliente.express.route");
 const delete_cliente_express_route_1 = require("./infra/api/express/routes/clientes/delete-cliente.express.route");
+const findByEmail_usecase_1 = require("./usecases/cliente.usecases/findByEmail.usecase");
+const findByEmail_express_route_1 = require("./infra/api/express/routes/clientes/findByEmail.express.route");
 function main() {
     const mapper = new agendamento_mapper_1.AgendamentoMapperPrisma();
     const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
@@ -47,6 +49,7 @@ function main() {
     const deleteServicoUseCase = deleteServico_usecase_1.DeleteServicoUsecase.create(aRepository);
     // CRUD de usecases para clientes
     const createClienteUsecase = createCliente_usecase_1.CreateClienteUsecase.create(aRepositoryClientes);
+    const findByEmailClienteUsecase = findByEmail_usecase_1.FindByEmailClienteUsecase.create(aRepositoryClientes);
     const findByIdClientesUsecase = findById_usecase_1.FindByIdClienteUsecase.create(aRepositoryClientes);
     const listClientesUsecase = listCliente_usecase_1.ListClienteUsecase.create(aRepositoryClientes);
     const deleteClientesUsecase = deleteCliente_usecase_1.DeleteClienteUsecase.create(aRepositoryClientes);
@@ -68,6 +71,7 @@ function main() {
     const findByIntervalAgendamentoRoute = findByInterval_agendamento_express_route_1.FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase);
     // CRUD de rotas de Clientes 
     const createClienteRoute = create_cliente_express_route_1.CreateClienteRoute.create(createClienteUsecase);
+    const findByEmailClienteRoute = findByEmail_express_route_1.FindByEmailClienteRoute.create(findByEmailClienteUsecase);
     const findByIdClienteRoute = findById_cliente_express_route_1.FindByIdClienteRoute.create(findByIdClientesUsecase);
     const listClienteRoute = list_cliente_express_route_1.ListClienteRoute.create(listClientesUsecase);
     const deleteClienteRoute = delete_cliente_express_route_1.DeleteClienteRoute.create(deleteClientesUsecase);
@@ -78,7 +82,7 @@ function main() {
         //rotas de agendamentos
         createAgendamentoRoute, findByIdAgendamentosRoute, findByIntervalAgendamentoRoute, listAgendamentoRoute,
         //rotas de cliente
-        createClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
+        createClienteRoute, findByEmailClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
     ]);
     api.start(PORT);
 }

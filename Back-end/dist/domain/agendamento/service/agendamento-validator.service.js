@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AgendamentoValidatorService = void 0;
+exports.AgendamentoValidatorService = exports.businessHours = void 0;
+exports.businessHours = {
+    startHour: 9,
+    endHour: 18
+};
 class AgendamentoValidatorService {
     agendamentoGateway;
     constructor(agendamentoGateway) {
@@ -8,6 +12,9 @@ class AgendamentoValidatorService {
     }
     static create(agendamentoGateway) {
         return new AgendamentoValidatorService(agendamentoGateway);
+    }
+    async validateAll(agendamento) {
+        await this.validateNoConflict(agendamento);
     }
     async validateNoConflict(agendamento) {
         try {
@@ -18,7 +25,7 @@ class AgendamentoValidatorService {
             }
         }
         catch (error) {
-            throw new Error("houve um erro ao validar conflitos", error);
+            throw new Error(`houve um erro ao validar conflitos ${error}`);
         }
     }
 }

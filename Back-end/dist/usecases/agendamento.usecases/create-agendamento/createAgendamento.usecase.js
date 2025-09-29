@@ -27,10 +27,10 @@ class CreateAgendamentoUsecase {
         }
         const aAgendamento = agendamento_1.Agendamento.create(cliente, servicoSelecionado, data, horaInicio);
         try {
-            await this.agendamentoValidator.validateNoConflict(aAgendamento);
+            await this.agendamentoValidator.validateAll(aAgendamento);
         }
         catch (error) {
-            throw new Error("Não foi possivel criar um agendamento, conflito de horário", error);
+            throw new Error(`Não foi possivel criar um agendamento, conflito de horário ${error}`);
         }
         await this.agendamentoGateway.save(aAgendamento);
         const output = this.presentOutput(aAgendamento);

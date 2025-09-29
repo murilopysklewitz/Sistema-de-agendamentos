@@ -10,8 +10,8 @@ class CreateClienteUsecase {
     static create(clienteGateway) {
         return new CreateClienteUsecase(clienteGateway);
     }
-    async execute({ nome, email, numero }) {
-        const aCliente = cliente_1.Cliente.create(nome, email, numero);
+    async execute({ nome, email, numero, senha }) {
+        const aCliente = cliente_1.Cliente.create(nome, email, numero, senha);
         await this.clienteGateway.save(aCliente);
         const output = this.presentOutput(aCliente);
         return output;

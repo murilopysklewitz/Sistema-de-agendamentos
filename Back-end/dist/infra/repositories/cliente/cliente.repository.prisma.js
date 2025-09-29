@@ -15,7 +15,8 @@ class ClienteRepository {
             const data = {
                 nome: cliente.nome,
                 email: cliente.email,
-                numero: cliente.numero
+                numero: cliente.numero,
+                senha: cliente.senha
             };
             await this.prismaClient.cliente.upsert({
                 where: { id: cliente.id },
@@ -36,7 +37,8 @@ class ClienteRepository {
                     id: p.id,
                     nome: p.nome,
                     email: p.email,
-                    numero: p.numero
+                    numero: p.numero,
+                    senha: p.senha
                 });
                 return cliente;
             });
@@ -45,6 +47,23 @@ class ClienteRepository {
         catch (error) {
             throw new Error("Não foi possível listar os clientes", error);
         }
+    }
+    async findByEmail(email) {
+        const cliente = await this.prismaClient.cliente.findUnique({
+            where: { email }
+        });
+        if (!cliente) {
+            throw new Error(`não foi possivel achar por Email`);
+        }
+        ;
+        const clienteAchado = cliente_1.Cliente.with({
+            id: cliente.id,
+            nome: cliente.nome,
+            email: cliente.email,
+            numero: cliente.numero,
+            senha: cliente.senha
+        });
+        return clienteAchado;
     }
     async findById(id) {
         const cliente = await this.prismaClient.cliente.findUnique({
@@ -57,7 +76,8 @@ class ClienteRepository {
             id: cliente.id,
             nome: cliente.nome,
             email: cliente.email,
-            numero: cliente.numero
+            numero: cliente.numero,
+            senha: cliente.senha
         });
         return clienteAchado;
     }
@@ -68,7 +88,8 @@ class ClienteRepository {
                 data: {
                     nome: cliente.nome,
                     email: cliente.email,
-                    numero: cliente.numero
+                    numero: cliente.numero,
+                    senha: cliente.senha
                 }
             });
         }

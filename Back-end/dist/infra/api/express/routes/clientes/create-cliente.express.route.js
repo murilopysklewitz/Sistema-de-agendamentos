@@ -16,9 +16,9 @@ class CreateClienteRoute {
     }
     getHandler() {
         return async (request, response) => {
-            const { nome, email, numero } = request.body;
+            const { nome, email, numero, senha } = request.body;
             const input = {
-                nome, email, numero
+                nome, email, numero, senha
             };
             const output = await this.createClienteService.execute(input);
             const responseBody = this.present(output);

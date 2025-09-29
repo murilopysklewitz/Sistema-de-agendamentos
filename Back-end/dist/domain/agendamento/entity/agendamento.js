@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Agendamento = void 0;
+exports.Agendamento = exports.businessHours = void 0;
 const crypto_1 = require("crypto");
+exports.businessHours = {
+    startHour: 9,
+    endHour: 18
+};
 class Agendamento {
     props;
     static validAgendamentoStatus = ['CONFIRMADO', 'CONCLUIDO', 'AGENDADO', 'CANCELADO'];
@@ -10,6 +14,11 @@ class Agendamento {
     }
     constructor(props) {
         this.props = props;
+        const startHour = props.horaInicio.getHours();
+        const endHour = props.horaFim.getHours();
+        if (startHour < exports.businessHours.startHour || endHour > exports.businessHours.endHour) {
+            throw new Error(`Agendamento fora do horário de funcionamento (${exports.businessHours.startHour}h até ${exports.businessHours.endHour}h)`);
+        }
         if (!Agendamento.isValidStatus(props.status)) {
             throw new Error(`Status de agendamento inválido: ${props.status}`);
         }

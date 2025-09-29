@@ -1,19 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FindByIdClienteUsecase = void 0;
+exports.FindByEmailClienteUsecase = void 0;
 const cliente_1 = require("../../domain/cliente/entity/cliente");
-class FindByIdClienteUsecase {
+class FindByEmailClienteUsecase {
     clienteGateway;
     constructor(clienteGateway) {
         this.clienteGateway = clienteGateway;
     }
     static create(clienteGateway) {
-        return new FindByIdClienteUsecase(clienteGateway);
+        return new FindByEmailClienteUsecase(clienteGateway);
     }
-    async execute({ id }) {
-        const aCliente = await this.clienteGateway.findById(id);
-        const output = this.presentOutput(aCliente);
-        return output;
+    async execute({ email }) {
+        try {
+            const cliente = await this.clienteGateway.findByEmail(email);
+            const output = this.presentOutput(cliente);
+            return output;
+        }
+        catch (error) {
+            throw new Error("não foi possível achar cliente com esse email");
+        }
     }
     presentOutput(cliente) {
         return {
@@ -27,4 +32,4 @@ class FindByIdClienteUsecase {
         };
     }
 }
-exports.FindByIdClienteUsecase = FindByIdClienteUsecase;
+exports.FindByEmailClienteUsecase = FindByEmailClienteUsecase;

@@ -20,7 +20,8 @@ class ListClienteUsecase {
                 id: p.id,
                 nome: p.nome,
                 email: p.email,
-                numero: p.numero
+                numero: p.numero,
+                senha: p.senha
             }))
         };
     }
