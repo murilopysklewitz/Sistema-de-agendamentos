@@ -31,6 +31,9 @@ components:
         numero:
           type: string
           example: "11999999999"
+        senha:
+          type: string
+          example: "senha123"
     ClienteInput:
       type: object
       properties:
@@ -43,10 +46,14 @@ components:
         numero:
           type: string
           example: "11999999999"
+        senha: 
+          type: string
+          example: "senha123"
       required:
         - nome
         - email
         - numero
+        - senha
 
     Servico:
       type: object
@@ -129,7 +136,7 @@ components:
         - data
 
 paths:
-  # ====== CLIENTES ======
+  # ====== SERVIÇOS ======
   /api/clientes:
     get:
       summary: Listar todos os clientes
@@ -162,6 +169,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cliente'
+
+  /api/clientes/{email}:
+    get:
+      summary: Buscar cliente por email
+      tags:
+        - Clientes
+      
+      parameters:
+        -in: path
+        name: email
+        required: true
+        schema: 
+          type: string
+      responses:
+        "200":
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        "404":
+          description: Cliente não encontrado
 
   /api/clientes/{id}:
     get:
