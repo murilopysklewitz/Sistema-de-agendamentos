@@ -1,4 +1,4 @@
-import { DeleteClienteUsecase } from "usecases/cliente.usecases/deleteCliente.usecase";
+import { DeleteClienteUsecase } from "../../../../../usecases/cliente.usecases/deleteCliente.usecase";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 
