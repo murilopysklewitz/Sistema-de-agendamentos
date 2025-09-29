@@ -16,7 +16,8 @@ export class ClienteRepository implements ClienteGateway {
             const data = {
                 nome: cliente.nome,
                 email: cliente.email,
-                numero: cliente.numero
+                numero: cliente.numero,
+                senha: cliente.senha
             }
             await this.prismaClient.cliente.upsert({
                 where: {id: cliente.id},
@@ -38,7 +39,8 @@ export class ClienteRepository implements ClienteGateway {
                     id: p.id,
                     nome: p.nome,
                     email: p.email,
-                    numero: p.numero
+                    numero: p.numero,
+                    senha: p.senha
                 })
                 return cliente
             }) 
@@ -46,6 +48,24 @@ export class ClienteRepository implements ClienteGateway {
         }catch(error:any){
             throw new Error("Não foi possível listar os clientes", error)
         }
+    }
+
+    public async findByEmail(email: string): Promise<Cliente> {
+        const cliente = await this.prismaClient.cliente.findUnique({
+            where: {email}
+        })
+        if (!cliente) {
+            throw new Error(`não foi possivel achar por Email`)
+        };
+
+        const clienteAchado = Cliente.with({
+            id: cliente.id,
+            nome: cliente.nome,
+            email: cliente.email,
+            numero: cliente.numero,
+            senha: cliente.senha
+        });
+        return clienteAchado
     }
 
     public async findById(id: string): Promise<Cliente> {
@@ -60,7 +80,8 @@ export class ClienteRepository implements ClienteGateway {
             id: cliente.id,
             nome: cliente.nome,
             email: cliente.email,
-            numero: cliente.numero
+            numero: cliente.numero,
+            senha : cliente.senha
         })
         return clienteAchado
     }
@@ -72,7 +93,8 @@ export class ClienteRepository implements ClienteGateway {
                 data: {
                     nome: cliente.nome,
                     email: cliente.email,
-                    numero: cliente.numero
+                    numero: cliente.numero,
+                    senha: cliente.senha
                 }
             })
         }catch(error: any) {
