@@ -11,7 +11,8 @@ export type FindByIdClienteOutputDto = {
         id: string,
         nome:string,
         email:string,
-        numero:string
+        numero:string,
+        senha: string
     }
 }
 
@@ -35,6 +36,7 @@ export class FindByIdClienteUsecase implements Usecase<FindByIdClienteInputDto, 
                 nome:cliente.nome,
                 email:cliente.email,
                 numero:cliente.numero,
+                senha: cliente.senha
             })
         }
     }
