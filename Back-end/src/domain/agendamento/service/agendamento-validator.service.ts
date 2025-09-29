@@ -2,6 +2,11 @@ import { Agendamento } from "../entity/agendamento";
 import { AgendamentoGateway } from "../gateway/agendamento.gateway";
 import { AgendamentoValidator } from "./agendamento-validator.interface";
 
+export const businessHours = {
+    startHour: 9,
+    endHour: 18
+}
+
 export class AgendamentoValidatorService implements AgendamentoValidator{
     private constructor(private readonly agendamentoGateway: AgendamentoGateway) {
 
@@ -9,7 +14,14 @@ export class AgendamentoValidatorService implements AgendamentoValidator{
     public static create(agendamentoGateway: AgendamentoGateway) {
         return new AgendamentoValidatorService(agendamentoGateway)
     }
-    public async validateNoConflict(agendamento: Agendamento): Promise<void> {
+    
+    public async validateAll(agendamento: Agendamento): Promise<void> {
+        await this.validateNoConflict(agendamento)
+        this.validateBusinessHours(agendamento)
+    }
+
+
+    private async validateNoConflict(agendamento: Agendamento): Promise<void> {
         try {
             const agendamentosConflitantes = await this.agendamentoGateway.findByInterval(
                 agendamento.data,
@@ -23,7 +35,15 @@ export class AgendamentoValidatorService implements AgendamentoValidator{
                 throw new Error("Já existe um agendamento nesse horario")
             }
         }catch(error: any) {
-            throw new Error("houve um erro ao validar conflitos", error)
+            throw new Error(`houve um erro ao validar conflitos ${error}`)
+        }
+    }
+
+    private async validateBusinessHours(agendamento: Agendamento): Promise<void> {
+        const startHour = agendamento.horaInicio.getHours()
+        const endHour = agendamento.horaFim.getHours()
+        if(startHour < businessHours.startHour || endHour > businessHours.endHour){
+            throw new Error(`Agendamento fora do horário de funcionamento (${businessHours.startHour}h até ${businessHours.endHour}h)`)
         }
     }
 }
