@@ -59,7 +59,8 @@ export class AgendamentoMapperPrisma implements IAgendamentoMapper {
             id: prismaCliente.id,
             nome: prismaCliente.nome,
             email: prismaCliente.email,
-            numero: prismaCliente.numero
+            numero: prismaCliente.numero,
+            senha: prismaCliente.senha
         })
     }
 }
