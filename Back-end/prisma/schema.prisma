@@ -14,9 +14,9 @@ datasource db {
 
     nome            String
 
-    email           String
+    email           String @unique
 
-    numero          String
+    numero          String @unique
 
     senha           String
 
