@@ -129,11 +129,15 @@ components:
         data:
           type: string
           format: date-time
-          example: "2025-09-24T14:00:00Z"
+          example: "2025-09-24"
+        dataInicio:
+          type: string
+          example: 2025-09-24T14:00:00Z
       required:
         - clienteId
         - servicoId
         - data
+        - dataInicio
 
 paths:
   # ====== SERVIÇOS ======
