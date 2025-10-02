@@ -174,30 +174,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/Cliente'
 
-  /api/clientes/auth:
+    /api/cliente/auth:
     post:
-      summary: Login de cliente
+      summary: Login de Cliente
       tags:
-        -Clientes
-
-      parameters:
-      -in: path
-      name: email
-      required: true
-      schema:
-        type: string
-        
-      -in: path
-      name: senha
-      required: true
-      schema:
-        type: string
+        - Clientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: cliente@email.com
+                senha:
+                  type: string
+                  format: password
+                  example: Senha123
       responses:
-        "200": 
-          description:
-            Login concluido
-        "404":
-          description: Falha no login
+        "200":
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  refreshToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        "401":
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Credenciais inválidas
   /api/clientes/{email}:
     get:
       summary: Buscar cliente por email
