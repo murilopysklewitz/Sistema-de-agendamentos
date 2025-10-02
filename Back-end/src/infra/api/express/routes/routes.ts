@@ -10,9 +10,9 @@ export const HttpMethod = {
     PUT: 'put' as HttpMethod,
     DELETE: 'delete' as HttpMethod,
 }as const;
-export interface Route<RequestType extends Request = Request> {
-    getHandler(): (request:RequestType, response:Response) => Promise<void>;
+export interface Route{
+    getHandler(): RequestHandler
     getPath():string;
     getMethod():HttpMethod;
-    getMiddlewares?(): IMiddleware<RequestType>[]
+    getMiddlewares?(): IMiddleware[]
 }

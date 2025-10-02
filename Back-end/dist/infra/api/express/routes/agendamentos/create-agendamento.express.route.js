@@ -6,13 +6,15 @@ class CreateAgendamentoRoute {
     path;
     method;
     createAgendamentoService;
-    constructor(path, method, createAgendamentoService) {
+    middlewares = [];
+    constructor(path, method, createAgendamentoService, middlewares = []) {
         this.path = path;
         this.method = method;
         this.createAgendamentoService = createAgendamentoService;
+        this.middlewares = middlewares;
     }
-    static create(createAgendamentoService) {
-        return new CreateAgendamentoRoute('/api/agendamentos', routes_1.HttpMethod.POST, createAgendamentoService);
+    static create(createAgendamentoService, middlewares = []) {
+        return new CreateAgendamentoRoute('/api/agendamentos', routes_1.HttpMethod.POST, createAgendamentoService, middlewares);
     }
     getHandler() {
         return async (request, response) => {
@@ -33,6 +35,9 @@ class CreateAgendamentoRoute {
     }
     getMethod() {
         return this.method;
+    }
+    getMiddlewares() {
+        return this.middlewares;
     }
     present(input) {
         const response = {
