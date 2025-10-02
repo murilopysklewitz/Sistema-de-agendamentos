@@ -8,7 +8,7 @@ export class LoginClienteRoute implements Route {
         private readonly httpMethod: HttpMethod,
         private readonly loginClienteService: LoginClienteUsecase){}
 
-    public static create(path: string, httpMethod: HttpMethod, loginClienteService: LoginClienteUsecase) {
+    public static create(loginClienteService: LoginClienteUsecase) {
         return new LoginClienteRoute(
             "/api/cliente/auth",
             HttpMethod.POST,
