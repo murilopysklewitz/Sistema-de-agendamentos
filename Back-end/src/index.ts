@@ -37,6 +37,8 @@ import { LoginClienteUsecase } from './usecases/cliente.usecases/loginCliente.us
 import { BcryptPasswordHasher } from './infra/security/BcryptPasswordHasher';
 import { JWTService } from './infra/security/JWTService';
 import { LoginClienteRoute } from './infra/api/express/routes/clientes/login-cliente.express.route';
+import { AuthMiddleware } from './infra/api/express/middlewares/auth.middleware';
+import { Route } from './infra/api/express/routes/routes';
 
 
 
@@ -49,7 +51,9 @@ function main() {
      const vallidator = AgendamentoValidatorService.create(aRepositoryAgendamentos)
 
      const passwordHasher = new BcryptPasswordHasher(10)
-     const jwtService = new JWTService
+     const jwtService = new JWTService()
+
+     const authMiddleware = new AuthMiddleware(jwtService)
 
      
      // CRUD de usecase para serviços
@@ -82,7 +86,7 @@ function main() {
 
 
      //CRUD de rotas para agendamentos
-     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase)
+     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase,[ authMiddleware])
      const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase)
      const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase)
      const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
