@@ -1,31 +1,20 @@
-import { ITokenService, TokenPayload } from "domain/cliente/services/ITokenService";
-import jwt from 'jsonwebtoken'
+import { IPasswordHasher } from "domain/cliente/services/IPasswordHasher";
+import bcrypt from 'bcrypt'
 
-export class JWTService implements ITokenService {
-        private readonly accessTokenSecret: string
-        private readonly refreshTokenSecret: string
-        private readonly accessTokenExpiration: string
-        private readonly refreshTokenExpiration: string
+export class BcryptPasswordHasher implements IPasswordHasher {
+    private readonly saltRounds: number;
 
-    constructor() {
-        this.accessTokenSecret = process.env.JWT_ACCESS_SECRET || 'default-secret';
-        this.refreshTokenSecret = process.env.JWT_REFRESH_SECRET || 'default-secret';
-        this.accessTokenExpiration = process.env.JWT_ACCESS_EXPIRATION || '15m';
-        this.refreshTokenExpiration = process.env.JWT_REFRESH_EXPIRATION || '7d';
+    constructor(saltRounds: number) {
+        this.saltRounds = saltRounds
     }
 
-    public generateAcessToken(payload: TokenPayload): string {
-        const generateAcess = jwt.sign(
-            {
-            clienteId: payload.clienteId,
-            email: payload.email
-            },
-            this.accessTokenSecret,
-            {
-            expiresIn: this.accessTokenExpiration,
-            subject:payload.clienteId
-            } as jwt.SignOptions
-        )
-        return generateAcess
+    public async hash(senha: string): Promise<string> {
+        const senhaHash = await bcrypt.hash(senha, this.saltRounds) 
+        return senhaHash
+    }
+
+    public compare(senha: string, senhaHash: string): Promise<boolean> {
+        const senhaCompared = bcrypt.compare(senha, senhaHash)
+        return senhaCompared
     }
 }
