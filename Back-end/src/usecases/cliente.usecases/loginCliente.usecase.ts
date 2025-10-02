@@ -1,7 +1,7 @@
-import { ClienteGateway } from "domain/cliente/gateway/cliente.gateway"
-import { IPasswordHasher } from "domain/cliente/services/IPasswordHasher"
-import { ITokenService } from "domain/cliente/services/ITokenService"
-import { Usecase } from "usecases/usecase"
+import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway"
+import { IPasswordHasher } from "../../domain/cliente/services/IPasswordHasher"
+import { ITokenService } from "../../domain/cliente/services/ITokenService"
+import { Usecase } from "../../usecases/usecase"
 
 export type LoginClienteInputDto = {
     email: string,
@@ -48,6 +48,8 @@ export class LoginClienteUsecase implements Usecase<LoginClienteInputDto, LoginC
             })
             return{accessToken, refreshToken}
 
+        }catch(error: any) {
+            throw new Error("Não foi possivel executar Login")
         }
     }
 }

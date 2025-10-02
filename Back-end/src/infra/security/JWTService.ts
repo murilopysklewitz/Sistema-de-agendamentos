@@ -1,4 +1,4 @@
-import { ITokenService, TokenPayload } from "domain/cliente/services/ITokenService";
+import { ITokenService, TokenPayload } from "../../domain/cliente/services/ITokenService";
 import jwt from 'jsonwebtoken'
 
 export class JWTService implements ITokenService {
