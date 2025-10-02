@@ -8,9 +8,9 @@ export class ApiExpress implements Api {
     private app: Express
 
     private constructor(routes: Route[]) {
-        this.app = express();
+        this.app = express()
         this.app.use(express.json())
-        this.addRoutes(routes);
+        this.addRoutes(routes)
 
         setupSwagger(this.app)
     }
@@ -22,17 +22,20 @@ export class ApiExpress implements Api {
 
     private addRoutes(routes: Route[]) {
         routes.forEach((route) => {
-            const path = route.getPath();
-            const method = route.getMethod();
-            const handler = route.getHandler();
-
-            this.app[method](path, handler);
+            const path = route.getPath()
+            const method = route.getMethod()
+            const handler = route.getHandler()
+            if('middlewares' in route && route.middlewares?.length){
+                this.app[method](path, ...route.middlewares.map(m => m.handle.bind(m)), handler)
+            }else{
+                this.app[method](path, handler)   
+            }
         })
     }
 
     public start(port:number) {
         this.app.listen(port, () => {
-            console.log(`Server running on port ${port}`);
+            console.log(`Server running on port ${port}`)
         })
     }
 }

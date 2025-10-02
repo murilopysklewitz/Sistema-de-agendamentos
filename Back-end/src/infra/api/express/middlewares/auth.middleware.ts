@@ -3,10 +3,10 @@ import { IMiddleware } from "./IMiddleware";
 import { Request, Response, NextFunction } from "express";
 
 export interface AuthRequest extends Request {
-    user?: { clienteId: string; email: string }
+    user: { clienteId: string; email: string }
 }
 
-export class AuthMiddleware implements IMiddleware {
+export class AuthMiddleware implements IMiddleware<AuthRequest> {
     constructor(private readonly tokenService: ITokenService) {}
 
     public handle(request: AuthRequest, response: Response, next: NextFunction): void {
