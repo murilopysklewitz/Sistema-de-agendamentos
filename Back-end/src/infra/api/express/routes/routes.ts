@@ -1,4 +1,5 @@
 import { Request, RequestHandler, Response } from "express";
+import { IMiddleware } from "../middlewares/IMiddleware";
 
 export type HttpMethod = "get" | "post" | "put" | "delete";
 
@@ -8,9 +9,9 @@ export const HttpMethod = {
     PUT: 'put' as HttpMethod,
     DELETE: 'delete' as HttpMethod,
 }as const;
-export interface Route {
+export interface Route<RequestType extends Request = Request> {
     getHandler(): (request:Request, response:Response) => Promise<void>;
     getPath():string;
     getMethod():HttpMethod;
-    middlewares?: RequestHandler[]
+    middlewares?: IMiddleware<RequestType>[]
 }
