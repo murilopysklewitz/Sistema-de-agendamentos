@@ -16,8 +16,8 @@ export class ApiExpress implements Api {
     }
 
 
-    public static create (route: Route[]) {
-        return new ApiExpress(route)
+    public static create (routes: Route[]) {
+        return new ApiExpress(routes)
     }
 
     private addRoutes(routes: Route[]) {
@@ -25,8 +25,10 @@ export class ApiExpress implements Api {
             const path = route.getPath()
             const method = route.getMethod()
             const handler = route.getHandler()
-            if('middlewares' in route && route.middlewares?.length){
-                this.app[method](path, ...route.middlewares.map(m => m.handle.bind(m)), handler)
+            const middlewares = route.getMiddlewares ? route.getMiddlewares(): []
+
+            if(middlewares.length > 0){
+                this.app[method](path, ...middlewares.map(m => m.handle.bind(m)), handler)
             }else{
                 this.app[method](path, handler)   
             }

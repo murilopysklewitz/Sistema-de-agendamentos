@@ -1,7 +1,8 @@
-import { Request, RequestHandler, Response } from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { IMiddleware } from "../middlewares/IMiddleware";
 
 export type HttpMethod = "get" | "post" | "put" | "delete";
+export type RouteHandler = (req: Request, res: Response, next: NextFunction) => void | Promise<void>;
 
 export const HttpMethod = {
     GET: "get" as HttpMethod,
@@ -10,8 +11,8 @@ export const HttpMethod = {
     DELETE: 'delete' as HttpMethod,
 }as const;
 export interface Route<RequestType extends Request = Request> {
-    getHandler(): (request:Request, response:Response) => Promise<void>;
+    getHandler(): (request:RequestType, response:Response) => Promise<void>;
     getPath():string;
     getMethod():HttpMethod;
-    middlewares?: IMiddleware<RequestType>[]
+    getMiddlewares?(): IMiddleware<RequestType>[]
 }
