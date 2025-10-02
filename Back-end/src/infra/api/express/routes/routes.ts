@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, RequestHandler, Response } from "express";
 
 export type HttpMethod = "get" | "post" | "put" | "delete";
 
@@ -12,4 +12,5 @@ export interface Route {
     getHandler(): (request:Request, response:Response) => Promise<void>;
     getPath():string;
     getMethod():HttpMethod;
+    middlewares?: RequestHandler[]
 }
