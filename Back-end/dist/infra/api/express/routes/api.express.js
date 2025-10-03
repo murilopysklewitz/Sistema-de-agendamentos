@@ -11,8 +11,20 @@ class ApiExpress {
     constructor(routes) {
         this.app = (0, express_1.default)();
         this.app.use(express_1.default.json());
+        this.app.use((req, res, next) => {
+            console.log(`📨 ${req.method} ${req.path}`);
+            next();
+        });
         this.addRoutes(routes);
         (0, swagger_1.setupSwagger)(this.app);
+        this.app.use((err, req, res, next) => {
+            console.error('💥 Erro capturado:', err);
+            console.error('Stack:', err.stack);
+            res.status(500).json({
+                message: "Erro interno do servidor",
+                error: err.message
+            });
+        });
     }
     static create(routes) {
         return new ApiExpress(routes);
@@ -22,7 +34,8 @@ class ApiExpress {
             const path = route.getPath();
             const method = route.getMethod();
             const handler = route.getHandler();
-            const middlewares = route.getMiddlewares ? route.getMiddlewares() : [];
+            const middlewares = route.getMiddlewares?.() ?? [];
+            console.log(`🛣️  Registrando rota: ${method.toUpperCase()} ${path} - Middlewares: ${middlewares.length}`);
             if (middlewares.length > 0) {
                 this.app[method](path, ...middlewares.map(m => m.handle.bind(m)), handler);
             }
@@ -34,6 +47,7 @@ class ApiExpress {
     start(port) {
         this.app.listen(port, () => {
             console.log(`Server running on port ${port}`);
+            console.log(`📚 Swagger docs: http://localhost:${port}/api-docs`);
         });
     }
 }
