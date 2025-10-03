@@ -58,6 +58,6 @@ export class ApiExpress implements Api {
         this.app.listen(port, () => {
             console.log(`Server running on port ${port}`)
             console.log(`📚 Swagger docs: http://localhost:${port}/api-docs`)
-        })
+        }) 
     }
 }
