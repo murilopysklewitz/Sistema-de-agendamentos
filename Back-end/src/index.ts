@@ -86,7 +86,7 @@ function main() {
 
 
      //CRUD de rotas para agendamentos
-     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase,[ authMiddleware])
+     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware])
      const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase)
      const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase)
      const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
