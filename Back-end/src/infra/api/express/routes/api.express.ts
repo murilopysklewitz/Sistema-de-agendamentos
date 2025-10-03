@@ -21,7 +21,7 @@ export class ApiExpress implements Api {
         setupSwagger(this.app)
 
         this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-            console.error('💥 Erro capturado:', err)
+            console.error('Erro capturado:', err)
             console.error('Stack:', err.stack);
             res.status(500).json({ 
                 message: "Erro interno do servidor",
@@ -44,7 +44,7 @@ export class ApiExpress implements Api {
             const handler = route.getHandler()
             const middlewares = route.getMiddlewares?.() ?? []
 
-            console.log(`🛣️  Registrando rota: ${method.toUpperCase()} ${path} - Middlewares: ${middlewares.length}`)
+            console.log(`Registrando rota: ${method.toUpperCase()} ${path} - Middlewares: ${middlewares.length}`)
 
             if(middlewares.length > 0){
                 this.app[method](path, ...middlewares.map(m => m.handle.bind(m)), handler)
