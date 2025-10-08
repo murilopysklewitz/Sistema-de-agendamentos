@@ -1,4 +1,4 @@
-import { ClienteRole } from 'domain/cliente/entity/cliente';
+import { ClienteRole } from '../domain/cliente/entity/cliente';
 import 'express';
 
 declare module 'express-serve-static-core' {
