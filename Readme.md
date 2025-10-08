@@ -12,8 +12,8 @@ A dependência flui sempre para dentro, o que significa que as camadas internas 
 
 ---
 ## Diagrama de classes e servicos
-após copiar o repositorio em src/docs/classes.plantuml poderá renderizar e observar todas as ligações de arquitetura de todo o serviço
-baixe a extensão do vscode chama plantUML e no arquivo classes.plantUML aperte ** alt + d **
+após copiar o repositorio em src/docs/classes.plantuml poderá renderizar e observar todas as conexões de classes da arquitetura de todo o serviço
+baixe a extensão do vscode chama plantUML e no arquivo classes.plantUML aperte  **alt + d** 
 
 
 ## Estrutura de Camadas  
