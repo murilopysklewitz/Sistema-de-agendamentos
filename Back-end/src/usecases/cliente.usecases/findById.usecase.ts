@@ -1,6 +1,6 @@
 import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway"
 import { Usecase } from "../../usecases/usecase"
-import { Cliente } from "../../domain/cliente/entity/cliente"
+import { Cliente, ClienteRole } from "../../domain/cliente/entity/cliente"
 
 export type FindByIdClienteInputDto = {
     id: string
@@ -12,7 +12,8 @@ export type FindByIdClienteOutputDto = {
         nome:string,
         email:string,
         numero:string,
-        senha: string
+        senha: string,
+        role: ClienteRole
     }
 }
 
@@ -36,7 +37,8 @@ export class FindByIdClienteUsecase implements Usecase<FindByIdClienteInputDto, 
                 nome:cliente.nome,
                 email:cliente.email,
                 numero:cliente.numero,
-                senha: cliente.senha
+                senha: cliente.senha,
+                role: cliente.role
             })
         }
     }
