@@ -20,6 +20,8 @@ datasource db {
 
     senha           String
 
+    role            String @default("CLIENTE")
+
     agendamentos Agendamento[]
   }
 
