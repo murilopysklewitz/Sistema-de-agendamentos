@@ -6,6 +6,11 @@ export type ClienteProps = {
     email: string;
     numero: string;
     senha: string
+    role: ClienteRole
+}
+enum ClienteRole {
+    CLIENTE = "CLIENTE",
+    ADMIN = "ADMIN"
 }
 
 export class Cliente {
@@ -24,7 +29,7 @@ export class Cliente {
         }
     }
 
-    public static create(nome: string, email: string, numero: string, senha: string) {
+    public static create(nome: string, email: string, numero: string, senha: string, role: ClienteRole) {
         if(!nome || nome.trim() === "") {
             throw new Error("Nome inválido")
         }
@@ -37,13 +42,15 @@ export class Cliente {
         if(!senha || senha.trim() === ""){
             throw new Error("Senha inválida")
         }
+           
 
         return new Cliente({
             id: crypto.randomUUID().toString(),
             nome,
             email,
             numero,
-            senha
+            senha,
+            role
         })
     }
 
@@ -79,14 +86,23 @@ export class Cliente {
         this.props.senha = novaSenha;
     }
 
-    private isValidEmail(email: string): boolean {
+    public isValidEmail(email: string): boolean {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
 
-    public get id(): string { return this.props.id; }
-    public get nome(): string { return this.props.nome; }
-    public get email(): string { return this.props.email; }
-    public get numero(): string { return this.props.numero; }
-    public get senha(): string { return this.props.senha; }
+    public isAdmin(): boolean {
+        return this.props.role === ClienteRole.ADMIN;
+    }
+
+    public isCliente(): boolean {
+        return this.props.role === ClienteRole.CLIENTE;
+    }
+
+    get id(): string { return this.props.id; }
+    get nome(): string { return this.props.nome; }
+    get email(): string { return this.props.email; }
+    get numero(): string { return this.props.numero; }
+    get senha(): string { return this.props.senha; }
+    get role(): ClienteRole { return this.props.role; }
 }
