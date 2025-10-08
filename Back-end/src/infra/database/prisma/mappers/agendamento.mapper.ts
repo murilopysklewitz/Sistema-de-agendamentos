@@ -3,6 +3,7 @@ import { IAgendamentoMapper } from "./agendamento.mapper.interface";
 import { Agendamento, AgendamentoStatus } from "../../../../domain/agendamento/entity/agendamento";
 import { Servico } from "../../../../domain/servico/entity/servico";
 import { Cliente } from "../../../../domain/cliente/entity/cliente";
+import { clienteMapper } from "./cliente.mapper";
 
 type PrismaServico = Prisma.ServicoGetPayload<{}>;
 type PrismaCliente = Prisma.ClienteGetPayload<{}>;
@@ -60,7 +61,8 @@ export class AgendamentoMapperPrisma implements IAgendamentoMapper {
             nome: prismaCliente.nome,
             email: prismaCliente.email,
             numero: prismaCliente.numero,
-            senha: prismaCliente.senha
+            senha: prismaCliente.senha,
+            role: clienteMapper.toDomainRole(prismaCliente.role)
         })
     }
 }
