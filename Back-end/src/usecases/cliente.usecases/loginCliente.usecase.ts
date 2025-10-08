@@ -40,11 +40,13 @@ export class LoginClienteUsecase implements Usecase<LoginClienteInputDto, LoginC
             }
             const accessToken = this.tokenService.generateAcessToken({
                 clienteId: cliente.id,
-                email: cliente.email
+                email: cliente.email,
+                role: cliente.role
             });
             const refreshToken = this.tokenService.generateRefreshToken({
                 clienteId: cliente.id,
-                email: cliente.email
+                email: cliente.email,
+                role: cliente.role
             })
             return{accessToken, refreshToken}
 
