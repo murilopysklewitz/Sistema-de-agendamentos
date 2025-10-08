@@ -18,7 +18,8 @@ export class JWTService implements ITokenService {
         const generateAcess = jwt.sign(
             {
             clienteId: payload.clienteId,
-            email: payload.email
+            email: payload.email,
+            role: payload.role
             },
             this.accessTokenSecret,
             {
@@ -33,7 +34,8 @@ export class JWTService implements ITokenService {
         const refreshToken = jwt.sign(
             {
                 clienteId: payload.clienteId,
-                email: payload.email
+                email: payload.email,
+                role: payload.role
             },
             this.refreshTokenSecret,
             {
