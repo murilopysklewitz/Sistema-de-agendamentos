@@ -24,10 +24,10 @@ export class CreateClienteRoute implements Route {
 
     public getHandler(){
         return async (request: Request, response: Response) => {
-            const {nome, email, numero, senha} = request.body
+            const {nome, email, numero, senha, role} = request.body
 
             const input: CreateClienteInputDto = {
-                nome, email, numero, senha
+                nome, email, numero, senha, role
             }
 
             const output = await this.createClienteService.execute(input)

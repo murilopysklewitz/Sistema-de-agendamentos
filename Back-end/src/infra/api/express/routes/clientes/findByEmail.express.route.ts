@@ -1,3 +1,4 @@
+import { ClienteRole } from "../../../../../domain/cliente/entity/cliente"
 import { FindByEmailClienteUsecase } from "../../../../../usecases/cliente.usecases/findByEmail.usecase"
 import { HttpMethod, Route } from "../routes"
 import { Request, Response } from "express"
@@ -7,6 +8,7 @@ export type FindByEmailResponseDto = {
     nome: string,
     email: string,
     numero: string,
+    role: ClienteRole
 }
 
     export class FindByEmailClienteRoute implements Route {

@@ -1,3 +1,4 @@
+import { ClienteRole } from "domain/cliente/entity/cliente"
 import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway"
 import { IPasswordHasher } from "../../domain/cliente/services/IPasswordHasher"
 import { ITokenService } from "../../domain/cliente/services/ITokenService"
@@ -5,7 +6,8 @@ import { Usecase } from "../../usecases/usecase"
 
 export type LoginClienteInputDto = {
     email: string,
-    senha: string
+    senha: string,
+    role: ClienteRole
 }
 export type LoginClienteOutputDto = {
     accessToken: string,
@@ -28,7 +30,7 @@ export class LoginClienteUsecase implements Usecase<LoginClienteInputDto, LoginC
             return new LoginClienteUsecase(clienteGateway, passwordHasher, tokenService)
         }
 
-    public async execute({email, senha}: LoginClienteInputDto): Promise<LoginClienteOutputDto> {
+    public async execute({email, senha, role}: LoginClienteInputDto): Promise<LoginClienteOutputDto> {
         try {
             const cliente = await this.clienteGateway.findByEmail(email)
             if(!cliente){

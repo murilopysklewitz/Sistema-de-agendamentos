@@ -1,13 +1,15 @@
 import { Request, Response } from "express"
 import { ListClienteUsecase } from "../../../../../usecases/cliente.usecases/listCliente.usecase"
 import { HttpMethod, Route } from "../routes"
+import { ClienteRole } from "domain/cliente/entity/cliente"
 
 export type ListClienteResponseDTO = {
     clientes:{
         id: string,
         nome: string,
         email: string,
-        numero: string
+        numero: string,
+        role: ClienteRole
     }[]
 }
 
@@ -31,7 +33,8 @@ export class ListClienteRoute implements Route {
                 id: cliente.id,
                 nome: cliente.nome,
                 email: cliente.email,
-                numero: cliente.numero
+                numero: cliente.numero,
+                role: cliente.role
             }))
         }
     }
