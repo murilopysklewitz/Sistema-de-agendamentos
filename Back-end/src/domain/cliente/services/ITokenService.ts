@@ -1,6 +1,9 @@
+import { ClienteRole } from "../entity/cliente"
+
 export interface TokenPayload {
     clienteId: string
     email: string
+    role: ClienteRole
 }
 
 export interface ITokenService {
