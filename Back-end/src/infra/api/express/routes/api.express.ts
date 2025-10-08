@@ -1,7 +1,7 @@
 import { Api } from "../../api";
 import express, { Express, Request, Response, NextFunction } from "express";
 import { Route } from "./routes";
-import { setupSwagger } from "../../../../config/swagger";
+import { setupSwagger } from "../../../../docs/swagger";
 
 export class ApiExpress implements Api {
 
