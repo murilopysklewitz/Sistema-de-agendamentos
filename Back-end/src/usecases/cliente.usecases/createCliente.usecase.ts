@@ -1,4 +1,4 @@
-import { IPasswordHasher } from "domain/cliente/services/IPasswordHasher"
+import { IPasswordHasher } from "../../domain/cliente/services/IPasswordHasher"
 import { Cliente } from "../../domain/cliente/entity/cliente"
 import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway"
 import { Usecase } from "../../usecases/usecase"
