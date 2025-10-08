@@ -1,5 +1,5 @@
 import { IPasswordHasher } from "../../domain/cliente/services/IPasswordHasher"
-import { Cliente } from "../../domain/cliente/entity/cliente"
+import { Cliente, ClienteRole } from "../../domain/cliente/entity/cliente"
 import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway"
 import { Usecase } from "../../usecases/usecase"
 
@@ -7,7 +7,8 @@ export type CreateClienteInputDto = {
     nome: string,
     email: string,
     numero: string,
-    senha: string
+    senha: string,
+    role?: ClienteRole
 }
 
 export type CreateClienteOutputDto = {
@@ -21,7 +22,7 @@ export class CreateClienteUsecase implements Usecase<CreateClienteInputDto, Crea
         return new CreateClienteUsecase(clienteGateway, passwordHasher)
     }
 
-    public async execute({nome, email, numero, senha}: CreateClienteInputDto): Promise<CreateClienteOutputDto> {
+    public async execute({nome, email, numero, senha, role}: CreateClienteInputDto): Promise<CreateClienteOutputDto> {
         const existingCliente = await this.clienteGateway.findByEmail(email);
         if (existingCliente) {
             throw new Error("Email já cadastrado");
@@ -36,7 +37,8 @@ export class CreateClienteUsecase implements Usecase<CreateClienteInputDto, Crea
             nome,
             email,
             numero,
-            hashedPassword 
+            hashedPassword,
+            role || ClienteRole.CLIENTE
         );
 
         await this.clienteGateway.save(cliente);
