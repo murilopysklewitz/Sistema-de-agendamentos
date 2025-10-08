@@ -8,7 +8,7 @@ export type ClienteProps = {
     senha: string
     role: ClienteRole
 }
-enum ClienteRole {
+export enum ClienteRole {
     CLIENTE = "CLIENTE",
     ADMIN = "ADMIN"
 }
