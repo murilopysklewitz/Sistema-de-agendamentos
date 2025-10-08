@@ -1,3 +1,4 @@
+import { ClienteRole } from 'domain/cliente/entity/cliente';
 import 'express';
 
 declare module 'express-serve-static-core' {
@@ -5,6 +6,7 @@ declare module 'express-serve-static-core' {
         user?: {
             clienteId: string;
             email: string;
+            role: ClienteRole
         };
     }
 }
