@@ -1,4 +1,4 @@
-import { Cliente } from "../../domain/cliente/entity/cliente";
+import { Cliente, ClienteRole } from "../../domain/cliente/entity/cliente";
 import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway";
 
 export type ListClienteInputDto = void;
@@ -9,6 +9,7 @@ export type ListClienteOutputDto = {
         email: string,
         numero: string,
         senha: string,
+        role: ClienteRole
     }[]
 }
 
@@ -34,7 +35,8 @@ export class ListClienteUsecase {
                 nome: p.nome,
                 email: p.email,
                 numero: p.numero,
-                senha: p.senha
+                senha: p.senha,
+                role: p.role
             }))
         }
     }
