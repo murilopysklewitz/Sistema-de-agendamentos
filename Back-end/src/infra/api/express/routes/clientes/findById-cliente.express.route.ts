@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { FindByIdClienteUsecase } from "../../../../../usecases/cliente.usecases/findById.usecase"
 import { HttpMethod, Route } from "../routes"
-import { ClienteRole } from "domain/cliente/entity/cliente"
+import { ClienteRole } from "../../../../../domain/cliente/entity/cliente"
 
 export type FindByIdClienteResponseDto = {
         id: string,

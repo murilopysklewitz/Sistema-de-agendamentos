@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { ListClienteUsecase } from "../../../../../usecases/cliente.usecases/listCliente.usecase"
 import { HttpMethod, Route } from "../routes"
-import { ClienteRole } from "domain/cliente/entity/cliente"
+import { ClienteRole } from "../../../../../domain/cliente/entity/cliente"
 
 export type ListClienteResponseDTO = {
     clientes:{

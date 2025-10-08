@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Cliente, ClienteRole } from "../../../domain/cliente/entity/cliente";
 import { ClienteGateway } from "../../../domain/cliente/gateway/cliente.gateway";
-import { clienteMapper } from "infra/database/prisma/mappers/cliente.mapper";
+import { clienteMapper } from "../../../infra/database/prisma/mappers/cliente.mapper";
 
 export class ClienteRepository implements ClienteGateway {
     private constructor(private readonly prismaClient: PrismaClient) {

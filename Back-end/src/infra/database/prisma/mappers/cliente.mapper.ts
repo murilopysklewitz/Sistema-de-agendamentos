@@ -1,4 +1,4 @@
-import { ClienteRole } from "domain/cliente/entity/cliente";
+import { ClienteRole } from "../../../../domain/cliente/entity/cliente";
 import { IClienteMapper } from "./cliente.mapper.interface";
 
 export class ClienteMapper implements IClienteMapper {
