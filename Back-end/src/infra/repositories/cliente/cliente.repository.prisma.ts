@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { Cliente } from "../../../domain/cliente/entity/cliente";
+import { Cliente, ClienteRole } from "../../../domain/cliente/entity/cliente";
 import { ClienteGateway } from "../../../domain/cliente/gateway/cliente.gateway";
+import { clienteMapper } from "infra/database/prisma/mappers/cliente.mapper";
 
 export class ClienteRepository implements ClienteGateway {
     private constructor(private readonly prismaClient: PrismaClient) {
@@ -17,7 +18,8 @@ export class ClienteRepository implements ClienteGateway {
                 nome: cliente.nome,
                 email: cliente.email,
                 numero: cliente.numero,
-                senha: cliente.senha
+                senha: cliente.senha,
+                role: cliente.role,
             }
             await this.prismaClient.cliente.upsert({
                 where: {id: cliente.id},
@@ -40,7 +42,8 @@ export class ClienteRepository implements ClienteGateway {
                     nome: p.nome,
                     email: p.email,
                     numero: p.numero,
-                    senha: p.senha
+                    senha: p.senha,
+                    role: clienteMapper.toDomainRole(p.role),
                 })
                 return cliente
             }) 
@@ -63,7 +66,9 @@ export class ClienteRepository implements ClienteGateway {
             nome: cliente.nome,
             email: cliente.email,
             numero: cliente.numero,
-            senha: cliente.senha
+            senha: cliente.senha,
+            role: clienteMapper.toDomainRole(cliente.role
+            )
         });
         return clienteAchado
     }
@@ -81,7 +86,9 @@ export class ClienteRepository implements ClienteGateway {
             nome: cliente.nome,
             email: cliente.email,
             numero: cliente.numero,
-            senha : cliente.senha
+            senha : cliente.senha,
+            role: clienteMapper.toDomainRole(cliente.role
+            )
         })
         return clienteAchado
     }
@@ -94,7 +101,7 @@ export class ClienteRepository implements ClienteGateway {
                     nome: cliente.nome,
                     email: cliente.email,
                     numero: cliente.numero,
-                    senha: cliente.senha
+                    senha: cliente.senha,
                 }
             })
         }catch(error: any) {
