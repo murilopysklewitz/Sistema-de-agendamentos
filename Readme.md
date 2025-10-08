@@ -11,9 +11,9 @@ A aplicação é dividida em camadas lógicas para garantir um alto nível de de
 A dependência flui sempre para dentro, o que significa que as camadas internas (como o **Domínio**) não têm conhecimento das camadas externas (como a **Infraestrutura**).  
 
 ---
-## Diagrama de classes
-
-<img width="1477" height="943" alt="{47505148-95FC-4495-8C17-4FC7B087FEC1}" src="https://github.com/user-attachments/assets/51aee7b1-dd21-444a-beb5-5769ab65f4c5" />
+## Diagrama de classes e servicos
+após copiar o repositorio em src/docs/classes.plantuml poderá renderizar e observar todas as ligações de arquitetura de todo o serviço
+baixe a extensão do vscode chama plantUML e no arquivo classes.plantUML aperte *alt + d *
 
 
 ## Estrutura de Camadas  
