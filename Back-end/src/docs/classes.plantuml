@@ -1,0 +1,699 @@
+@startuml
+
+' ====================
+' ENUMS
+' ====================
+enum ClienteRole {
+    ADMIN
+    CLIENTE
+}
+
+enum AgendamentoStatus {
+    PENDENTE
+    CONFIRMADO
+    CANCELADO
+}
+
+enum HttpMethod {
+    GET
+    POST
+    PUT
+    DELETE
+}
+
+' ====================
+' ENTIDADES
+' ====================
+class Cliente {
+    +id: string
+    +nome: string
+    +email: string
+    +numero: string
+    +senha: string
+    +role: ClienteRole
+}
+
+class Servico {
+    +id: string
+    +nome: string
+    +descricao: string
+    +preco: number
+    +destaque: boolean
+    +duracaoEmMinutos: number
+    +update(nome, preco, descricao, destaque, duracaoEmMinutos): void
+}
+
+class Agendamento {
+    +id: string
+    +cliente: Cliente
+    +servico: Servico
+    +data: Date
+    +horaInicio: Date
+    +horaFim: Date
+    +status: AgendamentoStatus
+    +createdAt: Date
+    +updatedAt: Date
+}
+
+' ====================
+' DTOs - CLIENTE
+' ====================
+class CreateClienteInputDto {
+    +nome: string
+    +email: string
+    +numero: string
+    +senha: string
+    +role: ClienteRole
+}
+
+class CreateClienteOutputDto {
+    +id: string
+}
+
+class DeleteClienteInputDto {
+    +id: string
+}
+
+class DeleteClienteOutputDto {
+}
+
+class FindByEmailClienteInputDto {
+    +email: string
+}
+
+class FindByEmailClienteOutputDto {
+    +cliente: Cliente
+}
+
+class FindByIdClienteInputDto {
+    +id: string
+}
+
+class FindByIdClienteOutputDto {
+    +cliente: Cliente
+}
+
+class ListClienteInputDto {
+}
+
+class ListClienteOutputDto {
+    +clientes: List<Cliente>
+}
+
+class LoginClienteInputDto {
+    +email: string
+    +senha: string
+    +role: ClienteRole
+}
+
+class LoginClienteOutputDto {
+    +accessToken: string
+    +refreshToken: string
+}
+
+' ====================
+' DTOs - SERVICO
+' ====================
+class CreateServicoInputDto {
+    +nome: string
+    +preco: number
+    +descricao: string
+    +destaque: boolean
+    +duracaoEmMinutos: number
+}
+
+class CreateServicoOutputDto {
+    +id: string
+}
+
+class DeleteServicoInputDto {
+    +id: string
+}
+
+class DeleteServicoOutputDto {
+}
+
+class FindByIdServicoInputDto {
+    +id: string
+}
+
+class FindByIdServicoOutputDto {
+    +servico: Servico
+}
+
+class ListServicoInputDto {
+}
+
+class ListServicoOutputDto {
+    +servicos: List<Servico>
+}
+
+class UpdateServicoInputDto {
+    +id: string
+    +nome: string
+    +preco: number
+    +descricao: string
+    +destaque: boolean
+    +duracaoEmMinutos: number
+}
+
+class UpdateServicoOutputDto {
+}
+
+' ====================
+' DTOs - AGENDAMENTO
+' ====================
+class CreateAgendamentoInputDto {
+    +clienteId: string
+    +servicoId: string
+    +data: Date
+    +horaInicio: Date
+}
+
+class CreateAgendamentoOutputDto {
+    +id: string
+    +clienteId: string
+    +servicoId: string
+    +data: Date
+    +horaInicio: Date
+    +horaFim: Date
+    +status: AgendamentoStatus
+}
+
+class FindByIdAgendamentoInputDto {
+    +id: string
+}
+
+class FindByIdAgendamentoOutputDto {
+    +id: string
+    +clienteId: string
+    +servicoId: string
+    +data: Date
+    +horaInicio: Date
+    +horaFim: Date
+    +status: AgendamentoStatus
+}
+
+class FindByIntervalInputDto {
+    +data: Date
+    +horaInicio: Date
+    +horaFim: Date
+}
+
+class FindByIntervalOutputDto {
+    +agendamentos: List<Agendamento>
+}
+
+class ListAgendamentoInputDto {
+}
+
+class ListAgendamentoOutputDto {
+    +agendamentos: List<Agendamento>
+}
+
+' ====================
+' MIDDLEWARES
+' ====================
+interface IMiddleware {
+    +handle(req, res, next): void
+}
+
+class AuthMiddleware {
+    -tokenService: ITokenService
+    +constructor(tokenService: ITokenService)
+    +handle(req, res, next): void
+}
+
+class RoleMiddleware {
+    -allowedRoles: List<ClienteRole>
+    +constructor(allowedRoles: List<ClienteRole>)
+    +handle(req, res, next): void
+    +{static} onlyAdmin(): RoleMiddleware
+    +{static} onlyCliente(): RoleMiddleware
+    +{static} adminOrCliente(): RoleMiddleware
+}
+
+IMiddleware <|.. AuthMiddleware
+IMiddleware <|.. RoleMiddleware
+
+AuthMiddleware --> ITokenService
+
+' ====================
+' ROTAS
+' ====================
+interface Route {
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+    +getMiddlewares(): List<IMiddleware>
+}
+
+class CreateClienteRoute {
+    -path: string
+    -httpMethod: HttpMethod
+    -createClienteService: CreateClienteUsecase
+    +{static} create(createClienteService): CreateClienteRoute
+    +getHandler(): RequestHandler
+    +present(input): CreateClienteRouteResponse
+    +getPath(): string
+    +getMethod(): HttpMethod
+}
+
+class DeleteClienteRoute {
+    -path: string
+    -method: HttpMethod
+    -deleteClienteService: DeleteClienteUsecase
+    +{static} create(deleteClienteService): DeleteClienteRoute
+    +getHandler(): RequestHandler
+    +getMethod(): HttpMethod
+    +getPath(): string
+}
+
+class FindByEmailClienteRoute {
+    -path: string
+    -method: HttpMethod
+    -findByEmailClientesService: FindByEmailClienteUsecase
+    +{static} create(findByEmailClientesService): FindByEmailClienteRoute
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+}
+
+class FindByIdClienteRoute {
+    -path: string
+    -method: HttpMethod
+    -findByIdClientesService: FindByIdClienteUsecase
+    +{static} create(findByIdClientesService): FindByIdClienteRoute
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+}
+
+class ListClienteRoute {
+    -path: string
+    -method: HttpMethod
+    -listClienteService: ListClienteUsecase
+    +{static} create(listClienteService): ListClienteRoute
+    +getHandler(): RequestHandler
+    +present(input): ListClienteResponseDTO
+    +getPath(): string
+    +getMethod(): HttpMethod
+}
+
+class LoginClienteRoute {
+    -path: string
+    -httpMethod: HttpMethod
+    -loginClienteService: LoginClienteUsecase
+    +{static} create(loginClienteService): LoginClienteRoute
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+}
+
+class CreateServicoRoute {
+    -path: string
+    -method: HttpMethod
+    -createServicoService: CreateServicoUsecase
+    +{static} create(createServicoService): CreateServicoRoute
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+    -present(input): CreateServicoResponseDto
+}
+
+class DeleteServicoRoute {
+    -path: string
+    -method: HttpMethod
+    -deleteServicoService: DeleteServicoUsecase
+    +{static} create(deleteServicoService): DeleteServicoRoute
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+}
+
+class FindByIdServicoRoute {
+    -path: string
+    -httpMethod: HttpMethod
+    -findByIdServicoService: FindByIdServicoUsecase
+    +{static} create(findByIdServicoService): FindByIdServicoRoute
+    +getHandler(): RequestHandler
+    +getMethod(): HttpMethod
+    +getPath(): string
+}
+
+class ListServicosRoute {
+    -path: string
+    -method: HttpMethod
+    -listServicoService: ListServicoUsecase
+    +{static} create(listServicoService): ListServicosRoute
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+    -present(input): ListServicoResponseDto
+}
+
+class UpdateServicoRoute {
+    -path: string
+    -HttpMethod: HttpMethod
+    -updateServicoService: UpdateServicoUsecase
+    +{static} create(updateServicoService): UpdateServicoRoute
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+}
+
+class CreateAgendamentoRoute {
+    -path: string
+    -method: HttpMethod
+    -createAgendamentoService: CreateAgendamentoUsecase
+    -middlewares: List<IMiddleware>
+    +getHandler(): RequestHandler
+    +getPath(): string
+    +getMethod(): HttpMethod
+    +getMiddlewares(): List<IMiddleware>
+    -present(input): CreateAgendamentoOutputDto
+}
+
+class FindByIntervalAgendamentoRoute {
+    -path: string
+    -httpMethod: HttpMethod
+    -findByIntervalAgendamentoService: FindByIntervalAgendamentoUsecase
+    +{static} create(findByIntervalAgendamentoService): FindByIntervalAgendamentoRoute
+    +getHandler(): RequestHandler
+    +getMethod(): HttpMethod
+    +getPath(): string
+}
+
+class ListAgendamentoRoute {
+    -path: string
+    -method: HttpMethod
+    -listAgendamentoService: ListAgendamentoUsecase
+    +{static} create(listAgendamentoService): ListAgendamentoRoute
+    +getHandler(): RequestHandler
+    +getMethod(): HttpMethod
+    +getPath(): string
+}
+
+Route <|.. CreateClienteRoute
+Route <|.. DeleteClienteRoute
+Route <|.. FindByEmailClienteRoute
+Route <|.. FindByIdClienteRoute
+Route <|.. ListClienteRoute
+Route <|.. LoginClienteRoute
+Route <|.. CreateServicoRoute
+Route <|.. DeleteServicoRoute
+Route <|.. FindByIdServicoRoute
+Route <|.. ListServicosRoute
+Route <|.. UpdateServicoRoute
+Route <|.. CreateAgendamentoRoute
+Route <|.. FindByIntervalAgendamentoRoute
+Route <|.. ListAgendamentoRoute
+
+' ====================
+' USECASES
+' ====================
+interface Usecase<I, O> {
+    +execute(input: I): O
+}
+
+class CreateClienteUsecase {
+    -clienteGateway: ClienteGateway
+    -passwordHasher: IPasswordHasher
+    +{static} create(clienteGateway, passwordHasher): CreateClienteUsecase
+    +execute(input): CreateClienteOutputDto
+    -presentOutput(cliente): CreateClienteOutputDto
+}
+
+class DeleteClienteUsecase {
+    -clienteGateway: ClienteGateway
+    +{static} create(clienteGateway): DeleteClienteUsecase
+    +execute(input): void
+}
+
+class FindByEmailClienteUsecase {
+    -clienteGateway: ClienteGateway
+    +{static} create(clienteGateway): FindByEmailClienteUsecase
+    +execute(input): FindByEmailClienteOutputDto
+    +presentOutput(cliente): FindByEmailClienteOutputDto
+}
+
+class FindByIdClienteUsecase {
+    -clienteGateway: ClienteGateway
+    +{static} create(clienteGateway): FindByIdClienteUsecase
+    +execute(input): FindByIdClienteOutputDto
+    +presentOutput(cliente): FindByIdClienteOutputDto
+}
+
+class ListClienteUsecase {
+    -clienteGateway: ClienteGateway
+    +{static} create(clienteGateway): ListClienteUsecase
+    +execute(): ListClienteOutputDto
+    +presentOutput(clientes): ListClienteOutputDto
+}
+
+class LoginClienteUsecase {
+    -clienteGateway: ClienteGateway
+    -passwordHasher: IPasswordHasher
+    -tokenService: ITokenService
+    +{static} create(clienteGateway, passwordHasher, tokenService): LoginClienteUsecase
+    +execute(input): LoginClienteOutputDto
+}
+
+class CreateServicoUsecase {
+    -servicoGateway: ServicoGateway
+    +{static} create(servicoGateway): CreateServicoUsecase
+    +execute(input): CreateServicoOutputDto
+    -presentOutput(servico): CreateServicoOutputDto
+}
+
+class DeleteServicoUsecase {
+    -servicoGateway: ServicoGateway
+    +{static} create(servicoGateway): DeleteServicoUsecase
+    +execute(input): void
+}
+
+class FindByIdServicoUsecase {
+    -servicoGateway: ServicoGateway
+    +{static} create(servicoGateway): FindByIdServicoUsecase
+    +execute(input): FindByIdServicoOutputDto
+}
+
+class ListServicoUsecase {
+    -servicoGateway: ServicoGateway
+    +{static} create(servicoGateway): ListServicoUsecase
+    +execute(): ListServicoOutputDto
+    -presentOutput(servicos): ListServicoOutputDto
+}
+
+class UpdateServicoUsecase {
+    -servicoGateway: ServicoGateway
+    +{static} create(servicoGateway): UpdateServicoUsecase
+    +execute(input): void
+}
+
+class CreateAgendamentoUsecase {
+    -agendamentoGateway: AgendamentoGateway
+    -agendamentoValidator: AgendamentoValidator
+    -servicoGateway: ServicoGateway
+    -clienteGateway: ClienteGateway
+    +{static} create(agendamentoGateway, agendamentoValidator, servicoGateway, clienteGateway): CreateAgendamentoUsecase
+    +execute(input): CreateAgendamentoOutputDto
+}
+
+class FindByIdAgendamentoUsecase {
+    -agendamentoGateway: AgendamentoGateway
+    +{static} create(agendamentoGateway): FindByIdAgendamentoUsecase
+    +execute(input): FindByIdAgendamentoOutputDto
+    -presentOutput(agendamento): FindByIdAgendamentoOutputDto
+}
+
+class FindByIntervalAgendamentoUsecase {
+    -agendamentoGateway: AgendamentoGateway
+    +{static} create(agendamentoGateway): FindByIntervalAgendamentoUsecase
+    +execute(input): FindByIntervalOutputDto
+    -presentOutput(agendamentos): FindByIntervalOutputDto
+}
+
+class ListAgendamentoUsecase {
+    -agendamentoGateway: AgendamentoGateway
+    +{static} create(agendamentoGateway): ListAgendamentoUsecase
+    +execute(): ListAgendamentoOutputDto
+    -presentOutput(agendamentos): ListAgendamentoOutputDto
+}
+
+Usecase <|.. CreateClienteUsecase
+Usecase <|.. DeleteClienteUsecase
+Usecase <|.. FindByEmailClienteUsecase
+Usecase <|.. FindByIdClienteUsecase
+Usecase <|.. ListClienteUsecase
+Usecase <|.. LoginClienteUsecase
+Usecase <|.. CreateServicoUsecase
+Usecase <|.. DeleteServicoUsecase
+Usecase <|.. FindByIdServicoUsecase
+Usecase <|.. ListServicoUsecase
+Usecase <|.. UpdateServicoUsecase
+Usecase <|.. CreateAgendamentoUsecase
+Usecase <|.. FindByIdAgendamentoUsecase
+Usecase <|.. FindByIntervalAgendamentoUsecase
+Usecase <|.. ListAgendamentoUsecase
+
+' ====================
+' GATEWAYS / REPOSITORIES / SERVICES
+' ====================
+interface IPasswordHasher {
+    +hash(senha: string): string
+    +compare(senha: string, senhaHash: string): boolean
+}
+
+interface ITokenService {
+    +generateAcessToken(payload): string
+    +generateRefreshToken(payload): string
+    +verifyAcessToken(token: string): TokenPayload
+    +verifyToken(token: string): TokenPayload
+}
+
+interface ClienteGateway {
+    +save(cliente: Cliente): string
+    +update(cliente: Cliente): void
+    +delete(id: string): void
+    +findById(id: string): Cliente
+    +findByEmail(email: string): Cliente
+    +list(): List<Cliente>
+}
+
+interface AgendamentoGateway {
+    +save(agendamento: Agendamento): void
+    +update(agendamento: Agendamento): void
+    +delete(id: string): void
+    +findById(id: string): Agendamento
+    +list(): List<Agendamento>
+    +findByInterval(data: Date, horaInicio: Date, horaFim: Date): List<Agendamento>
+}
+
+interface ServicoGateway {
+    +save(servico: Servico): void
+    +update(servico: Servico): void
+    +delete(id: string): void
+    +findById(id: string): Servico
+    +list(): List<Servico>
+}
+
+interface AgendamentoValidator {
+    +validateAll(agendamento: Agendamento): void
+}
+
+class ClienteRepository {
+    +save(cliente: Cliente)
+    +update(cliente: Cliente)
+    +delete(id: string)
+    +findById(id: string): Cliente
+    +findByEmail(email: string): Cliente
+    +list(): List<Cliente>
+}
+
+class ServicoRepositoryPrisma {
+    +save(servico: Servico): void
+    +update(servico: Servico): void
+    +delete(id: string): void
+    +findById(id: string): Servico
+    +list(): List<Servico>
+}
+
+class AgendamentoRepository {
+    +save(agendamento: Agendamento)
+    +update(agendamento: Agendamento)
+    +delete(id: string)
+    +findById(id: string): Agendamento
+    +list(): List<Agendamento>
+    +findByInterval(start: Date, end: Date): List<Agendamento>
+}
+
+ClienteGateway <|.. ClienteRepository
+ServicoGateway <|.. ServicoRepositoryPrisma
+AgendamentoGateway <|.. AgendamentoRepository
+
+' ====================
+' API PRINCIPAL
+' ====================
+interface Api {
+    +start(port: number): void
+}
+
+class ApiExpress {
+    -app: Express
+    -constructor(routes: List<Route>)
+    +{static} create(routes: List<Route>): ApiExpress
+    +start(port: number): void
+    -addRoutes(routes: List<Route>): void
+}
+
+Api <|.. ApiExpress
+ApiExpress --> Route
+
+' ====================
+' RELAÇÕES
+' ====================
+
+' Rotas -> Usecases
+CreateClienteRoute --> CreateClienteUsecase
+DeleteClienteRoute --> DeleteClienteUsecase
+FindByEmailClienteRoute --> FindByEmailClienteUsecase
+FindByIdClienteRoute --> FindByIdClienteUsecase
+ListClienteRoute --> ListClienteUsecase
+LoginClienteRoute --> LoginClienteUsecase
+CreateServicoRoute --> CreateServicoUsecase
+DeleteServicoRoute --> DeleteServicoUsecase
+FindByIdServicoRoute --> FindByIdServicoUsecase
+ListServicosRoute --> ListServicoUsecase
+UpdateServicoRoute --> UpdateServicoUsecase
+CreateAgendamentoRoute --> CreateAgendamentoUsecase
+FindByIntervalAgendamentoRoute --> FindByIntervalAgendamentoUsecase
+ListAgendamentoRoute --> ListAgendamentoUsecase
+
+' Usecases -> Repositories / Gateways
+CreateClienteUsecase --> ClienteGateway
+CreateClienteUsecase --> IPasswordHasher
+
+DeleteClienteUsecase --> ClienteGateway
+
+FindByEmailClienteUsecase --> ClienteGateway
+
+FindByIdClienteUsecase --> ClienteGateway
+
+ListClienteUsecase --> ClienteGateway
+
+LoginClienteUsecase --> ClienteGateway
+LoginClienteUsecase --> IPasswordHasher
+LoginClienteUsecase --> ITokenService
+
+CreateServicoUsecase --> ServicoGateway
+
+DeleteServicoUsecase --> ServicoGateway
+
+FindByIdServicoUsecase --> ServicoGateway
+
+ListServicoUsecase --> ServicoGateway
+
+UpdateServicoUsecase --> ServicoGateway
+
+CreateAgendamentoUsecase --> AgendamentoGateway
+CreateAgendamentoUsecase --> AgendamentoValidator
+CreateAgendamentoUsecase --> ServicoGateway
+CreateAgendamentoUsecase --> ClienteGateway
+
+FindByIdAgendamentoUsecase --> AgendamentoGateway
+FindByIntervalAgendamentoUsecase --> AgendamentoGateway
+ListAgendamentoUsecase --> AgendamentoGateway
+
+' Repositories/Gateways -> Entidades
+AgendamentoRepository --> Agendamento
+ClienteRepository --> Cliente
+ServicoRepositoryPrisma --> Servico
+Agendamento --> Cliente
+Agendamento --> Servico
+
+' Middlewares ligados às rotas
+CreateClienteRoute --> IMiddleware
+CreateAgendamentoRoute --> IMiddleware
+
+@enduml
