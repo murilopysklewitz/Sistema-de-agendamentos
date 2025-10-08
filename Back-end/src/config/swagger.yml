@@ -34,6 +34,9 @@ components:
         senha:
           type: string
           example: "senha123"
+        role: 
+          type: clienteRole
+          example: "CLIENTE"
     ClienteInput:
       type: object
       properties:
@@ -49,11 +52,15 @@ components:
         senha: 
           type: string
           example: "senha123"
+        role: 
+          type: clienteRole
+          example: "CLIENTE"
       required:
         - nome
         - email
         - numero
         - senha
+        - role
 
     Servico:
       type: object
