@@ -51,7 +51,8 @@ class AgendamentoMapperPrisma {
             id: prismaCliente.id,
             nome: prismaCliente.nome,
             email: prismaCliente.email,
-            numero: prismaCliente.numero
+            numero: prismaCliente.numero,
+            senha: prismaCliente.senha
         });
     }
 }

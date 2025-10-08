@@ -33,6 +33,12 @@ import { ListClienteRoute } from './infra/api/express/routes/clientes/list-clien
 import { DeleteClienteRoute } from './infra/api/express/routes/clientes/delete-cliente.express.route';
 import { FindByEmailClienteUsecase } from './usecases/cliente.usecases/findByEmail.usecase';
 import { FindByEmailClienteRoute } from './infra/api/express/routes/clientes/findByEmail.express.route';
+import { LoginClienteUsecase } from './usecases/cliente.usecases/loginCliente.usecase';
+import { BcryptPasswordHasher } from './infra/security/BcryptPasswordHasher';
+import { JWTService } from './infra/security/JWTService';
+import { LoginClienteRoute } from './infra/api/express/routes/clientes/login-cliente.express.route';
+import { AuthMiddleware } from './infra/api/express/middlewares/auth.middleware';
+import { Route } from './infra/api/express/routes/routes';
 
 
 
@@ -44,6 +50,11 @@ function main() {
      
      const vallidator = AgendamentoValidatorService.create(aRepositoryAgendamentos)
 
+     const passwordHasher = new BcryptPasswordHasher(10)
+     const jwtService = new JWTService()
+
+     const authMiddleware = new AuthMiddleware(jwtService)
+
      
      // CRUD de usecase para serviços
      const findByIdServicoUsecase = FindByIdServicoUsecase.create(aRepository)
@@ -53,7 +64,8 @@ function main() {
      const deleteServicoUseCase = DeleteServicoUsecase.create(aRepository);
 
      // CRUD de usecases para clientes
-     const createClienteUsecase = CreateClienteUsecase.create(aRepositoryClientes)
+     const createClienteUsecase = CreateClienteUsecase.create(aRepositoryClientes, passwordHasher)
+     const loginClienteUsecase = LoginClienteUsecase.create(aRepositoryClientes, passwordHasher, jwtService)
      const findByEmailClienteUsecase = FindByEmailClienteUsecase.create(aRepositoryClientes)
      const findByIdClientesUsecase = FindByIdClienteUsecase.create(aRepositoryClientes)
      const listClientesUsecase = ListClienteUsecase.create(aRepositoryClientes)
@@ -74,13 +86,14 @@ function main() {
 
 
      //CRUD de rotas para agendamentos
-     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase)
+     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware])
      const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase)
      const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase)
      const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
 
      // CRUD de rotas de Clientes 
      const createClienteRoute = CreateClienteRoute.create(createClienteUsecase)
+     const loginClienteRoute = LoginClienteRoute.create(loginClienteUsecase)
      const findByEmailClienteRoute = FindByEmailClienteRoute.create(findByEmailClienteUsecase)
      const findByIdClienteRoute = FindByIdClienteRoute.create(findByIdClientesUsecase)
      const listClienteRoute = ListClienteRoute.create(listClientesUsecase)
@@ -95,7 +108,7 @@ function main() {
           //rotas de agendamentos
           createAgendamentoRoute, findByIdAgendamentosRoute, findByIntervalAgendamentoRoute, listAgendamentoRoute,
           //rotas de cliente
-          createClienteRoute, findByEmailClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
+          createClienteRoute, loginClienteRoute, findByEmailClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
       ]);
      api.start(PORT)
 }

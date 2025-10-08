@@ -3,6 +3,8 @@ import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
 import { CreateAgendamentoInputDto, CreateAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase";
+import { AuthMiddleware } from "../../middlewares/auth.middleware";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 
 export type CreateAgendamentoResponseDto = {
             id: string;
@@ -14,19 +16,25 @@ export type CreateAgendamentoResponseDto = {
             status: AgendamentoStatus ;
 }
 export class CreateAgendamentoRoute implements Route {
+    private readonly middlewares: IMiddleware[] = []
+
     private constructor(
         private readonly path:string,
         private readonly method: HttpMethod,
         private readonly createAgendamentoService: CreateAgendamentoUsecase,
-    ){}
+        middlewares: IMiddleware[] = []
+    ){
+        this.middlewares = middlewares
+    }
 
-    public static create(createAgendamentoService: CreateAgendamentoUsecase) {
-        return new CreateAgendamentoRoute('/api/agendamentos', HttpMethod.POST, createAgendamentoService)
+    public static create(createAgendamentoService: CreateAgendamentoUsecase, middlewares: IMiddleware[] =[] ) {
+        return new CreateAgendamentoRoute('/api/agendamentos', HttpMethod.POST, createAgendamentoService, middlewares)
     }
 
     public  getHandler() {
         return async (request: Request, response: Response) => {
-            const { clienteId, servicoId, data, horaInicio,} = request.body;
+
+            const {clienteId, servicoId, data, horaInicio,} = request.body;
 
             const input: CreateAgendamentoInputDto = {
                 clienteId,
@@ -45,6 +53,9 @@ export class CreateAgendamentoRoute implements Route {
         
             public getMethod(): HttpMethod {
                 return this.method;
+            }
+            public getMiddlewares(): IMiddleware[] {
+                return this.middlewares
             }
         
             private present(input:CreateAgendamentoResponseDto): CreateAgendamentoResponseDto {
