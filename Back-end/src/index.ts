@@ -64,7 +64,7 @@ function main() {
      const deleteServicoUseCase = DeleteServicoUsecase.create(aRepository);
 
      // CRUD de usecases para clientes
-     const createClienteUsecase = CreateClienteUsecase.create(aRepositoryClientes)
+     const createClienteUsecase = CreateClienteUsecase.create(aRepositoryClientes, passwordHasher)
      const loginClienteUsecase = LoginClienteUsecase.create(aRepositoryClientes, passwordHasher, jwtService)
      const findByEmailClienteUsecase = FindByEmailClienteUsecase.create(aRepositoryClientes)
      const findByIdClientesUsecase = FindByIdClienteUsecase.create(aRepositoryClientes)
