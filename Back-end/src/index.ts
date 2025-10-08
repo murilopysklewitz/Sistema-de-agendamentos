@@ -39,6 +39,7 @@ import { JWTService } from './infra/security/JWTService';
 import { LoginClienteRoute } from './infra/api/express/routes/clientes/login-cliente.express.route';
 import { AuthMiddleware } from './infra/api/express/middlewares/auth.middleware';
 import { Route } from './infra/api/express/routes/routes';
+import { RoleMiddleware } from 'infra/api/express/middlewares/Role.middleware';
 
 
 
@@ -86,7 +87,7 @@ function main() {
 
 
      //CRUD de rotas para agendamentos
-     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware])
+     const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
      const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase)
      const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase)
      const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
