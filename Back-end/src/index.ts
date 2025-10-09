@@ -81,7 +81,7 @@ function main() {
      // CRUD de rotas para serviços
      const findByIdServicoRoute = FindByIdServicoRoute.create(findByIdServicoUsecase);
      const updateServicoRoute = UpdateServicoRoute.create(updateServicoUsecase)
-     const createServicoRoute = CreateServicoRoute.create(createServicoUseCase);
+     const createServicoRoute = CreateServicoRoute.create(createServicoUseCase, [authMiddleware, RoleMiddleware.onlyAdmin()]);
      const listServicoRoute = ListServicosRoute.create(listServicosUseCase);
      const deleteServicoRoute = DeleteServicoRoute.create(deleteServicoUseCase);
 
