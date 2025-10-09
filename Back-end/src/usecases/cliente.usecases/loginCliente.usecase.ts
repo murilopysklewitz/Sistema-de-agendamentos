@@ -1,4 +1,4 @@
-import { ClienteRole } from "domain/cliente/entity/cliente"
+import { ClienteRole } from "../../domain/cliente/entity/cliente"
 import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway"
 import { IPasswordHasher } from "../../domain/cliente/services/IPasswordHasher"
 import { ITokenService } from "../../domain/cliente/services/ITokenService"

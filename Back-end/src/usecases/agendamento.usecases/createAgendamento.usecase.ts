@@ -1,10 +1,10 @@
 
-import { ClienteGateway } from "../../../domain/cliente/gateway/cliente.gateway";
-import { Agendamento, AgendamentoStatus } from "../../../domain/agendamento/entity/agendamento";
-import { AgendamentoGateway } from "../../../domain/agendamento/gateway/agendamento.gateway";
-import { AgendamentoValidator } from "../../../domain/agendamento/service/agendamento-validator.interface";
-import { ServicoGateway } from "../../../domain/servico/gateway/servico.gateway";
-import { Usecase } from "../../../usecases/usecase";
+import { ClienteGateway } from "../../domain/cliente/gateway/cliente.gateway";
+import { Agendamento, AgendamentoStatus } from "../../domain/agendamento/entity/agendamento";
+import { AgendamentoGateway } from "../../domain/agendamento/gateway/agendamento.gateway";
+import { AgendamentoValidator } from "../../domain/agendamento/service/agendamento-validator.interface";
+import { ServicoGateway } from "../../domain/servico/gateway/servico.gateway";
+import { Usecase } from "../usecase";
 
 
 export interface CreateAgendamentoInputDto {

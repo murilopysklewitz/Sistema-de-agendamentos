@@ -11,7 +11,7 @@ import { DeleteServicoRoute } from './infra/api/express/routes/servico/delete-se
 import { ApiExpress } from './infra/api/express/routes/api.express';
 import { UpdateServicoUsecase } from './usecases/servico.usecases/update-servico/updateServico.usecase';
 import { UpdateServicoRoute } from './infra/api/express/routes/servico/update-servico.express.route';
-import { CreateAgendamentoUsecase } from './usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase';
+import { CreateAgendamentoUsecase } from './usecases/agendamento.usecases/createAgendamento.usecase';
 import { AgendamentoRepository } from './infra/repositories/agendamento/agendamento.repository,prisma';
 import { AgendamentoMapperPrisma } from './infra/database/prisma/mappers/agendamento.mapper';
 import { AgendamentoValidatorService } from './domain/agendamento/service/agendamento-validator.service';
@@ -22,9 +22,6 @@ import { CreateClienteRoute } from './infra/api/express/routes/clientes/create-c
 import { FindByIdClienteUsecase } from './usecases/cliente.usecases/findById.usecase';
 import { ListClienteUsecase } from './usecases/cliente.usecases/listCliente.usecase';
 import { DeleteClienteUsecase } from './usecases/cliente.usecases/deleteCliente.usecase';
-import { FindByIdAgendamentoUsecase } from './usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase';
-import { ListAgendamentoUsecase } from './usecases/agendamento.usecases/list-agendamento/listAgendamento.usecase';
-import { FindByIntervalAgendamentoUsecase } from './usecases/agendamento.usecases/findByInterval-agendamento/findByIntervalAgendamento.Usecase';
 import { FindByIdAgendamentoRoute } from './infra/api/express/routes/agendamentos/findById-agendamento.express.route';
 import { ListAgendamentoRoute } from './infra/api/express/routes/agendamentos/list-agendamento.express.route';
 import { FindByIntervalAgendamentoRoute } from './infra/api/express/routes/agendamentos/findByInterval-agendamento.express.route';
@@ -40,6 +37,9 @@ import { LoginClienteRoute } from './infra/api/express/routes/clientes/login-cli
 import { AuthMiddleware } from './infra/api/express/middlewares/auth.middleware';
 import { Route } from './infra/api/express/routes/routes';
 import { RoleMiddleware } from './infra/api/express/middlewares/Role.middleware';
+import { FindByIdAgendamentoUsecase } from './usecases/agendamento.usecases/findByIdAgendamentos.usecase';
+import { ListAgendamentoUsecase } from './usecases/agendamento.usecases/listAgendamento.usecase';
+import { FindByIntervalAgendamentoUsecase } from './usecases/agendamento.usecases/findByIntervalAgendamento.Usecase';
 
 
 

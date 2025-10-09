@@ -2,7 +2,7 @@
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
-import { CreateAgendamentoInputDto, CreateAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase";
+import { CreateAgendamentoInputDto, CreateAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/createAgendamento.usecase";
 import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { IMiddleware } from "../../middlewares/IMiddleware";
 

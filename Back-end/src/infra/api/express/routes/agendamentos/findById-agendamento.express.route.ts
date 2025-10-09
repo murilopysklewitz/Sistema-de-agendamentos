@@ -3,7 +3,7 @@ import { ServicoProps } from "../../../../../domain/servico/entity/servico";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
-import { FindByIdAgendamentoInputDto, FindByIdAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase";
+import { FindByIdAgendamentoInputDto, FindByIdAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/findByIdAgendamentos.usecase";
 
 export type FindByIdAgendamentoResponseDto = {
         id: string;

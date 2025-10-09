@@ -3,8 +3,7 @@ import { ServicoProps } from "../../../../../domain/servico/entity/servico";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
-import { ListAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/list-agendamento/listAgendamento.usecase";
-
+import { ListAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/listAgendamento.usecase";
 export type ListAgendamentoResponseDto = {
     agendamentos: {
         id: string;
