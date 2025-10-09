@@ -7,7 +7,6 @@ import { Usecase } from "../../usecases/usecase"
 export type LoginClienteInputDto = {
     email: string,
     senha: string,
-    role: ClienteRole
 }
 export type LoginClienteOutputDto = {
     accessToken: string,
@@ -30,7 +29,7 @@ export class LoginClienteUsecase implements Usecase<LoginClienteInputDto, LoginC
             return new LoginClienteUsecase(clienteGateway, passwordHasher, tokenService)
         }
 
-    public async execute({email, senha, role}: LoginClienteInputDto): Promise<LoginClienteOutputDto> {
+    public async execute({email, senha,}: LoginClienteInputDto): Promise<LoginClienteOutputDto> {
         try {
             const cliente = await this.clienteGateway.findByEmail(email)
             if(!cliente){
