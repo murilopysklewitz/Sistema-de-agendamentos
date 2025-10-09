@@ -53,25 +53,24 @@ export class ClienteRepository implements ClienteGateway {
         }
     }
 
-    public async findByEmail(email: string): Promise<Cliente> {
+    public async findByEmail(email: string): Promise<Cliente | undefined> {
         const cliente = await this.prismaClient.cliente.findUnique({
-            where: {email}
-        })
-        if (!cliente) {
-            throw new Error(`não foi possivel achar por Email`)
-        };
-
-        const clienteAchado = Cliente.with({
-            id: cliente.id,
-            nome: cliente.nome,
-            email: cliente.email,
-            numero: cliente.numero,
-            senha: cliente.senha,
-            role: clienteMapper.toDomainRole(cliente.role
-            )
+          where: { email },
         });
-        return clienteAchado
-    }
+    
+        if (!cliente) {
+          console.log(`Cliente não encontrado para o email: ${email}`);
+        }else {
+            return Cliente.with({
+                id: cliente.id,
+                nome: cliente.nome,
+                email: cliente.email,
+                numero: cliente.numero,
+                senha: cliente.senha,
+                role: clienteMapper.toDomainRole(cliente.role),
+              });
+            }
+      }
 
     public async findById(id: string): Promise<Cliente> {
         const cliente = await this.prismaClient.cliente.findUnique({

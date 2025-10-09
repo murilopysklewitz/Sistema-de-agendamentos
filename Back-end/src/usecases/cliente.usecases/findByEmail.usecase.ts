@@ -14,20 +14,26 @@ export type findByEmailClienteOutputDto = {
         senha: string,
         role: ClienteRole
     }
+    | undefined
 }
 
-export class FindByEmailClienteUsecase implements Usecase<findByEmailClienteInputDto, findByEmailClienteOutputDto>{
+export class FindByEmailClienteUsecase implements Usecase<findByEmailClienteInputDto, findByEmailClienteOutputDto | undefined>{
     private constructor(private readonly clienteGateway: ClienteGateway){}
 
     public static create(clienteGateway: ClienteGateway) {
         return new FindByEmailClienteUsecase(clienteGateway)
     }
 
-    public async execute({email}: findByEmailClienteInputDto): Promise<findByEmailClienteOutputDto> {
+    public async execute({email}: findByEmailClienteInputDto): Promise<findByEmailClienteOutputDto | undefined> {
         try {
             const cliente = await this.clienteGateway.findByEmail(email)
-            const output = this.presentOutput(cliente)
-            return output
+            if(!cliente) {
+                console.log("Não foi possivel achar o cliente")
+            }else{
+                const output = this.presentOutput(cliente)
+                return output
+            }
+
         }catch(error: any){
             throw new Error("não foi possível achar cliente com esse email")
         }
