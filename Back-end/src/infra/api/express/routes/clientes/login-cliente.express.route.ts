@@ -10,17 +10,27 @@ export class LoginClienteRoute implements Route {
 
     public static create(loginClienteService: LoginClienteUsecase) {
         return new LoginClienteRoute(
-            "/api/cliente/auth",
+            "/api/clientes/auth",
             HttpMethod.POST,
             loginClienteService
         )
     }
     public getHandler() {
         return async (request: Request, response: Response) => {
-            const {email, senha, role} = request.body
-            const output = await this.loginClienteService.execute({email, senha, role})
-            
-            response.status(200)
+            try {
+                const { email, senha } = request.body
+
+                console.log("Requisição recebida em /api/clientes/auth", { email })
+
+                const output = await this.loginClienteService.execute({ email, senha })
+
+                console.log("Login realizado com sucesso:", output)
+
+                response.status(200).json(output)
+            } catch (error: any) {
+                console.error("rro no login:", error.message)
+                response.status(401).json({ message: error.message || "Falha na autenticação" })
+            }
         }
     }
 
