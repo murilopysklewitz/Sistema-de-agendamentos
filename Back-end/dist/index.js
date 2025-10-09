@@ -40,6 +40,7 @@ const BcryptPasswordHasher_1 = require("./infra/security/BcryptPasswordHasher");
 const JWTService_1 = require("./infra/security/JWTService");
 const login_cliente_express_route_1 = require("./infra/api/express/routes/clientes/login-cliente.express.route");
 const auth_middleware_1 = require("./infra/api/express/middlewares/auth.middleware");
+const Role_middleware_1 = require("./infra/api/express/middlewares/Role.middleware");
 function main() {
     const mapper = new agendamento_mapper_1.AgendamentoMapperPrisma();
     const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
@@ -56,7 +57,7 @@ function main() {
     const listServicosUseCase = listServico_usecase_1.ListServicoUsecase.create(aRepository);
     const deleteServicoUseCase = deleteServico_usecase_1.DeleteServicoUsecase.create(aRepository);
     // CRUD de usecases para clientes
-    const createClienteUsecase = createCliente_usecase_1.CreateClienteUsecase.create(aRepositoryClientes);
+    const createClienteUsecase = createCliente_usecase_1.CreateClienteUsecase.create(aRepositoryClientes, passwordHasher);
     const loginClienteUsecase = loginCliente_usecase_1.LoginClienteUsecase.create(aRepositoryClientes, passwordHasher, jwtService);
     const findByEmailClienteUsecase = findByEmail_usecase_1.FindByEmailClienteUsecase.create(aRepositoryClientes);
     const findByIdClientesUsecase = findById_usecase_1.FindByIdClienteUsecase.create(aRepositoryClientes);
@@ -74,7 +75,7 @@ function main() {
     const listServicoRoute = list_product_express_route_1.ListServicosRoute.create(listServicosUseCase);
     const deleteServicoRoute = delete_servico_express_route_1.DeleteServicoRoute.create(deleteServicoUseCase);
     //CRUD de rotas para agendamentos
-    const createAgendamentoRoute = create_agendamento_express_route_1.CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware]);
+    const createAgendamentoRoute = create_agendamento_express_route_1.CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware, Role_middleware_1.RoleMiddleware.onlyAdmin()]);
     const findByIdAgendamentosRoute = findById_agendamento_express_route_1.FindByIdAgendamentoRoute.create(findAgendamentoUsecase);
     const listAgendamentoRoute = list_agendamento_express_route_1.ListAgendamentoRoute.create(listAgendamentoUsecase);
     const findByIntervalAgendamentoRoute = findByInterval_agendamento_express_route_1.FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase);

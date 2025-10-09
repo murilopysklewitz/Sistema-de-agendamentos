@@ -13,7 +13,7 @@ class LoginClienteUsecase {
     static create(clienteGateway, passwordHasher, tokenService) {
         return new LoginClienteUsecase(clienteGateway, passwordHasher, tokenService);
     }
-    async execute({ email, senha }) {
+    async execute({ email, senha, role }) {
         try {
             const cliente = await this.clienteGateway.findByEmail(email);
             if (!cliente) {
@@ -25,11 +25,13 @@ class LoginClienteUsecase {
             }
             const accessToken = this.tokenService.generateAcessToken({
                 clienteId: cliente.id,
-                email: cliente.email
+                email: cliente.email,
+                role: cliente.role
             });
             const refreshToken = this.tokenService.generateRefreshToken({
                 clienteId: cliente.id,
-                email: cliente.email
+                email: cliente.email,
+                role: cliente.role
             });
             return { accessToken, refreshToken };
         }

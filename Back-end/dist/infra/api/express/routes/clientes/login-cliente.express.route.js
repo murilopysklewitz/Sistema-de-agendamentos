@@ -16,8 +16,8 @@ class LoginClienteRoute {
     }
     getHandler() {
         return async (request, response) => {
-            const { email, senha } = request.body;
-            const output = await this.loginClienteService.execute({ email, senha });
+            const { email, senha, role } = request.body;
+            const output = await this.loginClienteService.execute({ email, senha, role });
             response.status(200);
         };
     }

@@ -21,7 +21,8 @@ class ListClienteUsecase {
                 nome: p.nome,
                 email: p.email,
                 numero: p.numero,
-                senha: p.senha
+                senha: p.senha,
+                role: p.role
             }))
         };
     }

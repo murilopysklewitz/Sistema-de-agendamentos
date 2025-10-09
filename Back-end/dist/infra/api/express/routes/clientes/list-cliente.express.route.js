@@ -26,7 +26,8 @@ class ListClienteRoute {
                 id: cliente.id,
                 nome: cliente.nome,
                 email: cliente.email,
-                numero: cliente.numero
+                numero: cliente.numero,
+                role: cliente.role
             }))
         };
     }

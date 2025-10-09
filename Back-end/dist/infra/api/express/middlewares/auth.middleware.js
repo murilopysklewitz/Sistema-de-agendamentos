@@ -14,10 +14,10 @@ class AuthMiddleware {
             return;
         }
         const token = authHeader.split(" ")[1];
-        console.log('🎫 Token extraído:', token.substring(0, 20) + '...');
+        console.log(' Token extraído:', token.substring(0, 20) + '...');
         try {
             const payload = this.tokenService.verifyAcessToken(token);
-            console.log('✅ Payload verificado:', payload);
+            console.log(' Payload verificado:', payload);
             request.user = payload;
             next();
         }

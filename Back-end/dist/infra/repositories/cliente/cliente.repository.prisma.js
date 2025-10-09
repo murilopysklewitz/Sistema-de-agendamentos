@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClienteRepository = void 0;
 const cliente_1 = require("../../../domain/cliente/entity/cliente");
+const cliente_mapper_1 = require("../../../infra/database/prisma/mappers/cliente.mapper");
 class ClienteRepository {
     prismaClient;
     constructor(prismaClient) {
@@ -16,7 +17,8 @@ class ClienteRepository {
                 nome: cliente.nome,
                 email: cliente.email,
                 numero: cliente.numero,
-                senha: cliente.senha
+                senha: cliente.senha,
+                role: cliente.role,
             };
             await this.prismaClient.cliente.upsert({
                 where: { id: cliente.id },
@@ -38,7 +40,8 @@ class ClienteRepository {
                     nome: p.nome,
                     email: p.email,
                     numero: p.numero,
-                    senha: p.senha
+                    senha: p.senha,
+                    role: cliente_mapper_1.clienteMapper.toDomainRole(p.role),
                 });
                 return cliente;
             });
@@ -61,7 +64,8 @@ class ClienteRepository {
             nome: cliente.nome,
             email: cliente.email,
             numero: cliente.numero,
-            senha: cliente.senha
+            senha: cliente.senha,
+            role: cliente_mapper_1.clienteMapper.toDomainRole(cliente.role)
         });
         return clienteAchado;
     }
@@ -77,7 +81,8 @@ class ClienteRepository {
             nome: cliente.nome,
             email: cliente.email,
             numero: cliente.numero,
-            senha: cliente.senha
+            senha: cliente.senha,
+            role: cliente_mapper_1.clienteMapper.toDomainRole(cliente.role)
         });
         return clienteAchado;
     }
@@ -89,7 +94,7 @@ class ClienteRepository {
                     nome: cliente.nome,
                     email: cliente.email,
                     numero: cliente.numero,
-                    senha: cliente.senha
+                    senha: cliente.senha,
                 }
             });
         }

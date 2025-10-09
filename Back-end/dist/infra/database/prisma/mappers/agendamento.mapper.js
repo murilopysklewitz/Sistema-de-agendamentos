@@ -4,6 +4,7 @@ exports.AgendamentoMapperPrisma = void 0;
 const agendamento_1 = require("../../../../domain/agendamento/entity/agendamento");
 const servico_1 = require("../../../../domain/servico/entity/servico");
 const cliente_1 = require("../../../../domain/cliente/entity/cliente");
+const cliente_mapper_1 = require("./cliente.mapper");
 class AgendamentoMapperPrisma {
     toDomain(agendamentoPrisma) {
         const servicoDomain = this.mapPrismaServicoToDomain(agendamentoPrisma.servico);
@@ -52,7 +53,8 @@ class AgendamentoMapperPrisma {
             nome: prismaCliente.nome,
             email: prismaCliente.email,
             numero: prismaCliente.numero,
-            senha: prismaCliente.senha
+            senha: prismaCliente.senha,
+            role: cliente_mapper_1.clienteMapper.toDomainRole(prismaCliente.role)
         });
     }
 }

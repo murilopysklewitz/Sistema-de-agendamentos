@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cliente = void 0;
+exports.Cliente = exports.ClienteRole = void 0;
+var ClienteRole;
+(function (ClienteRole) {
+    ClienteRole["CLIENTE"] = "CLIENTE";
+    ClienteRole["ADMIN"] = "ADMIN";
+})(ClienteRole || (exports.ClienteRole = ClienteRole = {}));
 class Cliente {
     props;
     constructor(props) {
@@ -18,7 +23,7 @@ class Cliente {
             throw new Error("Um cliente deve ter umas senha");
         }
     }
-    static create(nome, email, numero, senha) {
+    static create(nome, email, numero, senha, role) {
         if (!nome || nome.trim() === "") {
             throw new Error("Nome inválido");
         }
@@ -36,7 +41,8 @@ class Cliente {
             nome,
             email,
             numero,
-            senha
+            senha,
+            role
         });
     }
     static with(props) {
@@ -70,10 +76,17 @@ class Cliente {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
+    isAdmin() {
+        return this.props.role === ClienteRole.ADMIN;
+    }
+    isCliente() {
+        return this.props.role === ClienteRole.CLIENTE;
+    }
     get id() { return this.props.id; }
     get nome() { return this.props.nome; }
     get email() { return this.props.email; }
     get numero() { return this.props.numero; }
     get senha() { return this.props.senha; }
+    get role() { return this.props.role; }
 }
 exports.Cliente = Cliente;

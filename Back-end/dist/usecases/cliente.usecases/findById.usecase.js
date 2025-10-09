@@ -22,7 +22,8 @@ class FindByIdClienteUsecase {
                 nome: cliente.nome,
                 email: cliente.email,
                 numero: cliente.numero,
-                senha: cliente.senha
+                senha: cliente.senha,
+                role: cliente.role
             })
         };
     }

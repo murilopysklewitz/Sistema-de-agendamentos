@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiExpress = void 0;
 const express_1 = __importDefault(require("express"));
-const swagger_1 = require("../../../../config/swagger");
+const swagger_1 = require("../../../../docs/swagger");
 class ApiExpress {
     app;
     constructor(routes) {
@@ -18,7 +18,7 @@ class ApiExpress {
         this.addRoutes(routes);
         (0, swagger_1.setupSwagger)(this.app);
         this.app.use((err, req, res, next) => {
-            console.error('💥 Erro capturado:', err);
+            console.error('Erro capturado:', err);
             console.error('Stack:', err.stack);
             res.status(500).json({
                 message: "Erro interno do servidor",
@@ -35,7 +35,7 @@ class ApiExpress {
             const method = route.getMethod();
             const handler = route.getHandler();
             const middlewares = route.getMiddlewares?.() ?? [];
-            console.log(`🛣️  Registrando rota: ${method.toUpperCase()} ${path} - Middlewares: ${middlewares.length}`);
+            console.log(`Registrando rota: ${method.toUpperCase()} ${path} - Middlewares: ${middlewares.length}`);
             if (middlewares.length > 0) {
                 this.app[method](path, ...middlewares.map(m => m.handle.bind(m)), handler);
             }
@@ -47,7 +47,7 @@ class ApiExpress {
     start(port) {
         this.app.listen(port, () => {
             console.log(`Server running on port ${port}`);
-            console.log(`📚 Swagger docs: http://localhost:${port}/api-docs`);
+            console.log(`Swagger docs: http://localhost:${port}/api-docs`);
         });
     }
 }

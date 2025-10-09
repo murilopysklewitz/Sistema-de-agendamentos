@@ -19,7 +19,8 @@ class JWTService {
     generateAcessToken(payload) {
         const generateAcess = jsonwebtoken_1.default.sign({
             clienteId: payload.clienteId,
-            email: payload.email
+            email: payload.email,
+            role: payload.role
         }, this.accessTokenSecret, {
             expiresIn: this.accessTokenExpiration,
             subject: payload.clienteId
@@ -29,7 +30,8 @@ class JWTService {
     generateRefreshToken(payload) {
         const refreshToken = jsonwebtoken_1.default.sign({
             clienteId: payload.clienteId,
-            email: payload.email
+            email: payload.email,
+            role: payload.role
         }, this.refreshTokenSecret, {
             expiresIn: this.accessTokenExpiration,
             subject: payload.clienteId
