@@ -11,9 +11,11 @@ export class DeleteClienteRoute implements Route {
 
     public getHandler() {
         return async (request: Request, response: Response) => {
+            console.log(`Request to delete cliente with id ${request.params.id}`)
             const {id} = request.params
+            console.log(`Deleting cliente with id ${id}`)
             const deleteCliente = await this.deleteClienteService.execute({id})
-
+            console.log(`Deleted cliente with id ${id}`)
             response.status(204).send()
         }
     }
