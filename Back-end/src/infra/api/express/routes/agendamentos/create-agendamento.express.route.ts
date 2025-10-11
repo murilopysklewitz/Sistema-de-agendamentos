@@ -31,8 +31,9 @@ export class CreateAgendamentoRoute implements Route {
         return new CreateAgendamentoRoute('/api/agendamentos', HttpMethod.POST, createAgendamentoService, middlewares)
     }
 
-    public  getHandler() {
+    public getHandler() {
         return async (request: Request, response: Response) => {
+            console.log(`Requisição para criar agendamento ${JSON.stringify(request.body)}`);
 
             const {clienteId, servicoId, data, horaInicio,} = request.body;
 
@@ -42,9 +43,15 @@ export class CreateAgendamentoRoute implements Route {
                 data: new Date(data),
                 horaInicio: new Date(horaInicio)
             }
+            console.log(`Input para criar novo agendamento: ${JSON.stringify(input)}`);
+
             const output: CreateAgendamentoResponseDto = await this.createAgendamentoService.execute(input);
+            console.log(`Output para criar novo agendamento: ${JSON.stringify(output)}`);
+
             const responseBody = this.present(output);
-             response.status(201).json(responseBody)
+            console.log(`response body: ${JSON.stringify(responseBody)}`);
+
+            response.status(201).json(responseBody);
         }
     }
                public getPath():string {
