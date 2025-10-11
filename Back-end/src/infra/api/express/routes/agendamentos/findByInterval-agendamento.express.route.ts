@@ -34,9 +34,12 @@ export class FindByIntervalAgendamentoRoute implements Route {
         return async (request: Request, response: Response) => {
             try{
                 const {data, horaInicio, horaFim} = request.body
+                console.log(`Request body: ${JSON.stringify({data, horaInicio, horaFim})}`)
                 const agendamentosachados = await this.findByIntervalAgendamentoService.execute({data, horaInicio, horaFim})
+                console.log(`Response body: ${JSON.stringify(agendamentosachados)}`)
                 response.status(200).json(agendamentosachados)
             }catch(error: any){
+                console.error(`Erro desconhecido no FindByIntervalAgendamentoRoute: ${error.message}`)
                 throw new Error("Erro desconhecido no FindByIntervalAgendamentoRoute", error)
             }
         }
