@@ -9,7 +9,7 @@ export const businessHours = {
 }
 export class AgendamentoValidatorService implements AgendamentoValidator{
     private constructor(private readonly agendamentoGateway: AgendamentoGateway) {
-
+        console.log("AgendamentoValidatorService constructor called")
     }
     public static create(agendamentoGateway: AgendamentoGateway) {
         return new AgendamentoValidatorService(agendamentoGateway)
