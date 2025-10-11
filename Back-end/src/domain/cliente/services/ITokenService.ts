@@ -9,6 +9,6 @@ export interface TokenPayload {
 export interface ITokenService {
     generateAcessToken(payload: TokenPayload): string
     generateRefreshToken(payload: TokenPayload): string
-    verifyAcessToken(token: string): TokenPayload
+    verifyAccessToken(token: string): TokenPayload
     verifyRefreshToken(token: string): TokenPayload
 }

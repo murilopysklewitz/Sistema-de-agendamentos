@@ -6,7 +6,6 @@ export class AuthMiddleware implements IMiddleware {
     constructor(private readonly tokenService: ITokenService) {}
 
     public handle(request: Request, response: Response, next: NextFunction): void {
-        console.log('AuthMiddleware - Headers:', request.headers);
         const authHeader = request.headers.authorization;
         
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -18,7 +17,7 @@ export class AuthMiddleware implements IMiddleware {
         console.log(' Token extraído:', token.substring(0, 20) + '...');
 
         try {
-            const payload = this.tokenService.verifyAcessToken(token);
+            const payload = this.tokenService.verifyAccessToken(token);
             console.log(' Payload verificado:', payload);
             request.user = payload;
             next();
