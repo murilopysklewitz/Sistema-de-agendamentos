@@ -22,7 +22,14 @@ export class ListClienteRoute implements Route {
 
     public getHandler() {
         return async (request: Request, response: Response) => {
+            console.log(`Request body: ${JSON.stringify(request.body)}`)
+            console.log(`Request params: ${JSON.stringify(request.params)}`)
+            console.log(`Request listar clientes`)
+
             const output = await this.listClienteService.execute()
+
+            console.log(`Response body: ${JSON.stringify(output)}`)
+
             response.status(200).json(this.present(output))
         }
     }

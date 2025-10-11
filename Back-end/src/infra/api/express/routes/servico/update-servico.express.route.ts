@@ -26,7 +26,10 @@ export class UpdateServicoRoute implements Route {
             const { id } = request.params
             const { nome, preco, descricao, destaque, duracaoEmMinutos } = request.body;
 
+            console.log(`Request body: ${JSON.stringify({nome, preco, descricao, destaque, duracaoEmMinutos})}`)
+
             if (!id) {
+                console.error("Erro em updateServicoRoute: ID de serviço é obrigatório")
                 throw new Error("ID de serviço é obrigatório")
             }
 
@@ -38,17 +41,20 @@ export class UpdateServicoRoute implements Route {
                 destaque,
                 duracaoEmMinutos,
             }
+
+            console.log(`Request input: ${JSON.stringify(input)}`)
+
             try {
-            const output: updateServicoResponseDto = await this.updateServicoService.execute(input)
-            response.status(200).json(input).send()
+                const output: updateServicoResponseDto = await this.updateServicoService.execute(input)
+                console.log(`Response from updateServicoRoute: ${JSON.stringify(output)}`)
+                response.status(200).json(input).send()
             }catch(error:any) {
-                
-                console.error("Erro em updateServicoRoute", error.message)
+                console.error(`Erro em updateServicoRoute: ${error.message}`)
 
                 if (error.message.includes("obrigatório") || error.message.includes("negativo") || error.message.includes("vazio")) {
-                     response.status(400).json({ message: error.message }).send(); 
+                    response.status(400).json({ message: error.message }).send(); 
                 } else {
-                     response.status(500).json({ message: "Erro interno do servidor." }).send();
+                    response.status(500).json({ message: "Erro interno do servidor." }).send();
                 }
             }
         }

@@ -18,9 +18,11 @@ export class LoginClienteRoute implements Route {
     public getHandler() {
         return async (request: Request, response: Response) => {
             try {
+                console.log("Requisição recebida em /api/clientes/auth", request.body)
+
                 const { email, senha } = request.body
 
-                console.log("Requisição recebida em /api/clientes/auth", { email })
+                console.log("Iniciando login com email:", email)
 
                 const output = await this.loginClienteService.execute({ email, senha })
 
@@ -28,7 +30,8 @@ export class LoginClienteRoute implements Route {
 
                 response.status(200).json(output)
             } catch (error: any) {
-                console.error("rro no login:", error.message)
+                console.error("Erro no login:", error.message, error.stack)
+
                 response.status(401).json({ message: error.message || "Falha na autenticação" })
             }
         }

@@ -29,6 +29,8 @@ export class CreateServicoRoute implements Route {
     }
     public getHandler() {
         return async (request:Request, response:Response) => {
+            console.log("Request para criar servico:", JSON.stringify(request.body));
+
             const {nome, preco, descricao, destaque, duracaoEmMinutos} = request.body;
             
             const input: CreateServicoInputDto = {
@@ -39,8 +41,16 @@ export class CreateServicoRoute implements Route {
                 duracaoEmMinutos
             }
 
+            console.log("Input para criar servico:", JSON.stringify(input));
+
             const output: CreateServicoResponseDto = await this.createServicoService.execute(input);
+
+            console.log("Output para criar servico:", JSON.stringify(output));
+
             const responseBody = this.present(output);
+
+            console.log("Response body:", JSON.stringify(responseBody));
+
             response.status(201).json(responseBody);
         }
     }

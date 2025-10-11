@@ -23,15 +23,19 @@ export class CreateClienteUsecase implements Usecase<CreateClienteInputDto, Crea
     }
 
     public async execute({nome, email, numero, senha, role}: CreateClienteInputDto): Promise<CreateClienteOutputDto> {
+        console.log("Executando CreateClienteUsecase com os seguintes dados:", nome, email, numero, senha, role);
         const existingCliente = await this.clienteGateway.findByEmail(email);
+        console.log("ExistingCliente:", existingCliente);
         if (existingCliente) {
             throw new Error("Email já cadastrado");
         }
+
         if (senha.length < 8) {
             throw new Error("A senha deve ter no mínimo 8 caracteres");
         }
 
         const hashedPassword = await this.passwordHasher.hash(senha);
+        console.log("HashedPassword:", hashedPassword);
 
         const cliente = Cliente.create(
             nome,
@@ -41,6 +45,7 @@ export class CreateClienteUsecase implements Usecase<CreateClienteInputDto, Crea
             role || ClienteRole.CLIENTE
         );
 
+        console.log("Cliente criado:", cliente);
         await this.clienteGateway.save(cliente);
 
         return {

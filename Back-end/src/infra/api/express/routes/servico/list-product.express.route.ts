@@ -31,9 +31,13 @@ export class ListServicosRoute implements Route {
     public getHandler() {
         return async (request:Request, response: Response) => {
             try{
+                console.log("Request para ListServicosRoute:", request);
                 const output = await this.listServicoService.execute();
+                console.log("Response de ListServicosRoute:", output);
 
                 const responseBody = this.present(output);
+
+                console.log("ResponseBody:", responseBody);
 
                 response.status(200).json(responseBody);
         

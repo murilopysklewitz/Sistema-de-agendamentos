@@ -21,9 +21,15 @@ export class DeleteServicoRoute implements Route {
         return async (request:Request, response:Response) => {
             const { id } = request.params;
 
+            console.log(`Request para deletar servico com id: ${id}`);
+
             const input: DeleteServicoInputDto = { id: id as string };
 
+            console.log(`Input para deletar servico: ${JSON.stringify(input)}`);
+
             await this.deleteServicoService.execute(input);
+
+            console.log(`Resposta para deletar servico: 204`);
 
             response.status(204).send();
         }

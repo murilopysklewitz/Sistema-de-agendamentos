@@ -11,8 +11,11 @@ type PrismaCliente = Prisma.ClienteGetPayload<{}>;
 export class AgendamentoMapperPrisma implements IAgendamentoMapper {
 
     public toDomain(agendamentoPrisma: Prisma.AgendamentoGetPayload<{ include: { cliente: true; servico: true; }; }>): Agendamento {
+        console.log("AgendamentoMapperPrisma.toDomain - agendamentoPrisma:", agendamentoPrisma);
         const servicoDomain = this.mapPrismaServicoToDomain(agendamentoPrisma.servico)
-        const clienteDomain = this.mapPrismaClienteToDomain(agendamentoPrisma.cliente) 
+        console.log("AgendamentoMapperPrisma.toDomain - servicoDomain:", servicoDomain);
+        const clienteDomain = this.mapPrismaClienteToDomain(agendamentoPrisma.cliente)
+        console.log("AgendamentoMapperPrisma.toDomain - clienteDomain:", clienteDomain);
 
         return Agendamento.with({
             id: agendamentoPrisma.id,
@@ -28,7 +31,8 @@ export class AgendamentoMapperPrisma implements IAgendamentoMapper {
     }
 
     public toPrisma(agendamento: Agendamento): Prisma.AgendamentoCreateInput {
-        return {
+        console.log("AgendamentoMapperPrisma.toPrisma - agendamento:", agendamento)
+        const output ={
             id: agendamento.id,
             data: agendamento.data,
             horaInicio: agendamento.horaInicio,
@@ -39,14 +43,18 @@ export class AgendamentoMapperPrisma implements IAgendamentoMapper {
                 connect: { id: agendamento.servico.id },
             },
             cliente: {
-                connect: { id: agendamento.cliente.id},
+                connect: { id: agendamento.cliente.id },
             },
-        };
+        }
+        console.log("AgendamentoMapperPrisma.toPrisma - output:", output)
+        return output
+
     }
 
 
     private mapPrismaServicoToDomain(prismaServico: PrismaServico): Servico {
-        return Servico.with ({
+        console.log("AgendamentoMapperPrisma.mapPrismaServicoToDomain - prismaServico:", prismaServico);
+        const output = Servico.with({
             id:prismaServico.id,
             nome:prismaServico.nome,
             preco:prismaServico.preco,
@@ -54,9 +62,12 @@ export class AgendamentoMapperPrisma implements IAgendamentoMapper {
             destaque:prismaServico.destaque,
             duracaoEmMinutos: prismaServico.duracaoEmMinutos
         })
+        console.log("AgendamentoMapperPrisma.mapPrismaServicoToDomain - output:", output);
+        return output;
     }
     private mapPrismaClienteToDomain(prismaCliente: PrismaCliente): Cliente {
-        return Cliente.with({
+        console.log("AgendamentoMapperPrisma.mapPrismaClienteToDomain - prismaCliente:", prismaCliente);
+        const output = Cliente.with({
             id: prismaCliente.id,
             nome: prismaCliente.nome,
             email: prismaCliente.email,
@@ -64,5 +75,7 @@ export class AgendamentoMapperPrisma implements IAgendamentoMapper {
             senha: prismaCliente.senha,
             role: clienteMapper.toDomainRole(prismaCliente.role)
         })
+        console.log("AgendamentoMapperPrisma.mapPrismaClienteToDomain - output:", output);
+        return output;
     }
 }
