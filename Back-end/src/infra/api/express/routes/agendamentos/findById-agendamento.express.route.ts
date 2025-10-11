@@ -31,10 +31,13 @@ export class FindByIdAgendamentoRoute implements Route {
     public getHandler() {
         return async (request: Request, response: Response) => {
             try {
+                console.log("FindByIdAgendamentoRoute.getHandler - Request:", request);
                 const {id} = request.params;
                 const input: FindByIdAgendamentoInputDto = {id};
+                console.log("FindByIdAgendamentoRoute.getHandler - Input:", input);
 
                 const result = await this.findByIdAgendamentoService.execute(input);
+                console.log("FindByIdAgendamentoRoute.getHandler - Result:", result);
 
                 response.status(200).json(result);
             } catch (error: any) {
