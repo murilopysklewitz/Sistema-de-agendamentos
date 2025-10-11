@@ -35,9 +35,12 @@ export class ListAgendamentoRoute implements Route {
     public getHandler() {
         return async (request: Request, response: Response) => {
             try{
+                console.log("Request to ListAgendamentoRoute:", request);
                 const result = await this.listAgendamentoService.execute();
+                console.log("Response from ListAgendamentoRoute:", result);
                 response.status(200).json(result)
             }catch(error: any) {
+                console.error("Erro na rota listAgendamento:", error);
                 throw new Error("erro na rota listAgendamento");
             }
         }
