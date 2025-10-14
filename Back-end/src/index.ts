@@ -40,6 +40,8 @@ import { RoleMiddleware } from './infra/api/express/middlewares/Role.middleware'
 import { FindByIdAgendamentoUsecase } from './usecases/agendamento.usecases/findByIdAgendamentos.usecase';
 import { ListAgendamentoUsecase } from './usecases/agendamento.usecases/listAgendamento.usecase';
 import { FindByIntervalAgendamentoUsecase } from './usecases/agendamento.usecases/findByIntervalAgendamento.Usecase';
+import { ValidationMiddleware } from './infra/api/express/middlewares/ValidationMiddleware';
+import { CreateClienteDto } from './usecases/cliente.usecases/createCliente.dto';
 
 
 
@@ -55,6 +57,7 @@ function main() {
      const jwtService = new JWTService()
 
      const authMiddleware = new AuthMiddleware(jwtService)
+     
 
      
      // CRUD de usecase para serviços
@@ -94,7 +97,7 @@ function main() {
 
 
      // CRUD de rotas de Clientes 
-     const createClienteRoute = CreateClienteRoute.create(createClienteUsecase)
+     const createClienteRoute = CreateClienteRoute.create(createClienteUsecase, [ValidationMiddleware.for(CreateClienteDto)])
      const loginClienteRoute = LoginClienteRoute.create(loginClienteUsecase)
      const findByEmailClienteRoute = FindByEmailClienteRoute.create(findByEmailClienteUsecase)
      const findByIdClienteRoute = FindByIdClienteRoute.create(findByIdClientesUsecase)
