@@ -137,17 +137,17 @@ components:
           type: string
           format: date-time
           example: "2025-09-24"
-        dataInicio:
+        horaInicio:
           type: string
           example: 2025-09-24T14:00:00Z
       required:
         - clienteId
         - servicoId
         - data
-        - dataInicio
+        - horaInicio
 
 paths:
-  # ====== SERVIÇOS ======
+  # ====== CLIENTES ======
   /api/clientes:
     get:
       summary: Listar todos os clientes
@@ -401,6 +401,27 @@ paths:
       parameters:
         - in: path
           name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Agendamento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agendamento'
+        "404":
+          description: Agendamento não encontrado
+
+      /api/agendamentos/{data}:
+    get:
+      summary: Buscar agendamento por data
+      tags:
+        - Agendamentos
+      parameters:
+        - in: path
+          name: data
           required: true
           schema:
             type: string
