@@ -1,4 +1,5 @@
 import { CreateClienteInputDto, CreateClienteUsecase } from "../../../../../usecases/cliente.usecases/createCliente.usecase";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 
@@ -8,17 +9,22 @@ export type CreateClienteRouteResponse = {
 
 
 export class CreateClienteRoute implements Route {
+    private readonly middlewares: IMiddleware[]
     private constructor(
         private readonly path: string,
         private readonly httpMethod: HttpMethod,
-        private readonly createClienteService: CreateClienteUsecase
-    ){}
+        private readonly createClienteService: CreateClienteUsecase,
+        middlewares: IMiddleware[] = []
+    ){
+        this.middlewares = middlewares
+    }
 
-    public static create(createClienteService: CreateClienteUsecase) {
+    public static create(createClienteService: CreateClienteUsecase, middlewares: IMiddleware[] = []) {
         return new CreateClienteRoute(
             "/api/clientes",
              HttpMethod.POST,
-            createClienteService 
+            createClienteService,
+            middlewares,
         )
     }
 
@@ -58,5 +64,8 @@ export class CreateClienteRoute implements Route {
 
     public getMethod(): HttpMethod {
         return this.httpMethod
+    }
+    public getMiddlewares(): IMiddleware[] {
+     return this.middlewares    
     }
 }
