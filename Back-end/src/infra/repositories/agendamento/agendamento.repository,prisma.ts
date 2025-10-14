@@ -72,7 +72,6 @@ export class AgendamentoRepository implements AgendamentoGateway {
                     data: {
                         equals: data
                     },
-                    AND: {
                         OR: [
                             {
                                 // lt = less than
@@ -90,7 +89,7 @@ export class AgendamentoRepository implements AgendamentoGateway {
                                 horaFim: { gte: horafim }
                             }
                         ]
-                    }
+                    
                 },
                 include: {
                     cliente: true,
