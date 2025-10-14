@@ -19,14 +19,16 @@ class FindByIdServicoRoute {
             try {
                 const { id } = request.params;
                 const input = { id };
+                console.log(`Request to findById with id: ${id}`);
                 const result = await this.findByIdServicoService.execute(input);
+                console.log(`Response from findById: ${JSON.stringify(result)}`);
                 if (!result) {
                     response.status(404).json({ message: "Serviço não encontrado" });
                 }
                 response.status(200).json(result);
             }
             catch (error) {
-                console.error("Erro na rota findById:", error);
+                console.error(`Erro na rota findById: ${error.message}`);
                 response.status(500).json({ message: "Erro interno do servidor" });
             }
         };

@@ -16,12 +16,20 @@ class CreateClienteRoute {
     }
     getHandler() {
         return async (request, response) => {
+            console.log("Request body:");
+            console.log(request.body);
             const { nome, email, numero, senha, role } = request.body;
             const input = {
                 nome, email, numero, senha, role
             };
+            console.log("Input to CreateClienteUsecase:");
+            console.log(input);
             const output = await this.createClienteService.execute(input);
+            console.log("Output from CreateClienteUsecase:");
+            console.log(output);
             const responseBody = this.present(output);
+            console.log("Response body:");
+            console.log(responseBody);
             response.status(201).json(responseBody);
         };
     }

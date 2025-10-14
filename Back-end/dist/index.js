@@ -13,7 +13,7 @@ const delete_servico_express_route_1 = require("./infra/api/express/routes/servi
 const api_express_1 = require("./infra/api/express/routes/api.express");
 const updateServico_usecase_1 = require("./usecases/servico.usecases/update-servico/updateServico.usecase");
 const update_servico_express_route_1 = require("./infra/api/express/routes/servico/update-servico.express.route");
-const createAgendamento_usecase_1 = require("./usecases/agendamento.usecases/create-agendamento/createAgendamento.usecase");
+const createAgendamento_usecase_1 = require("./usecases/agendamento.usecases/createAgendamento.usecase");
 const agendamento_repository_prisma_1 = require("./infra/repositories/agendamento/agendamento.repository,prisma");
 const agendamento_mapper_1 = require("./infra/database/prisma/mappers/agendamento.mapper");
 const agendamento_validator_service_1 = require("./domain/agendamento/service/agendamento-validator.service");
@@ -24,9 +24,6 @@ const create_cliente_express_route_1 = require("./infra/api/express/routes/clien
 const findById_usecase_1 = require("./usecases/cliente.usecases/findById.usecase");
 const listCliente_usecase_1 = require("./usecases/cliente.usecases/listCliente.usecase");
 const deleteCliente_usecase_1 = require("./usecases/cliente.usecases/deleteCliente.usecase");
-const findByIdAgendamentos_usecase_1 = require("./usecases/agendamento.usecases/findById-agendamentos/findByIdAgendamentos.usecase");
-const listAgendamento_usecase_1 = require("./usecases/agendamento.usecases/list-agendamento/listAgendamento.usecase");
-const findByIntervalAgendamento_Usecase_1 = require("./usecases/agendamento.usecases/findByInterval-agendamento/findByIntervalAgendamento.Usecase");
 const findById_agendamento_express_route_1 = require("./infra/api/express/routes/agendamentos/findById-agendamento.express.route");
 const list_agendamento_express_route_1 = require("./infra/api/express/routes/agendamentos/list-agendamento.express.route");
 const findByInterval_agendamento_express_route_1 = require("./infra/api/express/routes/agendamentos/findByInterval-agendamento.express.route");
@@ -41,6 +38,9 @@ const JWTService_1 = require("./infra/security/JWTService");
 const login_cliente_express_route_1 = require("./infra/api/express/routes/clientes/login-cliente.express.route");
 const auth_middleware_1 = require("./infra/api/express/middlewares/auth.middleware");
 const Role_middleware_1 = require("./infra/api/express/middlewares/Role.middleware");
+const findByIdAgendamentos_usecase_1 = require("./usecases/agendamento.usecases/findByIdAgendamentos.usecase");
+const listAgendamento_usecase_1 = require("./usecases/agendamento.usecases/listAgendamento.usecase");
+const findByIntervalAgendamento_Usecase_1 = require("./usecases/agendamento.usecases/findByIntervalAgendamento.Usecase");
 function main() {
     const mapper = new agendamento_mapper_1.AgendamentoMapperPrisma();
     const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
@@ -71,7 +71,7 @@ function main() {
     // CRUD de rotas para serviços
     const findByIdServicoRoute = findById_servico_express_route_1.FindByIdServicoRoute.create(findByIdServicoUsecase);
     const updateServicoRoute = update_servico_express_route_1.UpdateServicoRoute.create(updateServicoUsecase);
-    const createServicoRoute = create_servico_express_route_1.CreateServicoRoute.create(createServicoUseCase);
+    const createServicoRoute = create_servico_express_route_1.CreateServicoRoute.create(createServicoUseCase, [authMiddleware, Role_middleware_1.RoleMiddleware.onlyAdmin()]);
     const listServicoRoute = list_product_express_route_1.ListServicosRoute.create(listServicosUseCase);
     const deleteServicoRoute = delete_servico_express_route_1.DeleteServicoRoute.create(deleteServicoUseCase);
     //CRUD de rotas para agendamentos

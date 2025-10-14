@@ -17,7 +17,9 @@ class FindByIdClienteRoute {
     getHandler() {
         return async (request, response) => {
             const { id } = request.params;
+            console.log(`Request para achar cliente por id: ${id}`);
             const cliente = await this.findByIdClientesService.execute({ id });
+            console.log(`Response body: ${JSON.stringify(cliente)}`);
             response.status(200).json(cliente);
         };
     }

@@ -17,10 +17,13 @@ class ListAgendamentoRoute {
     getHandler() {
         return async (request, response) => {
             try {
+                console.log("Request to ListAgendamentoRoute:", request);
                 const result = await this.listAgendamentoService.execute();
+                console.log("Response from ListAgendamentoRoute:", result);
                 response.status(200).json(result);
             }
             catch (error) {
+                console.error("Erro na rota listAgendamento:", error);
                 throw new Error("erro na rota listAgendamento");
             }
         };

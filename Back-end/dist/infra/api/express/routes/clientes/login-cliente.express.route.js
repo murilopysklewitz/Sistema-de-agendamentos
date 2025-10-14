@@ -12,13 +12,22 @@ class LoginClienteRoute {
         this.loginClienteService = loginClienteService;
     }
     static create(loginClienteService) {
-        return new LoginClienteRoute("/api/cliente/auth", routes_1.HttpMethod.POST, loginClienteService);
+        return new LoginClienteRoute("/api/clientes/auth", routes_1.HttpMethod.POST, loginClienteService);
     }
     getHandler() {
         return async (request, response) => {
-            const { email, senha, role } = request.body;
-            const output = await this.loginClienteService.execute({ email, senha, role });
-            response.status(200);
+            try {
+                console.log("Requisição recebida em /api/clientes/auth", request.body);
+                const { email, senha } = request.body;
+                console.log("Iniciando login com email:", email);
+                const output = await this.loginClienteService.execute({ email, senha });
+                console.log("Login realizado com sucesso:", output);
+                response.status(200).json(output);
+            }
+            catch (error) {
+                console.error("Erro no login:", error.message, error.stack);
+                response.status(401).json({ message: error.message || "Falha na autenticação" });
+            }
         };
     }
     getPath() {

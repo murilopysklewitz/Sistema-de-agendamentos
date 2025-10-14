@@ -9,6 +9,7 @@ class AgendamentoValidatorService {
     agendamentoGateway;
     constructor(agendamentoGateway) {
         this.agendamentoGateway = agendamentoGateway;
+        console.log("AgendamentoValidatorService constructor called");
     }
     static create(agendamentoGateway) {
         return new AgendamentoValidatorService(agendamentoGateway);

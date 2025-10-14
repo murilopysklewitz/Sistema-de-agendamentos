@@ -17,9 +17,12 @@ class FindByIdAgendamentoRoute {
     getHandler() {
         return async (request, response) => {
             try {
+                console.log("FindByIdAgendamentoRoute.getHandler - Request:", request);
                 const { id } = request.params;
                 const input = { id };
+                console.log("FindByIdAgendamentoRoute.getHandler - Input:", input);
                 const result = await this.findByIdAgendamentoService.execute(input);
+                console.log("FindByIdAgendamentoRoute.getHandler - Result:", result);
                 response.status(200).json(result);
             }
             catch (error) {

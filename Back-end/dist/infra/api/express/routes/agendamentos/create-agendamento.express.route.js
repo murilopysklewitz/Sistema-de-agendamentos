@@ -18,6 +18,7 @@ class CreateAgendamentoRoute {
     }
     getHandler() {
         return async (request, response) => {
+            console.log(`Requisição para criar agendamento ${JSON.stringify(request.body)}`);
             const { clienteId, servicoId, data, horaInicio, } = request.body;
             const input = {
                 clienteId,
@@ -25,8 +26,11 @@ class CreateAgendamentoRoute {
                 data: new Date(data),
                 horaInicio: new Date(horaInicio)
             };
+            console.log(`Input para criar novo agendamento: ${JSON.stringify(input)}`);
             const output = await this.createAgendamentoService.execute(input);
+            console.log(`Output para criar novo agendamento: ${JSON.stringify(output)}`);
             const responseBody = this.present(output);
+            console.log(`response body: ${JSON.stringify(responseBody)}`);
             response.status(201).json(responseBody);
         };
     }

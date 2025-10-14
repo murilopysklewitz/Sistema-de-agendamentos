@@ -13,8 +13,13 @@ class FindByEmailClienteUsecase {
     async execute({ email }) {
         try {
             const cliente = await this.clienteGateway.findByEmail(email);
-            const output = this.presentOutput(cliente);
-            return output;
+            if (!cliente) {
+                console.log("Não foi possivel achar o cliente");
+            }
+            else {
+                const output = this.presentOutput(cliente);
+                return output;
+            }
         }
         catch (error) {
             throw new Error("não foi possível achar cliente com esse email");

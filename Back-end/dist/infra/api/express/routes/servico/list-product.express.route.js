@@ -17,8 +17,11 @@ class ListServicosRoute {
     getHandler() {
         return async (request, response) => {
             try {
+                console.log("Request para ListServicosRoute:", request);
                 const output = await this.listServicoService.execute();
+                console.log("Response de ListServicosRoute:", output);
                 const responseBody = this.present(output);
+                console.log("ResponseBody:", responseBody);
                 response.status(200).json(responseBody);
             }
             catch (error) {

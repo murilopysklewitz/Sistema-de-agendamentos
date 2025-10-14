@@ -38,7 +38,7 @@ class JWTService {
         });
         return refreshToken;
     }
-    verifyAcessToken(token) {
+    verifyAccessToken(token) {
         try {
             const verifyToken = jsonwebtoken_1.default.verify(token, this.accessTokenSecret);
             return verifyToken;

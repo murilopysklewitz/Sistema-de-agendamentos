@@ -12,25 +12,43 @@ class FindByIntervalAgendamentoRoute {
         this.findByIntervalAgendamentoService = findByIntervalAgendamentoService;
     }
     static create(findByIntervalAgendamentoService) {
-        return new FindByIntervalAgendamentoRoute("/api/agendamentos", routes_1.HttpMethod.GET, findByIntervalAgendamentoService);
+        return new FindByIntervalAgendamentoRoute("/api/agendamentos/date", // Melhor nome
+        routes_1.HttpMethod.GET, findByIntervalAgendamentoService);
     }
     getHandler() {
         return async (request, response) => {
             try {
-                const { data, horaInicio, horaFim } = request.body;
-                const agendamentosachados = await this.findByIntervalAgendamentoService.execute({ data, horaInicio, horaFim });
-                response.status(200).json(agendamentosachados);
+                const { data } = request.query;
+                if (!data) {
+                    response.status(400).json({
+                        error: "Parâmetro 'data' é obrigatório (formato: YYYY-MM-DD)"
+                    });
+                    return;
+                }
+                const dataDate = new Date(data);
+                if (isNaN(dataDate.getTime())) {
+                    response.status(400).json({
+                        error: "Data inválida. Use formato: YYYY-MM-DD"
+                    });
+                    return;
+                }
+                console.log(`Buscando agendamentos para data: ${dataDate.toISOString()}`);
+                const agendamentosAchados = await this.findByIntervalAgendamentoService.execute({
+                    data: dataDate
+                });
+                response.status(200).json(agendamentosAchados);
             }
             catch (error) {
-                throw new Error("Erro desconhecido no FindByIntervalAgendamentoRoute", error);
+                console.error(`Erro: ${error.message}`);
+                response.status(500).json({ error: error.message });
             }
         };
     }
-    getMethod() {
-        return this.httpMethod;
-    }
     getPath() {
         return this.path;
+    }
+    getMethod() {
+        return this.httpMethod;
     }
 }
 exports.FindByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute;
