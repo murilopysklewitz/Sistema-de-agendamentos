@@ -35,7 +35,6 @@ import { BcryptPasswordHasher } from './infra/security/BcryptPasswordHasher';
 import { JWTService } from './infra/security/JWTService';
 import { LoginClienteRoute } from './infra/api/express/routes/clientes/login-cliente.express.route';
 import { AuthMiddleware } from './infra/api/express/middlewares/auth.middleware';
-import { Route } from './infra/api/express/routes/routes';
 import { RoleMiddleware } from './infra/api/express/middlewares/Role.middleware';
 import { FindByIdAgendamentoUsecase } from './usecases/agendamento.usecases/findByIdAgendamentos.usecase';
 import { ListAgendamentoUsecase } from './usecases/agendamento.usecases/listAgendamento.usecase';
