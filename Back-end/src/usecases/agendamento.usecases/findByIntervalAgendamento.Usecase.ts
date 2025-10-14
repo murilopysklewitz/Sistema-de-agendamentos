@@ -6,8 +6,7 @@ import { Usecase } from "../../usecases/usecase";
 
 export type FindByIntervalInputDto =  {
     data: Date, 
-    horaInicio: Date,
-     horaFim: Date,
+
 }
 
 export type FindByIntervalOutputDto = {
@@ -31,9 +30,9 @@ export class FindByIntervalAgendamentoUsecase implements Usecase<FindByIntervalI
         return new FindByIntervalAgendamentoUsecase(agendamentoGateway)
     }
 
-    public async execute({data, horaInicio, horaFim}: FindByIntervalInputDto): Promise<FindByIntervalOutputDto> {
+    public async execute({data}: FindByIntervalInputDto): Promise<FindByIntervalOutputDto> {
         try{
-            const findByInterval = await this.agendamentoGateway.findByInterval(data, horaInicio, horaFim)
+            const findByInterval = await this.agendamentoGateway.findByInterval(data)
 
             const output = this.presentOutput(findByInterval)
             return output

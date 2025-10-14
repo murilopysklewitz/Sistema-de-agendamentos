@@ -27,29 +27,53 @@ export class FindByIntervalAgendamentoRoute implements Route {
     ) {}
 
     public static create(findByIntervalAgendamentoService: FindByIntervalAgendamentoUsecase) {
-        return new FindByIntervalAgendamentoRoute("/api/agendamentos", HttpMethod.GET, findByIntervalAgendamentoService)
+        return new FindByIntervalAgendamentoRoute(
+            "/api/agendamentos/date", // Melhor nome
+            HttpMethod.GET, 
+            findByIntervalAgendamentoService
+        );
     }
-
+    
     public getHandler() {
         return async (request: Request, response: Response) => {
-            try{
-                const {data, horaInicio, horaFim} = request.body
-                console.log(`Request body: ${JSON.stringify({data, horaInicio, horaFim})}`)
-                const agendamentosachados = await this.findByIntervalAgendamentoService.execute({data, horaInicio, horaFim})
-                console.log(`Response body: ${JSON.stringify(agendamentosachados)}`)
-                response.status(200).json(agendamentosachados)
-            }catch(error: any){
-                console.error(`Erro desconhecido no FindByIntervalAgendamentoRoute: ${error.message}`)
-                throw new Error("Erro desconhecido no FindByIntervalAgendamentoRoute", error)
+            try {
+                const { data } = request.query;
+                
+                if (!data) {
+                    response.status(400).json({ 
+                        error: "Parâmetro 'data' é obrigatório (formato: YYYY-MM-DD)" 
+                    });
+                    return;
+                }
+    
+
+                const dataDate = new Date(data as string);
+                
+
+                if (isNaN(dataDate.getTime())) {
+                    response.status(400).json({ 
+                        error: "Data inválida. Use formato: YYYY-MM-DD" 
+                    });
+                    return;
+                }
+    
+                console.log(`Buscando agendamentos para data: ${dataDate.toISOString()}`);
+    
+                const agendamentosAchados = await this.findByIntervalAgendamentoService.execute({
+                    data: dataDate
+                });
+    
+                response.status(200).json(agendamentosAchados);
+            } catch(error: any) {
+                console.error(`Erro: ${error.message}`);
+                response.status(500).json({ error: error.message });
             }
         }
     }
-
-
-    public getMethod(): HttpMethod {
-        return this.httpMethod
-    }
     public getPath(): string {
-        return this.path
+        return this.path;
+    }
+    public getMethod(): HttpMethod {
+        return this.httpMethod;
     }
 }

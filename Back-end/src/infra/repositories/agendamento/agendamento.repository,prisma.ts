@@ -65,46 +65,28 @@ export class AgendamentoRepository implements AgendamentoGateway {
         return agendamentosPrisma.map(agendamentoPrisma => this.mapper.toDomain(agendamentoPrisma))
     }
 
-    public async findByInterval(data: Date, horaInicio: Date, horafim: Date): Promise<Agendamento[]> {
-        try {
-            const agendamentosPrisma = await this.prismaClient.agendamento.findMany({
-                where: {
-                    data: {
-                        equals: data
-                    },
-                        OR: [
-                            {
-                                // lt = less than
-                                horaInicio: { lt: horafim },
-                                //gt = greater than
-                                horaFim: { gt: horaInicio },
-                            },
-                            {
-                                //gte = greater than or equals
-                                horaInicio: { gte: horaInicio, lt: horafim },
-                            },
-                            {
-                                //lte = less than or equals
-                                horaInicio: { lte: horaInicio },
-                                horaFim: { gte: horafim }
-                            }
-                        ]
-                    
-                },
-                include: {
-                    cliente: true,
-                    servico: true
-                }
-            })
+public async findByInterval(data: Date): Promise<Agendamento[]> {
 
-            if (!agendamentosPrisma) {
-                throw new Error("Nenhum agendamento encontrado")
+    const startOfDay = new Date(data);
+    startOfDay.setHours(0, 0, 0, 0);
+    
+
+    const endOfDay = new Date(data);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const agendamentosPrisma = await this.prismaClient.agendamento.findMany({
+        where: {
+            horaInicio: {
+                gte: startOfDay,
+                lte: endOfDay
             }
-
-            return agendamentosPrisma.map(agendamentoPrisma => this.mapper.toDomain(agendamentoPrisma))
-        } catch (error) {
-            console.error("Erro ao buscar agendamentos por intervalo de tempo:", error)
-            throw new Error("Ocorreu um erro inesperado ao buscar agendamentos por intervalo de tempo.")
+        },
+        include: {
+            cliente: true,
+            servico: true
         }
-    }
+    });
+
+    return agendamentosPrisma.map(a => this.mapper.toDomain(a));
+}
 }
