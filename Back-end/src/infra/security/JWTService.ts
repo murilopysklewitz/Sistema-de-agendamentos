@@ -46,7 +46,7 @@ export class JWTService implements ITokenService {
         return refreshToken
     }
 
-    public verifyAcessToken(token: string): TokenPayload {
+    public verifyAccessToken(token: string): TokenPayload {
         try{
         const verifyToken = jwt.verify(token, this.accessTokenSecret) as TokenPayload
         return verifyToken
