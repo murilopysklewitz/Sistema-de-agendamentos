@@ -1,0 +1,64 @@
+@startuml
+title Sistema de Validação de DTOs (Express + TypeScript)
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam backgroundColor #fdfdfd
+skinparam class {
+  BackgroundColor<<infra>> #FFF7E6
+  BackgroundColor<<middleware>> #E6F7FF
+  BackgroundColor<<domain>> #F6FFED
+  BackgroundColor<<exception>> #FFE6E6
+}
+
+package "Camada de Domínio" {
+  class CreateClienteDto <<domain>> {
+    +nome: string
+    +email: string
+    +senha: string
+    <<validation>>
+    @IsString()
+    @IsEmail()
+    @MinLength(6)
+  }
+}
+
+package "Camada Infra (Validação)" {
+  class DtoValidator <<infra>> {
+    +validate(dtoClass, plainObject): Promise<T>
+  }
+
+  class ValidationException <<exception>> {
+    +errors: ValidationError[]
+  }
+
+  class ValidationMiddleware <<middleware>> {
+    -dtoClass: new () => any
+    +handle(req, res, next)
+    +static for(dtoClass): ValidationMiddleware
+  }
+}
+
+package "Camada de Aplicação" {
+  class CreateClienteUsecase {
+    +execute(dto: CreateClienteDto)
+  }
+
+  class CreateClienteRoute {
+    +create(usecase, middlewares[])
+  }
+}
+
+' ========================
+' RELAÇÕES
+' ========================
+CreateClienteRoute "1" o-- "*" ValidationMiddleware : usa
+ValidationMiddleware --> DtoValidator : chama
+DtoValidator --> ValidationException : lança
+ValidationMiddleware --> ValidationException : captura
+ValidationMiddleware --> CreateClienteUsecase : next() → executa
+CreateClienteUsecase --> CreateClienteDto : recebe dados validados
+
+@enduml
