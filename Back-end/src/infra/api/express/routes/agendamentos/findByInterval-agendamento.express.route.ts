@@ -28,7 +28,7 @@ export class FindByIntervalAgendamentoRoute implements Route {
 
     public static create(findByIntervalAgendamentoService: FindByIntervalAgendamentoUsecase) {
         return new FindByIntervalAgendamentoRoute(
-            "/api/agendamentos/date", // Melhor nome
+            "/api/agendamentos/date",
             HttpMethod.GET, 
             findByIntervalAgendamentoService
         );
