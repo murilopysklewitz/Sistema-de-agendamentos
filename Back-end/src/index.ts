@@ -88,9 +88,10 @@ function main() {
 
      //CRUD de rotas para agendamentos
      const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
+     const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
      const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase)
      const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase)
-     const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
+
 
      // CRUD de rotas de Clientes 
      const createClienteRoute = CreateClienteRoute.create(createClienteUsecase)
@@ -107,7 +108,7 @@ function main() {
           //rotas de serviço
           createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
           //rotas de agendamentos
-          createAgendamentoRoute, findByIdAgendamentosRoute, findByIntervalAgendamentoRoute, listAgendamentoRoute,
+          createAgendamentoRoute,findByIntervalAgendamentoRoute, findByIdAgendamentosRoute,  listAgendamentoRoute,
           //rotas de cliente
           createClienteRoute, loginClienteRoute, findByEmailClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
       ]);
