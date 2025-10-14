@@ -41,6 +41,8 @@ const Role_middleware_1 = require("./infra/api/express/middlewares/Role.middlewa
 const findByIdAgendamentos_usecase_1 = require("./usecases/agendamento.usecases/findByIdAgendamentos.usecase");
 const listAgendamento_usecase_1 = require("./usecases/agendamento.usecases/listAgendamento.usecase");
 const findByIntervalAgendamento_Usecase_1 = require("./usecases/agendamento.usecases/findByIntervalAgendamento.Usecase");
+const ValidationMiddleware_1 = require("./infra/api/express/middlewares/ValidationMiddleware");
+const createCliente_dto_1 = require("./usecases/cliente.usecases/createCliente.dto");
 function main() {
     const mapper = new agendamento_mapper_1.AgendamentoMapperPrisma();
     const aRepository = servico_repository_prisma_1.ServicoRepositoryPrisma.create(prisma_1.prisma);
@@ -76,11 +78,11 @@ function main() {
     const deleteServicoRoute = delete_servico_express_route_1.DeleteServicoRoute.create(deleteServicoUseCase);
     //CRUD de rotas para agendamentos
     const createAgendamentoRoute = create_agendamento_express_route_1.CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware, Role_middleware_1.RoleMiddleware.onlyAdmin()]);
+    const findByIntervalAgendamentoRoute = findByInterval_agendamento_express_route_1.FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase);
     const findByIdAgendamentosRoute = findById_agendamento_express_route_1.FindByIdAgendamentoRoute.create(findAgendamentoUsecase);
     const listAgendamentoRoute = list_agendamento_express_route_1.ListAgendamentoRoute.create(listAgendamentoUsecase);
-    const findByIntervalAgendamentoRoute = findByInterval_agendamento_express_route_1.FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase);
     // CRUD de rotas de Clientes 
-    const createClienteRoute = create_cliente_express_route_1.CreateClienteRoute.create(createClienteUsecase);
+    const createClienteRoute = create_cliente_express_route_1.CreateClienteRoute.create(createClienteUsecase, [ValidationMiddleware_1.ValidationMiddleware.for(createCliente_dto_1.CreateClienteDto)]);
     const loginClienteRoute = login_cliente_express_route_1.LoginClienteRoute.create(loginClienteUsecase);
     const findByEmailClienteRoute = findByEmail_express_route_1.FindByEmailClienteRoute.create(findByEmailClienteUsecase);
     const findByIdClienteRoute = findById_cliente_express_route_1.FindByIdClienteRoute.create(findByIdClientesUsecase);
@@ -91,7 +93,7 @@ function main() {
         //rotas de serviço
         createServicoRoute, updateServicoRoute, findByIdServicoRoute, deleteServicoRoute, listServicoRoute,
         //rotas de agendamentos
-        createAgendamentoRoute, findByIdAgendamentosRoute, findByIntervalAgendamentoRoute, listAgendamentoRoute,
+        createAgendamentoRoute, findByIntervalAgendamentoRoute, findByIdAgendamentosRoute, listAgendamentoRoute,
         //rotas de cliente
         createClienteRoute, loginClienteRoute, findByEmailClienteRoute, findByIdClienteRoute, listClienteRoute, deleteClienteRoute,
     ]);

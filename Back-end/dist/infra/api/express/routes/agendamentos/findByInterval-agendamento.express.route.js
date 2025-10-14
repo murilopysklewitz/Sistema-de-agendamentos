@@ -12,8 +12,7 @@ class FindByIntervalAgendamentoRoute {
         this.findByIntervalAgendamentoService = findByIntervalAgendamentoService;
     }
     static create(findByIntervalAgendamentoService) {
-        return new FindByIntervalAgendamentoRoute("/api/agendamentos/date", // Melhor nome
-        routes_1.HttpMethod.GET, findByIntervalAgendamentoService);
+        return new FindByIntervalAgendamentoRoute("/api/agendamentos/date", routes_1.HttpMethod.GET, findByIntervalAgendamentoService);
     }
     getHandler() {
         return async (request, response) => {

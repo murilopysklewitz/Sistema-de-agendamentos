@@ -6,13 +6,15 @@ class CreateClienteRoute {
     path;
     httpMethod;
     createClienteService;
-    constructor(path, httpMethod, createClienteService) {
+    middlewares;
+    constructor(path, httpMethod, createClienteService, middlewares = []) {
         this.path = path;
         this.httpMethod = httpMethod;
         this.createClienteService = createClienteService;
+        this.middlewares = middlewares;
     }
-    static create(createClienteService) {
-        return new CreateClienteRoute("/api/clientes", routes_1.HttpMethod.POST, createClienteService);
+    static create(createClienteService, middlewares = []) {
+        return new CreateClienteRoute("/api/clientes", routes_1.HttpMethod.POST, createClienteService, middlewares);
     }
     getHandler() {
         return async (request, response) => {
@@ -42,6 +44,9 @@ class CreateClienteRoute {
     }
     getMethod() {
         return this.httpMethod;
+    }
+    getMiddlewares() {
+        return this.middlewares;
     }
 }
 exports.CreateClienteRoute = CreateClienteRoute;

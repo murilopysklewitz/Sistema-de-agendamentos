@@ -19,14 +19,17 @@ class AgendamentoValidatorService {
     }
     async validateNoConflict(agendamento) {
         try {
-            const agendamentosConflitantes = await this.agendamentoGateway.findByInterval(agendamento.data, agendamento.horaInicio, agendamento.horaFim);
-            const conflitoEncontrado = agendamentosConflitantes.some((conflitante) => agendamento.estaEmConflitoCom(conflitante));
+            const agendamentosDoDia = await this.agendamentoGateway.findByInterval(agendamento.data);
+            const conflitoEncontrado = agendamentosDoDia.some((existente) => agendamento.estaEmConflitoCom(existente));
             if (conflitoEncontrado) {
-                throw new Error("Já existe um agendamento nesse horario");
+                throw new Error("Já existe um agendamento nesse horário");
             }
         }
         catch (error) {
-            throw new Error(`houve um erro ao validar conflitos ${error}`);
+            if (error.message.includes("Já existe")) {
+                throw error;
+            }
+            throw new Error(`Erro ao validar conflitos: ${error.message}`);
         }
     }
 }
