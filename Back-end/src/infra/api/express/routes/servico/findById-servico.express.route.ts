@@ -1,6 +1,7 @@
 
 
 import { FindByIdServicoInputDto, FindByIdServicoUsecase } from "../../../../../usecases/servico.usecases/findById-servico/findByIdServico.usecase";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 import { HttpMethod, Route, } from "../routes";
 import { Request, Response } from "express";
 
@@ -16,18 +17,21 @@ export type findByIdResponseDto = {
 }
 
 export class FindByIdServicoRoute implements Route {
+    private readonly middlewares: IMiddleware[] = []
     private constructor(
         private readonly path: string,
         private readonly httpMethod: HttpMethod,
-        private readonly findByIdServicoService: FindByIdServicoUsecase
+        private readonly findByIdServicoService: FindByIdServicoUsecase,
+        middlewares: IMiddleware[] = []
     ){
-
+        this.middlewares = middlewares
     }
-    public static create(findByIdServicoService: FindByIdServicoUsecase) {
+    public static create(findByIdServicoService: FindByIdServicoUsecase, middlewares: IMiddleware[]) {
         return new FindByIdServicoRoute(
             "/api/servicos/:id",
             HttpMethod.GET,
             findByIdServicoService,
+            middlewares
         )
     }
 
@@ -61,5 +65,8 @@ export class FindByIdServicoRoute implements Route {
 
     public getPath(): string {
         return this.path
+    }
+    public getMiddlewares(): IMiddleware[] {
+        return this.middlewares
     }
 }

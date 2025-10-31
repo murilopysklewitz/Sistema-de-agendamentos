@@ -1,12 +1,21 @@
 import { DeleteClienteUsecase } from "../../../../../usecases/cliente.usecases/deleteCliente.usecase";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 
 export class DeleteClienteRoute implements Route {
-    private constructor(private readonly path:string, private readonly method: HttpMethod, private readonly deleteClienteService: DeleteClienteUsecase){}
+    private readonly middlewares: IMiddleware[] = []
+    private constructor(
+    private readonly path:string,
+    private readonly method: HttpMethod,
+    private readonly deleteClienteService: DeleteClienteUsecase,
+    middlewares: IMiddleware[])
+    {
+        this.middlewares = middlewares
+    }
 
-    public static create(deleteClienteService: DeleteClienteUsecase){
-        return new DeleteClienteRoute("/api/clientes/:id", HttpMethod.DELETE, deleteClienteService)
+    public static create(deleteClienteService: DeleteClienteUsecase, middlewares: IMiddleware[]){
+        return new DeleteClienteRoute("/api/clientes/:id", HttpMethod.DELETE, deleteClienteService, middlewares)
     }
 
     public getHandler() {
@@ -24,5 +33,8 @@ export class DeleteClienteRoute implements Route {
     }
     public getPath(): string {
         return this.path
+    }
+    public getMiddlewares(): IMiddleware[] {
+        return this.middlewares
     }
 }

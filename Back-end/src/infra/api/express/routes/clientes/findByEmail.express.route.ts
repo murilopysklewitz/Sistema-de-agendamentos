@@ -1,5 +1,6 @@
 import { ClienteRole } from "../../../../../domain/cliente/entity/cliente"
 import { FindByEmailClienteUsecase } from "../../../../../usecases/cliente.usecases/findByEmail.usecase"
+import { IMiddleware } from "../../middlewares/IMiddleware"
 import { HttpMethod, Route } from "../routes"
 import { Request, Response } from "express"
 
@@ -12,10 +13,19 @@ export type FindByEmailResponseDto = {
 }
 
     export class FindByEmailClienteRoute implements Route {
-        private constructor(private readonly path: string, private readonly method: HttpMethod, private readonly findByEmailClientesService: FindByEmailClienteUsecase){}
+        private readonly middlewares: IMiddleware[] = []
 
-        public static create(findByEmailClientesService: FindByEmailClienteUsecase){
-            return new FindByEmailClienteRoute("/api/clientes/:email", HttpMethod.GET, findByEmailClientesService)
+        private constructor(
+        private readonly path: string,
+        private readonly method: HttpMethod,
+        private readonly findByEmailClientesService: FindByEmailClienteUsecase,
+        middleware: IMiddleware[])
+        {
+            this.middlewares = middleware
+        }
+
+        public static create(findByEmailClientesService: FindByEmailClienteUsecase, middleware: IMiddleware[]){
+            return new FindByEmailClienteRoute("/api/clientes/:email", HttpMethod.GET, findByEmailClientesService, middleware)
         }
 
         public getHandler() {
@@ -36,5 +46,8 @@ export type FindByEmailResponseDto = {
 
         public getMethod(): HttpMethod {
             return this.method
+        }
+        public getMiddlewares(): IMiddleware[] {
+            return this.middlewares
         }
     }

@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { ListClienteUsecase } from "../../../../../usecases/cliente.usecases/listCliente.usecase"
 import { HttpMethod, Route } from "../routes"
 import { ClienteRole } from "../../../../../domain/cliente/entity/cliente"
+import { IMiddleware } from "../../middlewares/IMiddleware"
 
 export type ListClienteResponseDTO = {
     clientes:{
@@ -14,10 +15,18 @@ export type ListClienteResponseDTO = {
 }
 
 export class ListClienteRoute implements Route {
-    private constructor(private readonly path:string, private readonly method:HttpMethod, private readonly listClienteService: ListClienteUsecase){}
+    private readonly middlewares: IMiddleware[] =[]
+    private constructor(
+        private readonly path:string,
+        private readonly method:HttpMethod,
+        private readonly listClienteService: ListClienteUsecase,
+        middlewares: IMiddleware[]
+        ){
+        this.middlewares = middlewares
+    }
 
-    public static create(listClienteService: ListClienteUsecase){
-        return new ListClienteRoute("/api/clientes", HttpMethod.GET, listClienteService)
+    public static create(listClienteService: ListClienteUsecase, middleware: IMiddleware[]){
+        return new ListClienteRoute("/api/clientes", HttpMethod.GET, listClienteService, middleware)
     }
 
     public getHandler() {
@@ -49,8 +58,13 @@ export class ListClienteRoute implements Route {
     public getPath(): string {
         return this.path    
     }
+    
     public getMethod(): HttpMethod {
         return this.method
+    }
+
+    public getMiddlewares(): IMiddleware[] {
+        return this.middlewares
     }
 
 }

@@ -3,6 +3,7 @@ import { HttpMethod, Route } from "../routes"
 import { Request, Response } from "express";
 import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
 import { FindByIntervalAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/findByIntervalAgendamento.Usecase";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 
 
 export type FindByIntervalAgendamentoResponse = {
@@ -19,18 +20,22 @@ export type FindByIntervalAgendamentoResponse = {
     }[]
 }
 export class FindByIntervalAgendamentoRoute implements Route {
-
+    private readonly middlewares: IMiddleware[] = []
     private constructor(
         private readonly path: string,
         private readonly httpMethod: HttpMethod,
-        private readonly findByIntervalAgendamentoService: FindByIntervalAgendamentoUsecase
-    ) {}
+        private readonly findByIntervalAgendamentoService: FindByIntervalAgendamentoUsecase,
+        middlewares: IMiddleware[]
+    ) {
+        this.middlewares = middlewares
+    }
 
-    public static create(findByIntervalAgendamentoService: FindByIntervalAgendamentoUsecase) {
+    public static create(findByIntervalAgendamentoService: FindByIntervalAgendamentoUsecase, middleware: IMiddleware[]) {
         return new FindByIntervalAgendamentoRoute(
             "/api/agendamentos/date",
             HttpMethod.GET, 
-            findByIntervalAgendamentoService
+            findByIntervalAgendamentoService,
+            middleware
         );
     }
     
@@ -75,5 +80,8 @@ export class FindByIntervalAgendamentoRoute implements Route {
     }
     public getMethod(): HttpMethod {
         return this.httpMethod;
+    }
+    public getMiddlewares(): IMiddleware[] {
+        return this.middlewares
     }
 }

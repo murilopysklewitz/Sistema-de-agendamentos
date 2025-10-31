@@ -1,4 +1,5 @@
 import { ListServicoInputDto, ListServicoOutputDto, ListServicoUsecase } from "../../../../../usecases/servico.usecases/list-servico/listServico.usecase";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 
@@ -13,18 +14,22 @@ export type ListServicoResponseDto = {
     }[];
 };
 export class ListServicosRoute implements Route {
-
+    private readonly middlewares: IMiddleware[] = []
     private constructor(
         private readonly path: string,
         private readonly method:HttpMethod,
         private readonly listServicoService: ListServicoUsecase,
-    ){}
+        middlewares: IMiddleware[] =[]
+    ){
+        middlewares
+    }
 
-    public static create(listServicoService: ListServicoUsecase) {
+    public static create(listServicoService: ListServicoUsecase, middlewares: IMiddleware[]) {
         return new ListServicosRoute (
             "/api/servicos",
             HttpMethod.GET,
             listServicoService,
+            middlewares
         )
     }
 
@@ -54,6 +59,10 @@ export class ListServicosRoute implements Route {
 
     public getMethod(): HttpMethod {
         return this.method;
+    }
+    
+    public getMiddlewares(): IMiddleware[] {
+        return this.middlewares
     }
 
     private present(input:ListServicoOutputDto): ListServicoResponseDto {

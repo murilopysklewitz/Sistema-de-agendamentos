@@ -4,6 +4,7 @@ import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 import { AgendamentoStatus } from "../../../../../domain/agendamento/entity/agendamento";
 import { ListAgendamentoUsecase } from "../../../../../usecases/agendamento.usecases/listAgendamento.usecase";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 export type ListAgendamentoResponseDto = {
     agendamentos: {
         id: string;
@@ -19,17 +20,24 @@ export type ListAgendamentoResponseDto = {
 }
 
 export class ListAgendamentoRoute implements Route {
+    private readonly middlewares: IMiddleware[] = []
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
         private readonly listAgendamentoService: ListAgendamentoUsecase,
-    ){}
+        middlewares: IMiddleware[]
+    ){
+        this.middlewares = middlewares
+    }
 
-    public static create(listAgendamentoService: ListAgendamentoUsecase) {
+    public static create(listAgendamentoService: ListAgendamentoUsecase, middlewares: IMiddleware[]) {
         return new ListAgendamentoRoute(
             "/api/agendamentos",
             HttpMethod.GET,
-            listAgendamentoService)
+            listAgendamentoService,
+            middlewares
+        
+        )
     }
 
     public getHandler() {
@@ -51,5 +59,8 @@ export class ListAgendamentoRoute implements Route {
     }
     public getPath(): string {
         return this.path
+    }
+    public getMiddlewares(): IMiddleware[] {
+        return this.middlewares
     }
 }

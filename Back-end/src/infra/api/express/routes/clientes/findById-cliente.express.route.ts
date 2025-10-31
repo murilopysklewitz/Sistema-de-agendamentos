@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { FindByIdClienteUsecase } from "../../../../../usecases/cliente.usecases/findById.usecase"
 import { HttpMethod, Route } from "../routes"
 import { ClienteRole } from "../../../../../domain/cliente/entity/cliente"
+import { IMiddleware } from "../../middlewares/IMiddleware"
 
 export type FindByIdClienteResponseDto = {
         id: string,
@@ -12,10 +13,18 @@ export type FindByIdClienteResponseDto = {
 }
 
     export class FindByIdClienteRoute implements Route {
-        private constructor(private readonly path: string, private readonly method: HttpMethod, private readonly findByIdClientesService: FindByIdClienteUsecase){}
+        private readonly middlewares: IMiddleware[] = []
+        private constructor(
+        private readonly path: string,
+        private readonly method: HttpMethod,
+        private readonly findByIdClientesService: FindByIdClienteUsecase,
+        middlewares: IMiddleware[]
+    ){
+        this.middlewares = middlewares
+    }
 
-        public static create(findByIdClientesService: FindByIdClienteUsecase){
-            return new FindByIdClienteRoute("/api/clientes/:id", HttpMethod.GET, findByIdClientesService)
+        public static create(findByIdClientesService: FindByIdClienteUsecase, middlewares: IMiddleware[]){
+            return new FindByIdClienteRoute("/api/clientes/:id", HttpMethod.GET, findByIdClientesService, middlewares)
         }
 
         public getHandler() {
@@ -34,5 +43,8 @@ export type FindByIdClienteResponseDto = {
 
         public getMethod(): HttpMethod {
             return this.method
+        }
+        public getMiddlewares(): IMiddleware[] {
+            return this.middlewares
         }
     }
