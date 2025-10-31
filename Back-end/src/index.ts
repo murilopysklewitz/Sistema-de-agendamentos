@@ -81,27 +81,27 @@ function main() {
      const findByIntervalAgendamentoUsecase = FindByIntervalAgendamentoUsecase.create(aRepositoryAgendamentos)
 
      // CRUD de rotas para serviços
-     const findByIdServicoRoute = FindByIdServicoRoute.create(findByIdServicoUsecase);
-     const updateServicoRoute = UpdateServicoRoute.create(updateServicoUsecase)
+     const findByIdServicoRoute = FindByIdServicoRoute.create(findByIdServicoUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()]);
+     const updateServicoRoute = UpdateServicoRoute.create(updateServicoUsecase, [authMiddleware, RoleMiddleware.adminOrCliente()])
      const createServicoRoute = CreateServicoRoute.create(createServicoUseCase, [authMiddleware, RoleMiddleware.onlyAdmin()]);
-     const listServicoRoute = ListServicosRoute.create(listServicosUseCase);
-     const deleteServicoRoute = DeleteServicoRoute.create(deleteServicoUseCase);
+     const listServicoRoute = ListServicosRoute.create(listServicosUseCase, [authMiddleware, RoleMiddleware.onlyAdmin()]);
+     const deleteServicoRoute = DeleteServicoRoute.create(deleteServicoUseCase, [authMiddleware, RoleMiddleware.onlyAdmin()]);
 
 
      //CRUD de rotas para agendamentos
      const createAgendamentoRoute = CreateAgendamentoRoute.create(createAgendamentoUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
-     const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase)
-     const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase)
-     const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase)
+     const findByIntervalAgendamentoRoute = FindByIntervalAgendamentoRoute.create(findByIntervalAgendamentoUsecase, [authMiddleware, RoleMiddleware.adminOrCliente()])
+     const findByIdAgendamentosRoute = FindByIdAgendamentoRoute.create(findAgendamentoUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
+     const listAgendamentoRoute = ListAgendamentoRoute.create(listAgendamentoUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
 
 
      // CRUD de rotas de Clientes 
      const createClienteRoute = CreateClienteRoute.create(createClienteUsecase, [ValidationMiddleware.for(CreateClienteDto)])
      const loginClienteRoute = LoginClienteRoute.create(loginClienteUsecase)
-     const findByEmailClienteRoute = FindByEmailClienteRoute.create(findByEmailClienteUsecase)
-     const findByIdClienteRoute = FindByIdClienteRoute.create(findByIdClientesUsecase)
-     const listClienteRoute = ListClienteRoute.create(listClientesUsecase)
-     const deleteClienteRoute = DeleteClienteRoute.create(deleteClientesUsecase)
+     const findByEmailClienteRoute = FindByEmailClienteRoute.create(findByEmailClienteUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
+     const findByIdClienteRoute = FindByIdClienteRoute.create(findByIdClientesUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
+     const listClienteRoute = ListClienteRoute.create(listClientesUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()])
+     const deleteClienteRoute = DeleteClienteRoute.create(deleteClientesUsecase, [authMiddleware, RoleMiddleware.onlyAdmin()] )
 
 
      const PORT = 3000;
