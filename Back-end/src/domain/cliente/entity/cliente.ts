@@ -1,4 +1,3 @@
-import { Agendamento } from "../../agendamento/entity/agendamento";
 
 export type ClienteProps = {
     id: string;
