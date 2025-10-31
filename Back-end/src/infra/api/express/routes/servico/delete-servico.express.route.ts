@@ -1,21 +1,28 @@
 
 import { DeleteServicoInputDto, DeleteServicoUsecase } from "../../../../../usecases/servico.usecases/delete-servico/deleteServico.usecase";
+import { IMiddleware } from "../../middlewares/IMiddleware";
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from "express";
 
 export type DeleteServicoResponseDto = void
 
 export class DeleteServicoRoute implements Route {
+    private readonly middlewares: IMiddleware[] = []
     private constructor(
         private readonly path:string,
         private readonly method: HttpMethod,
-        private readonly deleteServicoService: DeleteServicoUsecase
-    ){}
-    public static create(deleteServicoService:DeleteServicoUsecase) {
+        private readonly deleteServicoService: DeleteServicoUsecase,
+        middlewares: IMiddleware[] = []
+    ){
+        this.middlewares = middlewares
+    }
+    public static create(deleteServicoService:DeleteServicoUsecase, middlewares: IMiddleware[] =[]) {
         return new DeleteServicoRoute(  
             "/api/servicos/:id",
             HttpMethod.DELETE,
-            deleteServicoService )
+            deleteServicoService,
+            middlewares
+    )
     }
     public getHandler() {
         return async (request:Request, response:Response) => {
@@ -41,5 +48,9 @@ export class DeleteServicoRoute implements Route {
 
     public getMethod(): HttpMethod {
         return this.method;
+    }
+
+    public getMiddlewares(): IMiddleware[] {
+        return this.middlewares
     }
 }
