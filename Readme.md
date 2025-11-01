@@ -1,109 +1,248 @@
-# Sistema de Gerenciamento de Agendamentos  
+# 📅 Sistema de Gerenciamento de Agendamentos
 
-Este projeto é uma demonstração de uma API para gerenciamento de agendamentos, utilizando princípios de arquitetura de software como a **Arquitetura Limpa (Clean Architecture)** e **Domain-Driven Design (DDD)**.  
-O foco está na **separação de responsabilidades**, **testabilidade** e na manutenção de um **domínio de negócio puro e agnóstico a tecnologias**.  
+API REST completa para gerenciamento de agendamentos desenvolvida com **TypeScript**, **Node.js** e **PostgreSQL**, aplicando princípios de **Clean Architecture** e **Domain-Driven Design (DDD)**.
 
----
-
-## Visão Geral da Arquitetura  
-
-A aplicação é dividida em camadas lógicas para garantir um alto nível de desacoplamento.  
-A dependência flui sempre para dentro, o que significa que as camadas internas (como o **Domínio**) não têm conhecimento das camadas externas (como a **Infraestrutura**).  
-
----
-## Diagrama de classes e servicos
-após copiar o repositorio em src/docs/classes.plantuml poderá renderizar e observar todas as conexões de classes da arquitetura de todo o serviço
-baixe a extensão do vscode chama plantUML e no arquivo classes.plantUML aperte  **alt + d** 
-
-
-## Estrutura de Camadas  
-
-### `src/domain`  
-O núcleo da aplicação. Contém as regras de negócio mais importantes.  
-
-- **entity**: Classes de entidade (como `Agendamento`, `Servico` e `cliente`) que encapsulam dados e regras de negócio essenciais.  
-- **gateway**: Interfaces que definem os "contratos" para comunicação com recursos externos, como bancos de dados.  
-  - A camada de domínio só se comunica através dessas interfaces.  
-- **service**: Serviços de domínio que contêm lógicas de negócio complexas que envolvem mais de uma entidade (como o `AgendamentoValidatorService`).  
-
-### `src/usecases`  
-A camada de **aplicação**. Contém os casos de uso que orquestram o fluxo de negócio.  
-
-- Cada caso de uso (ex: `CreateAgendamentoUsecase`, `ListAgendamentoUsecase`) é uma classe que implementa uma operação específica.  
-- Eles dependem das interfaces de **gateway** e dos **serviços de domínio**.  
-
-### `src/infra`  
-A camada de **infraestrutura**. Contém as implementações concretas dos gateways.  
-
-- **database**: Onde reside a lógica para se conectar e interagir com o banco de dados.  
-  - O `PrismaAgendamentoRepository` é um **adaptador** que implementa o `AgendamentoGateway` usando o ORM Prisma.   
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 ---
 
-## Fluxo de Comunicação  
+## 🚀 Funcionalidades
 
-A comunicação segue um fluxo de **dentro para fora**, mas com as dependências apontando para o **centro**.  
-
-1. **Requisição (API/Controller):**  
-   - Uma requisição HTTP chega na camada mais externa.  
-   - O **Controller** recebe os dados e os formata em um DTO de entrada.  
-
-2. **Execução do Caso de Uso:**  
-   - O **Controller** chama o método `execute` do **Usecase** correspondente, passando o DTO.  
-
-3. **Lógica do Caso de Uso:**  
-   - O **Usecase** usa a entidade para criar um novo `Agendamento`.  
-   - Em seguida, chama o `AgendamentoValidator` (interface).  
-
-4. **Validação de Domínio:**  
-   - A implementação concreta do validador (`AgendamentoValidatorService`) é injetada.  
-   - O validador usa o `AgendamentoGateway` para buscar agendamentos conflitantes no banco de dados.  
-
-5. **Persistência (Gateway):**  
-   - O **Usecase** chama o método `save` do `AgendamentoGateway`.  
-   - A implementação (`PrismaAgendamentoRepository`) traduz essa chamada em uma operação do ORM Prisma.  
-
-6. **Resposta:**  
-   - O **Usecase** formata a entidade salva em um DTO de saída.  
-   - O Controller envia uma resposta HTTP de sucesso.  
-
+- ✅ **CRUD completo** de agendamentos, serviços e clientes
+- ✅ **Validação de conflitos** de horários (regras de negócio)
+- ✅ **Autenticação e autorização** com JWT
+- ✅ **Arquitetura limpa** (Clean Architecture + DDD)
+- ✅ **Documentação automática** com Swagger
+- ✅ **Testes automatizados** com cobertura de código
+- ✅ **Containerização** com Docker
 
 ---
 
-## Configuração e Execução  
+## 🛠️ Stack Tecnológica
 
-Para rodar este projeto, siga os passos abaixo:  
+| Categoria | Tecnologia |
+|-----------|-----------|
+| **Linguagem** | TypeScript |
+| **Runtime** | Node.js |
+| **Framework** | Express.js |
+| **ORM** | Prisma |
+| **Banco de Dados** | PostgreSQL |
+| **Autenticação** | JWT |
+| **Validação** | Zod |
+| **Testes** | Jest |
+| **Documentação** | Swagger/OpenAPI |
+| **Containerização** | Docker |
 
-### 1. Clone o repositório:  
-```bash
-git clone [https://github.com/murilpysklewitz/Meu-Pet-Feliz.git]
-cd [pasta_do_projeto]
+---
+
+## 🏗️ Arquitetura
+
+O projeto segue os princípios de **Clean Architecture** e **DDD**, com separação clara de responsabilidades:
+```
+src/
+├── domain/          # Camada de Domínio (regras de negócio puras)
+│   ├── entity/      # Entidades (Agendamento, Servico, Cliente)
+│   ├── gateway/     # Interfaces (contratos de comunicação)
+│   └── service/     # Serviços de domínio (AgendamentoValidator)
+│
+├── usecases/        # Camada de Aplicação (casos de uso)
+│   ├── CreateAgendamento
+│   ├── ListAgendamento
+│   ├── UpdateAgendamento
+│   └── DeleteAgendamento
+│
+├── infra/           # Camada de Infraestrutura
+│   ├── database/    # Implementações de Gateway (Prisma)
+│   ├── http/        # Controllers e rotas Express
+│   └── config/      # Configurações (JWT, DB, etc)
+│
+└── docs/            # Documentação e diagramas
+    └── classes.plantuml  # Diagrama de classes UML
 ```
 
-### 2. Instale as dependencias:
+### 📊 Diagrama de Classes
+
+Para visualizar o diagrama de classes completo:
+
+1. Instale a extensão **PlantUML** no VS Code
+2. Abra o arquivo `src/docs/classes.plantuml`
+3. Pressione **Alt + D** para renderizar
+
+### 🔄 Fluxo de Dados
+```
+HTTP Request → Controller → UseCase → Domain Service → Gateway → Database
+                    ↓
+            Domain Entities (regras de negócio)
+                    ↓
+HTTP Response ← Controller ← UseCase ← Gateway ← Database
+```
+
+**Princípio:** As dependências sempre apontam para o centro (Domínio), garantindo desacoplamento.
+
+---
+
+## 📋 Pré-requisitos
+
+- **Node.js** v18+ 
+- **PostgreSQL** v14+
+- **Docker** (opcional, mas recomendado)
+- **npm** ou **yarn**
+
+---
+
+## ⚙️ Instalação e Configuração
+
+### 1️⃣ Clone o repositório
+```bash
+git clone https://github.com/murilopysklewitz/Sistema-de-agendamentos.git
+cd Sistema-de-agendamentos
+```
+
+### 2️⃣ Instale as dependências
 ```bash
 npm install
 ```
 
-### 3. Configure o banco de dados
+### 3️⃣ Configure as variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase"
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/agendamentos"
+
+# JWT
+JWT_SECRET="seu_secret_super_seguro_aqui"
+JWT_EXPIRES_IN="7d"
+
+# Server
+PORT=3000
+NODE_ENV=development
 ```
 
-### 4. Execute as migrações do Prisma
+### 4️⃣ Execute as migrations do banco
 ```bash
 npx prisma migrate dev
 ```
 
-### 5. Rodando a aplicação no docker
+### 5️⃣ (Opcional) Seed inicial
 ```bash
-docker build -t meu-pet-feliz-backend .
+npx prisma db seed
 ```
-###6. Rode o conteiner
+
+---
+
+## 🐳 Execução com Docker
+
+### Build da imagem
 ```bash
-docker run -p 3000:3000 --env-file .env meu-pet-feliz-backend
+docker build -t sistema-agendamentos .
 ```
-A API vai rodar em: http://localhost:3000
 
-Swagger disponível em: http://localhost:3000/api-docs
+### Rodar o container
+```bash
+docker run -p 3000:3000 --env-file .env sistema-agendamentos
+```
 
+### Ou use Docker Compose (recomendado)
+```bash
+docker-compose up -d
+```
+
+---
+
+## 🚀 Executando a Aplicação
+
+### Modo desenvolvimento
+```bash
+npm run dev
+```
+
+### Modo produção
+```bash
+npm run build
+npm start
+```
+
+A API estará disponível em: **http://localhost:3000**
+
+📚 **Documentação Swagger: **http://localhost:3000/api-docs**
+
+---
+
+## 🧪 Testes
+
+### Rodar todos os testes
+```bash
+npm test
+```
+
+### Testes com cobertura
+```bash
+npm run test:coverage
+```
+
+### Testes em modo watch
+```bash
+npm run test:watch
+```
+
+**Cobertura atual:** ~40% (em desenvolvimento)
+
+---
+
+## 🎯 Regras de Negócio Implementadas
+
+- ✅ **Validação de conflito de horários**: Não permite agendamentos simultâneos para o mesmo serviço/profissional
+- ✅ **Validação de horário comercial**: Apenas horários dentro do expediente
+- ✅ **Janela mínima de antecedência**: Agendamentos devem ser feitos com X horas de antecedência
+- ✅ **Cancelamento com política**: Regras para cancelamento conforme antecedência
+- ✅ **Status do agendamento**: Controle de estados (pendente, confirmado, cancelado, concluído)
+
+---
+
+## 🚧 Roadmap / Melhorias Futuras
+
+- [ ] Sistema de notificações (email/SMS) para confirmação e lembretes
+- [ ] Agendamentos recorrentes (semanal, mensal)
+- [ ] Dashboard administrativo
+- [ ] Integração com calendários (Google Calendar, Outlook)
+- [ ] Pagamento online integrado
+- [ ] Sistema de avaliação/feedback pós-serviço
+- [ ] Aumentar cobertura de testes para 80%+
+- [ ] Implementar cache (Redis) para melhor performance
+
+---
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Para contribuir:
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
+
+---
+
+## 👨‍💻 Autor
+
+**Murilo Pysklewitz**
+
+- GitHub: [@murilopysklewitz](https://github.com/murilopysklewitz)
+- LinkedIn: [@murilopysklewitz](https://www.linkedin.com/in/murilo-pysklewitz)
+- Email:[@murilopysklewitz](murilopyskfuzikawa@gmail.com)
+
+---
+
+
+## 🙏 Agradecimentos
+
+Projeto desenvolvido como demonstração de conhecimento em arquitetura de software, boas práticas e princípios SOLID.
+
+---
+
+⭐ **Se este projeto foi útil para você, considere dar uma estrela no repositório!**
