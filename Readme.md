@@ -76,7 +76,7 @@ Para rodar este projeto, siga os passos abaixo:
 
 ### 1. Clone o repositório:  
 ```bash
-git clone [https://github.com/MFuzikawa/Meu-Pet-Feliz.git]
+git clone [https://github.com/murilpysklewitz/Meu-Pet-Feliz.git]
 cd [pasta_do_projeto]
 ```
 
