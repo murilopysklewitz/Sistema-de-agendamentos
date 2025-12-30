@@ -1,28 +1,23 @@
-import { ITokenService } from "../../../../domain/cliente/services/ITokenService";
-import { IMiddleware } from "./IMiddleware";
+import { JWTService } from "../../../../infra/security/JWTService";
 import { Request, Response, NextFunction } from "express";
 
-export class AuthMiddleware implements IMiddleware {
-    constructor(private readonly tokenService: ITokenService) {}
+const jwtService = new JWTService();
 
-    public handle(request: Request, response: Response, next: NextFunction): void {
-        const authHeader = request.headers.authorization;
-        
+export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+    try {
+        const authHeader = req.headers.authorization;
+
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-            response.status(401).json({ message: "Token ausente" });
+            res.status(401).json({ message: "Token ausente" });
             return;
         }
 
         const token = authHeader.split(" ")[1];
-        console.log(' Token extraído:', token.substring(0, 20) + '...');
+        const payload = jwtService.verifyAccessToken(token);
 
-        try {
-            const payload = this.tokenService.verifyAccessToken(token);
-            console.log(' Payload verificado:', payload);
-            request.user = payload;
-            next();
-        } catch (error) {
-            response.status(401).json({ message: "Token inválido" });
-        }
+        req.user = payload;
+        next();
+    } catch (error) {
+        res.status(401).json({ message: "Token inválido" });
     }
-}
+};

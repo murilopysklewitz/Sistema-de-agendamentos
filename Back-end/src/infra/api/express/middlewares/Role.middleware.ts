@@ -1,37 +1,30 @@
+import { ClienteRole } from "domain/cliente/entity/cliente";
 import { Request, Response, NextFunction } from "express";
-import { IMiddleware } from "./IMiddleware";
-import { ClienteRole } from "../../../../domain/cliente/entity/cliente";
 
-export class RoleMiddleware implements IMiddleware {
-    constructor(private readonly allowedRoles: ClienteRole[]) {}
-
-    public handle(request: Request, response: Response, next: NextFunction): void {
-        if (!request.user) {
-            response.status(401).json({ message: "Não autenticado" });
-            return;
-        }
-
-        const userRole = request.user.role;
-
-        if (!this.allowedRoles.includes(userRole)) {
-            response.status(403).json({ 
-                message: "Acesso negado. Permissões insuficientes." 
-            });
-            return;
-        }
-
-        next();
+export const adminOnly = (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+        res.status(401).json({ message: "Não autenticado" });
+        return;
     }
 
-    static onlyAdmin(): RoleMiddleware {
-        return new RoleMiddleware([ClienteRole.ADMIN]);
+    if (req.user.role !== ClienteRole.ADMIN) {
+        res.status(403).json({ message: "Acesso negado" });
+        return;
     }
 
-    static onlyCliente(): RoleMiddleware {
-        return new RoleMiddleware([ClienteRole.CLIENTE]);
+    next();
+};
+
+export const clienteOrAdmin = (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+        res.status(401).json({ message: "Não autenticado" });
+        return;
     }
 
-    static adminOrCliente(): RoleMiddleware {
-        return new RoleMiddleware([ClienteRole.ADMIN, ClienteRole.CLIENTE]);
+    if (req.user.role !== ClienteRole.ADMIN && req.user.role !== ClienteRole.CLIENTE) {
+        res.status(403).json({ message: "Acesso negado" });
+        return;
     }
-}
+
+    next();
+};
